@@ -1,0 +1,14 @@
+header {
+    background-color: var(--color-black);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation_list {
+    list-style: none;
+    display: flex;
+    gap: 2rem;
+    font-size: 1.5rem;
+    margin-right: 2rem;
+}
