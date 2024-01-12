@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Spicy+Rice&display=swap');
+
+:root {
+    --color-brightgreen: #64FF61;
+    --color-darkgreen: #0B3936;
+    --color-black: #000000;
+    --color-offblack: #111010;
+    --height-header: 75px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: var(--color-brightgreen);
+    background-color: var(--color-offblack);
+    /*font-family: "Spicy Rice", serif;*/
+    font-family: "Oswald", sans-serif;
+    /*font-family: "Raleway", sans-serif;*/
+
+}
+
+.active-menu-link {
+    border-bottom: 2px solid var(--color-brightgreen);
+    color: var(--color-brightgreen)
+}
+
+.default-menu-link {
+    border-bottom: none;
+    color: var(--color-brightgreen);
+}
+
+:link {
+    text-decoration: none;
+}
+
+:visited {
+    text-decoration: none;
+}
