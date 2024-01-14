@@ -1,0 +1,192 @@
+[
+    {
+        "id": 1,
+        "name": "amberjack",
+        "img": "src/assets/fishes/amberjack.png"
+    },
+    {
+        "id": 2,
+        "name": "barramundi",
+        "img": "src/assets/fishes/barramundi.png"
+    },
+    {
+        "id": 3,
+        "name": "bass",
+        "img": "src/assets/fishes/bass.png"
+    },
+    {
+        "id": 4,
+        "name": "bonito",
+        "img": "src/assets/fishes/bonito.png"
+    },
+    {
+        "id": 5,
+        "name": "bream",
+        "img": "src/assets/fishes/bream.png"
+    },
+    {
+        "id": 6,
+        "name": "carp",
+        "img": "src/assets/fishes/carp.png"
+    },
+    {
+        "id": 7,
+        "name": "catfish",
+        "img": "src/assets/fishes/catfish.png"
+    },
+    {
+        "id": 8,
+        "name": "cod",
+        "img": "src/assets/fishes/cod.png"
+    },
+    {
+        "id": 9,
+        "name": "croaker",
+        "img": "src/assets/fishes/croaker.png"
+    },
+    {
+        "id": 10,
+        "name": "eel",
+        "img": "src/assets/fishes/eel.png"
+    },
+    {
+        "id": 11,
+        "name": "flathead",
+        "img": "src/assets/fishes/flathead.png"
+    },
+    {
+        "id": 12,
+        "name": "hake",
+        "img": "src/assets/fishes/hake.png"
+    },
+    {
+        "id": 13,
+        "name": "herring",
+        "img": "src/assets/fishes/herring.png"
+    },
+    {
+        "id": 14,
+        "name": "kingfish",
+        "img": "src/assets/fishes/kingfish.png"
+    },
+    {
+        "id": 15,
+        "name": "largemouth bass",
+        "img": "src/assets/fishes/largemouth_bass.png"
+    },
+    {
+        "id": 16,
+        "name": "mackerel",
+        "img": "src/assets/fishes/mackerel.png"
+    },
+    {
+        "id": 17,
+        "name": "mahi mahi",
+        "img": "src/assets/fishes/mahi_mahi.png"
+    },
+    {
+        "id": 18,
+        "name": "milkfish",
+        "img": "src/assets/fishes/milkfish.png"
+    },
+    {
+        "id": 19,
+        "name": "panfish",
+        "img": "src/assets/fishes/panfish.png"
+    },
+    {
+        "id": 20,
+        "name": "perch",
+        "img": "src/assets/fishes/perch.png"
+    },
+    {
+        "id": 21,
+        "name": "pike",
+        "img": "src/assets/fishes/pike.png"
+    },
+    {
+        "id": 22,
+        "name": "pollock",
+        "img": "src/assets/fishes/pollock.png"
+    },
+    {
+        "id": 23,
+        "name": "red snapper",
+        "img": "src/assets/fishes/red_snapper.png"
+    },
+    {
+        "id": 24,
+        "name": "salmon",
+        "img": "src/assets/fishes/salmon.png"
+    },
+    {
+        "id": 25,
+        "name": "sea bass",
+        "img": "src/assets/fishes/sea_bass.png"
+    },
+    {
+        "id": 26,
+        "name": "shad",
+        "img": "src/assets/fishes/shad.png"
+    },
+    {
+        "id": 27,
+        "name": "shark",
+        "img": "src/assets/fishes/shark.png"
+    },
+    {
+        "id": 28,
+        "name": "snapper",
+        "img": "src/assets/fishes/snapper.png"
+    },
+    {
+        "id": 29,
+        "name": "sole",
+        "img": "src/assets/fishes/sole.png"
+    },
+    {
+        "id": 30,
+        "name": "stingray",
+        "img": "src/assets/fishes/stingray.png"
+    },
+    {
+        "id": 31,
+        "name": "sturgeon",
+        "img": "src/assets/fishes/sturgeon.png"
+    },
+    {
+        "id": 32,
+        "name": "swordfish",
+        "img": "src/assets/fishes/swordfish.png"
+    },
+    {
+        "id": 33,
+        "name": "tilapia",
+        "img": "src/assets/fishes/tilapia.png"
+    },
+    {
+        "id": 34,
+        "name": "trevally",
+        "img": "src/assets/fishes/trevally.png"
+    },
+    {
+        "id": 35,
+        "name": "trout",
+        "img": "src/assets/fishes/trout.png"
+    },
+    {
+        "id": 36,
+        "name": "tuna",
+        "img": "src/assets/fishes/tuna.png"
+    },
+    {
+        "id": 37,
+        "name": "wahoo",
+        "img": "src/assets/fishes/wahoo.png"
+    },
+    {
+        "id": 38,
+        "name": "whiting",
+        "img": "src/assets/fishes/whiting.png"
+    }
+]
