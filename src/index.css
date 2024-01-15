@@ -57,17 +57,8 @@ p {
 }
 
 button {
-    /*font-family: "Spicy Rice", serif;*/
-    /*font-size: 1.5rem;*/
-    /*white-space: nowrap;*/
-    /*color: var(--color-brightgreen);*/
-    /*background-color: var(--color-darkgreen);*/
-    /*padding: 1.5rem;*/
-    /*margin: 1rem;*/
-    /*border: solid 1px var(--color-offblack);*/
-    /*border-radius: 20px;*/
-    /*box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);*/
-
+    color: var(--color-brightgreen);
+    background-color: var(--color-darkgreen);
 }
 
 button:hover {

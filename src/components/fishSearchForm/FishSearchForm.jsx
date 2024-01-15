@@ -1,8 +1,13 @@
 import "./FishSearchForm.css"
 
 function fishSearchForm() {
+
+    function searchFish(e) {
+        e.preventDefault();
+    }
+
     return (
-        <form onSubmit={console.log("bla")} className={"fish_search_form"}>
+        <form onSubmit={searchFish} className={"fish_search_form"}>
             <input type="text"/>
             <button type={"submit"}>Search</button>
         </form>
