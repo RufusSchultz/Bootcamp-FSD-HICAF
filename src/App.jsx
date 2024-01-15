@@ -5,7 +5,7 @@ import RecipeSearch from "./pages/recipeSearch/RecipeSearch.jsx";
 import Contact from "./pages/contact/Contact.jsx"
 import Login from "./pages/contact/Contact.jsx"
 import Account from "./pages/account/Account.jsx"
-import Navbar from "./components/Navbar.jsx";
+import Navbar from "./components/navbar/Navbar.jsx";
 
 function App() {
     return (

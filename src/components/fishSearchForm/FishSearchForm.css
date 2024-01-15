@@ -1,0 +1,27 @@
+.fish_search_form {
+    display: flex;
+    align-items: center;
+}
+
+.fish_search_form input {
+    font-family: "Raleway", sans-serif;
+    font-size: 1.8rem;
+    outline: 0;
+    border: solid var(--color-darkgreen);
+    border-right: none;
+    border-radius: 20px 0 0 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    padding-left: 1rem;
+}
+
+.fish_search_form button {
+    border-radius: 0 20px 20px 0;
+    font-size: 1.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-family: "Spicy Rice", serif;
+    color: var(--color-brightgreen);
+    background-color: var(--color-darkgreen);
+    border: solid var(--color-darkgreen);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}

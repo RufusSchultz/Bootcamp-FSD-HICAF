@@ -1,6 +1,6 @@
 import logo from "../../assets/HICAF_logo.png";
 import "./Home.css";
-import Testimonial from "../../components/Testimonial.jsx";
+import Testimonial from "../../components/testimonial/Testimonial.jsx";
 
 function Home() {
     return (

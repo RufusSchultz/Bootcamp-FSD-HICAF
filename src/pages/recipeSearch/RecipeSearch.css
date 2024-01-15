@@ -1,0 +1,36 @@
+/*------------ Main --------------*/
+
+.recipe_search_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.recipe_search_page h3 {
+    margin: 1rem;
+}
+
+/*------------ First set of choices --------------*/
+
+.hemisphere_choice {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.world_and_exact_choice_wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.world_choice {
+    display: flex;
+    flex-direction: column;
+}
+
+.exact_choice {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4.5rem;
+}
