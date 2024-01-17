@@ -1,0 +1,2 @@
+import "./FishCard.css";
+

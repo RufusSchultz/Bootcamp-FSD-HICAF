@@ -1,8 +1,8 @@
-import "./ContinentButton.css"
-function ContinentButton({ continent }) {
+import "./ContinentButton.css";
+function ContinentButton({ continent, setChosenContinent }) {
 
     function tempFunction() {
-        console.log("Klik");
+        {setChosenContinent(`${continent}`)}
     }
 
     return(
