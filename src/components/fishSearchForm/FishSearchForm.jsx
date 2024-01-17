@@ -1,17 +1,22 @@
 import "./FishSearchForm.css"
+import {useState} from "react";
 
-function fishSearchForm() {
+function FishSearchForm({ sendQuery }) {
+    const [query, setQuery] = useState("");
 
-    function searchFish(e) {
+    function handleSubmit(e) {
         e.preventDefault();
+        sendQuery(query);
     }
 
     return (
-        <form onSubmit={searchFish} className={"fish_search_form"}>
-            <input type="text"/>
+        <form onSubmit={handleSubmit} className={"fish_search_form"}>
+            <input type="text"
+                   value={query}
+                   onChange={(e) => setQuery(e.target.value)}/>
             <button type={"submit"}>Search</button>
         </form>
     )
 }
 
-export default fishSearchForm;
+export default FishSearchForm;

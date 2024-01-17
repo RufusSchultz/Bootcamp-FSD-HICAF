@@ -1,12 +1,20 @@
 import "./RecipeSearch.css";
 import fish from "../../constants/fishData.json";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ContinentButton from "../../components/continentButton/ContinentButton.jsx";
 import FishSearchForm from "../../components/fishSearchForm/FishSearchForm.jsx";
 
 function RecipeSearch() {
     const [continent, setContinent] = useState("");
     const [fishQuery, setFishQuery] = useState("");
+
+    function handleQuery(query) {
+        setFishQuery(query);
+    }
+
+    useEffect(() => {
+        console.log(fishQuery);
+    }, [fishQuery]);
 
     return (
         <div className={"recipe_search_page"}>
@@ -43,7 +51,7 @@ function RecipeSearch() {
                     </div>
                     <div className={"exact_choice"}>
                         <h3>Or search here if you already know what fish you caught</h3>
-                        <FishSearchForm />
+                        <FishSearchForm sendQuery={handleQuery}/>
                     </div>
                 </div>
             </div>}
