@@ -3,6 +3,8 @@ import fishes from "../../constants/fishData.json";
 import {useEffect, useState} from "react";
 import ContinentButton from "../../components/continentButton/ContinentButton.jsx";
 import FishSearchForm from "../../components/fishSearchForm/FishSearchForm.jsx";
+import FishCardButton from "../../components/fishCardButton/FishCardButton.jsx";
+import underscoreRemover from "../../helpers/underscoreRemover.js";
 
 function RecipeSearch() {
     const [continent, setContinent] = useState("");
@@ -24,7 +26,7 @@ function RecipeSearch() {
         <div className={"recipe_search_page"}>
 
             {/*First set of choices of the page.*/}
-            {!continent && <div>
+            {!continent && !fishQuery && <div>
                 <h3>Where in the world did you catch your fish?</h3>
                 <div className={"hemisphere_choice"}>
                     <ContinentButton
@@ -58,7 +60,7 @@ function RecipeSearch() {
                     <div className={"world_choice"}>
                         <h3>Unsure about the continent? Click below</h3>
                         <ContinentButton
-                            continent="World"
+                            continent="Earth"
                             setChosenContinent={handleContinentSetter}
                         />
                     </div>
@@ -70,21 +72,35 @@ function RecipeSearch() {
             </div>}
 
             {/*Second set of choices of the page.*/}
-            {continent && <div>
-                <div>
-                    <ul>
-                        {fishes.filter(fish => {
+            {continent && !fishQuery && <div>
+                <div className={"second_set_container"}>
+                    <h3>Random flattering stuff about {underscoreRemover(continent)}!</h3>
+                    <h3 id={"what_fish"}>What fish did you catch?</h3>
+                    <div className={"fish_choice_wrapper"}>
+                        <ul className={"choice_buttons"}>
+                            {fishes.filter(fish => {
                                 if (fish.continents.includes(continent)){
                                     return fish;
                                 }
-                        }).map((fish) => {
-                            return <li key={fish.id}>
-                                <img src={fish.img} alt=""/>
-                                <h3>{fish.name}</h3>
-                            </li>
-                        })}
-                    </ul>
+                            }).map((fish) => {
+                                return <FishCardButton
+                                    key={fish.id}
+                                    image={fish.img}
+                                    name={fish.name}
+                                    theme={continent}
+                                    sendQuery={handleQuery}
+                                />
+                            })}
+                        </ul>
+                    </div>
+                    <h3>Don't see your fish? Search by name here</h3>
+                    <FishSearchForm sendQuery={handleQuery}/>
                 </div>
+            </div>}
+
+            {/*Third stage of page: search results.*/}
+            {fishQuery && <div>
+                <h1>{fishQuery}</h1>
             </div>}
 
         </div>

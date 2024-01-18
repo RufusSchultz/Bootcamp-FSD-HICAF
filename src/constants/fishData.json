@@ -3,228 +3,228 @@
         "id": 1,
         "name": "amberjack",
         "img": "src/assets/fishes/amberjack.png",
-        "continents": ["Africa", "World"]
+        "continents": ["Africa", "Earth"]
     },
     {
         "id": 2,
         "name": "barramundi",
         "img": "src/assets/fishes/barramundi.png",
-        "continents": ["Asia", "Australia", "World"]
+        "continents": ["Asia", "Australia", "Earth"]
     },
     {
         "id": 3,
         "name": "bass",
         "img": "src/assets/fishes/bass.png",
-        "continents": ["South_America", "World"]
+        "continents": ["South_America", "Earth"]
     },
     {
         "id": 4,
         "name": "bonito",
         "img": "src/assets/fishes/bonito.png",
-        "continents": ["South_America", "World"]
+        "continents": ["South_America", "Earth"]
     },
     {
         "id": 5,
         "name": "bream",
         "img": "src/assets/fishes/bream.png",
-        "continents": ["Australia", "World"]
+        "continents": ["Australia", "Earth"]
     },
     {
         "id": 6,
         "name": "carp",
         "img": "src/assets/fishes/carp.png",
-        "continents": ["Asia", "World"]
+        "continents": ["Asia", "Earth"]
     },
     {
         "id": 7,
         "name": "catfish",
         "img": "src/assets/fishes/catfish.png",
-        "continents": ["Asia", "Europe", "South_America", "World"]
+        "continents": ["Asia", "Europe", "South_America", "Earth"]
     },
     {
         "id": 8,
         "name": "cod",
         "img": "src/assets/fishes/cod.png",
-        "continents": ["World"]
+        "continents": ["Earth"]
     },
     {
         "id": 9,
         "name": "croaker",
         "img": "src/assets/fishes/croaker.png",
-        "continents": ["Africa", "World"]
+        "continents": ["Africa", "Earth"]
     },
     {
         "id": 10,
         "name": "eel",
         "img": "src/assets/fishes/eel.png",
-        "continents": ["World"]
+        "continents": ["Earth"]
     },
     {
         "id": 11,
         "name": "flathead",
         "img": "src/assets/fishes/flathead.png",
-        "continents": ["Australia", "World"]
+        "continents": ["Australia", "Earth"]
     },
     {
         "id": 12,
         "name": "hake",
         "img": "src/assets/fishes/hake.png",
-        "continents": ["North_America", "World"]
+        "continents": ["North_America", "Earth"]
     },
     {
         "id": 13,
         "name": "herring",
         "img": "src/assets/fishes/herring.png",
-        "continents": ["Europe", "World"]
+        "continents": ["Europe", "Earth"]
     },
     {
         "id": 14,
         "name": "kingfish",
         "img": "src/assets/fishes/kingfish.png",
-        "continents": ["Africa", "Australia", "World"]
+        "continents": ["Africa", "Australia", "Earth"]
     },
     {
         "id": 15,
         "name": "largemouth bass",
         "img": "src/assets/fishes/largemouth_bass.png",
-        "continents": ["North_America", "World"]
+        "continents": ["North_America", "Earth"]
     },
     {
         "id": 16,
         "name": "mackerel",
         "img": "src/assets/fishes/mackerel.png",
-        "continents": ["Australia", "North_America", "South_America", "World"]
+        "continents": ["Australia", "North_America", "South_America", "Earth"]
     },
     {
         "id": 17,
         "name": "mahi mahi",
         "img": "src/assets/fishes/mahi_mahi.png",
-        "continents": ["Africa", "World"]
+        "continents": ["Africa", "Earth"]
     },
     {
         "id": 18,
         "name": "milkfish",
         "img": "src/assets/fishes/milkfish.png",
-        "continents": ["Asia", "World"]
+        "continents": ["Asia", "Earth"]
     },
     {
         "id": 19,
         "name": "panfish",
         "img": "src/assets/fishes/panfish.png",
-        "continents": ["North_America", "World"]
+        "continents": ["North_America", "Earth"]
     },
     {
         "id": 20,
         "name": "perch",
         "img": "src/assets/fishes/perch.png",
-        "continents": ["Australia", "Europe", "World"]
+        "continents": ["Australia", "Europe", "Earth"]
     },
     {
         "id": 21,
         "name": "pike",
         "img": "src/assets/fishes/pike.png",
-        "continents": ["Europe", "World"]
+        "continents": ["Europe", "Earth"]
     },
     {
         "id": 22,
         "name": "pollock",
         "img": "src/assets/fishes/pollock.png",
-        "continents": ["World"]
+        "continents": ["Earth"]
     },
     {
         "id": 23,
         "name": "red snapper",
         "img": "src/assets/fishes/red_snapper.png",
-        "continents": ["Africa", "World"]
+        "continents": ["Africa", "Earth"]
     },
     {
         "id": 24,
         "name": "salmon",
         "img": "src/assets/fishes/salmon.png",
-        "continents": ["Europe", "World"]
+        "continents": ["Europe", "Earth"]
     },
     {
         "id": 25,
         "name": "sea bass",
         "img": "src/assets/fishes/sea_bass.png",
-        "continents": ["Asia", "World"]
+        "continents": ["Asia", "Earth"]
     },
     {
         "id": 26,
         "name": "shad",
         "img": "src/assets/fishes/shad.png",
-        "continents": ["South_America", "World"]
+        "continents": ["South_America", "Earth"]
     },
     {
         "id": 27,
         "name": "shark",
         "img": "src/assets/fishes/shark.png",
-        "continents": ["Africa", "World"]
+        "continents": ["Africa", "Earth"]
     },
     {
         "id": 28,
         "name": "snapper",
         "img": "src/assets/fishes/snapper.png",
-        "continents": ["Australia", "World"]
+        "continents": ["Australia", "Earth"]
     },
     {
         "id": 29,
         "name": "sole",
         "img": "src/assets/fishes/sole.png",
-        "continents": ["Africa", "World"]
+        "continents": ["Africa", "Earth"]
     },
     {
         "id": 30,
         "name": "stingray",
         "img": "src/assets/fishes/stingray.png",
-        "continents": ["Asia, South_America", "World"]
+        "continents": ["Asia", "South_America", "Earth"]
     },
     {
         "id": 31,
         "name": "sturgeon",
         "img": "src/assets/fishes/sturgeon.png",
-        "continents": ["North_America", "World"]
+        "continents": ["North_America", "Earth"]
     },
     {
         "id": 32,
         "name": "swordfish",
         "img": "src/assets/fishes/swordfish.png",
-        "continents": ["Africa", "Europe", "North_America", "World"]
+        "continents": ["Africa", "Europe", "North_America", "Earth"]
     },
     {
         "id": 33,
         "name": "tilapia",
         "img": "src/assets/fishes/tilapia.png",
-        "continents": ["South_America", "World"]
+        "continents": ["South_America", "Earth"]
     },
     {
         "id": 34,
         "name": "trevally",
         "img": "src/assets/fishes/trevally.png",
-        "continents": ["World"]
+        "continents": ["Earth"]
     },
     {
         "id": 35,
         "name": "trout",
         "img": "src/assets/fishes/trout.png",
-        "continents": ["Europe", "North_America", "South_America", "World"]
+        "continents": ["Europe", "North_America", "South_America", "Earth"]
     },
     {
         "id": 36,
         "name": "tuna",
         "img": "src/assets/fishes/tuna.png",
-        "continents": ["Asia", "Europe", "North_America", "World"]
+        "continents": ["Asia", "Europe", "North_America", "Earth"]
     },
     {
         "id": 37,
         "name": "wahoo",
         "img": "src/assets/fishes/wahoo.png",
-        "continents": ["Asia", "World"]
+        "continents": ["Asia", "Earth"]
     },
     {
         "id": 38,
         "name": "whiting",
         "img": "src/assets/fishes/whiting.png",
-        "continents": ["Australia", "World"]
+        "continents": ["Australia", "Earth"]
     }
 ]
