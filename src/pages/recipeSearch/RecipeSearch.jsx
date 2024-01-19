@@ -5,10 +5,16 @@ import ContinentButton from "../../components/continentButton/ContinentButton.js
 import FishSearchForm from "../../components/fishSearchForm/FishSearchForm.jsx";
 import FishCardButton from "../../components/fishCardButton/FishCardButton.jsx";
 import underscoreRemover from "../../helpers/underscoreRemover.js";
+import {useNavigate} from "react-router-dom";
 
 function RecipeSearch() {
+    const navigate = useNavigate();
     const [continent, setContinent] = useState("");
     const [fishQuery, setFishQuery] = useState("");
+
+    useEffect(() => {
+            if (fishQuery) {navigate(`recipes/${fishQuery}`)}
+    }, [navigate, fishQuery]);
 
     function handleContinentSetter(chosenContinent) {
         setContinent(chosenContinent);
@@ -18,15 +24,11 @@ function RecipeSearch() {
         setFishQuery(query);
     }
 
-    useEffect(() => {
-        console.log(fishQuery);
-    }, [fishQuery]);
-
     return (
         <div className={"recipe_search_page"}>
 
             {/*First set of choices of the page.*/}
-            {!continent && !fishQuery && <div>
+            {!continent && <div>
                 <h3>Where in the world did you catch your fish?</h3>
                 <div className={"hemisphere_choice"}>
                     <ContinentButton
@@ -72,7 +74,7 @@ function RecipeSearch() {
             </div>}
 
             {/*Second set of choices of the page.*/}
-            {continent && !fishQuery && <div>
+            {continent && <div>
                 <div className={"second_set_container"}>
                     <h3>Random flattering stuff about {underscoreRemover(continent)}!</h3>
                     <h3 id={"what_fish"}>What fish did you catch?</h3>
@@ -98,10 +100,6 @@ function RecipeSearch() {
                 </div>
             </div>}
 
-            {/*Third stage of page: search results.*/}
-            {fishQuery && <div>
-                <h1>{fishQuery}</h1>
-            </div>}
 
         </div>
     )
