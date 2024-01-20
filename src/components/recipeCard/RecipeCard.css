@@ -1,0 +1,103 @@
+.recipe_card_outer {
+    display: flex;
+    flex-direction: column;
+    /*border: solid var(--color-offblack);*/
+    border: solid white;
+    width: 500px;
+    padding: 1rem;
+    gap: 1rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.recipe_header {
+    font-size: 1.5rem;
+}
+
+.recipe_card_inner {
+    display: flex;
+    gap: 1.5rem;
+    font-family: "Raleway", sans-serif;
+}
+
+.recipe_card_image_wrapper img {
+    height: 200px;
+    width: 200px;
+    border-radius: 20px;
+}
+
+.full_recipe_button {
+    width: 200px;
+    padding: 0.5rem;
+    font-family: "Oswald", sans-serif, normal;
+    font-size: 1rem;
+    border-color: var(--color-offblack);
+    border-radius: 20px;
+}
+
+.recipe_card_left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 250px;
+    gap: 1rem;
+}
+
+.recipe_card_right {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 250px;
+}
+
+.recipe_identities {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.recipe_ingredients_list ul {
+    list-style: disc;
+    text-align: left;
+}
+
+.recipe_details_summary {
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.recipe_details {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.recipe_details_diet {
+    display: flex;
+    justify-content: center;
+    font-size: 1.3rem;
+    font-weight: normal;
+}
+
+.recipe_details_diet ul {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.recipe_details_health {
+
+}
+
+.recipe_details_health ul {
+    display: flex;
+    column-gap: 0.5rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.recipe_details_health ul li {
+    width: 6.5rem;
+    text-align: left;
+}

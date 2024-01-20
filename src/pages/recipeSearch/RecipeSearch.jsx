@@ -13,7 +13,7 @@ function RecipeSearch() {
     const [fishQuery, setFishQuery] = useState("");
 
     useEffect(() => {
-            if (fishQuery) {navigate(`recipes/${fishQuery}`)}
+            if (fishQuery) {navigate(`/recipes/${fishQuery}`)}
     }, [navigate, fishQuery]);
 
     function handleContinentSetter(chosenContinent) {

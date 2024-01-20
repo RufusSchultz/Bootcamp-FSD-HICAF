@@ -1,0 +1,15 @@
+.loading_status_message {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--height-navbar));
+    justify-content: center;
+    text-align: center;
+}
+
+.recipe_list_outer {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--height-navbar));
+    justify-content: center;
+    text-align: center;
+}
