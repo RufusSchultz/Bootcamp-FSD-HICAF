@@ -8,7 +8,6 @@ function FishCardButton({image, name, theme, sendQuery}) {
 
 
     return (
-        <div>
             <li>
                 <button className={`card_button ${theme.toLowerCase()}`}
                         onClick={handleClick}>
@@ -19,7 +18,6 @@ function FishCardButton({image, name, theme, sendQuery}) {
                 </button>
 
             </li>
-        </div>
     )
 }
 

@@ -79,7 +79,7 @@ function RecipeSearch() {
                     <h3>Random flattering stuff about {underscoreRemover(continent)}!</h3>
                     <h3 id={"what_fish"}>What fish did you catch?</h3>
                     <div className={"fish_choice_wrapper"}>
-                        <ul className={"choice_buttons"}>
+                        <ul className={"choice_buttons_and_cards"}>
                             {fishes.filter(fish => {
                                 if (fish.continents.includes(continent)){
                                     return fish;
