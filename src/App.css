@@ -1,0 +1,43 @@
+.choice_buttons_and_cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/*-----------------------Continent color themes ---------------------*/
+
+.asia {
+    background: var(--color-offblack);
+    background: linear-gradient(30deg, var(--color-offblack) 37%, var(--color-asia) 100%);
+}
+
+.africa {
+    background: var(--color-offblack);
+    background: linear-gradient(30deg, var(--color-offblack) 37%, var(--color-africa) 100%);
+}
+
+.australia {
+    background: var(--color-offblack);
+    background: linear-gradient(30deg, var(--color-offblack) 37%, var(--color-australia) 100%);
+}
+
+.europe {
+    background: var(--color-offblack);
+    background: linear-gradient(30deg, var(--color-offblack) 37%, var(--color-europe) 100%);
+}
+
+.north_america {
+    background: var(--color-offblack);
+    background: linear-gradient(30deg, var(--color-offblack) 37%, var(--color-north-america) 100%);
+}
+
+.south_america {
+    background: var(--color-offblack);
+    background: linear-gradient(30deg, var(--color-offblack) 37%, var(--color-south-america) 100%);
+}
+
+.earth {
+    background: var(--color-offblack);
+    background: linear-gradient(30deg, var(--color-offblack) 37%, var(--color-earth) 100%);
+}

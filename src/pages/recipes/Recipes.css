@@ -1,0 +1,51 @@
+.loading_status_message {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--height-navbar));
+    justify-content: center;
+    text-align: center;
+}
+
+.recipe_list_outer {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - var(--height-navbar));
+    /*justify-content: center;*/
+    text-align: center;
+    list-style: none;
+}
+
+.browse_buttons {
+    display: flex;
+    justify-content: space-around;
+    /*gap: 25rem;*/
+}
+
+.recipe_browse_button {
+    font-family: "Spicy Rice", serif;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    padding: 1.5rem;
+    margin: 1rem;
+    border: solid 1px var(--color-offblack);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.recipe_browse_button_disabled {
+    font-family: "Spicy Rice", serif;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    padding: 1.5rem;
+    margin: 1rem;
+    border: solid 1px var(--color-offblack);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    background-color: var(--color-offblack);
+    color: var(--color-darkgreen);
+}
+
+.recipe_browse_button_disabled:hover {
+    cursor: default;
+    border-color: var(--color-offblack);
+}

@@ -1,6 +1,6 @@
 import "./Navbar.css";
 import {NavLink} from "react-router-dom";
-import headerLogo from "../assets/HICAF_Nav_Logo.png";
+import headerLogo from "../../assets/HICAF_Nav_Logo.png";
 
 function Navbar() {
     return(

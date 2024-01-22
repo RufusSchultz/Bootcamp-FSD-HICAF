@@ -1,11 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Spicy+Rice&display=swap');
 
 :root {
+    --height-navbar: 75px;
     --color-brightgreen: #64FF61;
     --color-darkgreen: #0B3936;
     --color-black: #000000;
     --color-offblack: #111010;
-    --height-header: 75px;
+    --color-asia: #228B22;
+    --color-africa: #FFA500;
+    --color-australia: #BF40BF;
+    --color-europe: #4169E1;
+    --color-north-america: #FFD700;
+    --color-south-america: #FF0000;
+    --color-earth: #E6E6E6;
+
 }
 
 * {
@@ -56,21 +64,21 @@ p {
     font-weight: normal;
 }
 
+ul {
+    list-style: none;
+}
+
 button {
-    font-family: "Spicy Rice", serif;
-    font-size: 1.5rem;
-    white-space: nowrap;
     color: var(--color-brightgreen);
     background-color: var(--color-darkgreen);
-    padding: 1.5rem;
-    margin: 1rem;
-    border: solid 1px var(--color-offblack);
-    border-radius: 20px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-
 }
 
 button:hover {
     cursor: pointer;
     border-color:  var(--color-brightgreen);
+}
+
+cite {
+    font-style: normal;
+    font-family: "Raleway", sans-serif;
 }

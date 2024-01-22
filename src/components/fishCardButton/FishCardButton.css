@@ -1,0 +1,29 @@
+.card_button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 256px;
+    width: 256px;
+    border: solid 1px var(--color-offblack);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.card_button_image_wrapper {
+    height: 150px;
+    display: flex;
+    align-items: center;
+}
+
+.card_button_image {
+    display: flex;
+    justify-content: center;
+    width: 236px;
+}
+
+.card_button_title {
+    font-family: "Spicy Rice", serif;
+    font-size: 1.5rem;
+}
+
