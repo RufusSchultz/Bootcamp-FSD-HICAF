@@ -82,7 +82,7 @@ function Contact() {
                     />
                 </form>
 
-                <p>Alternatively, you can <a href="mailto:tijdelijkeplaatshouder@gmail.com">click here</a> to send us an
+                <p>Alternatively, you can <a href="mailto:tijdelijkeplaatshouder@gmail.com" className={"email_link"}>click here</a> to send us an
                     email.</p>
             </div>}
 
