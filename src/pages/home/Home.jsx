@@ -2,9 +2,11 @@ import logo from "../../assets/HICAF_logo.png";
 import "./Home.css";
 import Testimonial from "../../components/testimonial/Testimonial.jsx";
 import Button from "../../components/button/Button.jsx";
+import testimonialRandomizer from "../../helpers/testimonialRandomizer.js";
 
 function Home() {
 
+    const testimonials = testimonialRandomizer();
 
     return (
         <div className={"homepage"}>
@@ -29,16 +31,16 @@ function Home() {
             </div>
             <div className={"testimonials"}>
                 <Testimonial
-                    quote={"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, vitae!"}
-                    user={"Rex Hunt"}
+                    quote={testimonials[0].quote}
+                    user={testimonials[0].user}
                 />
                 <Testimonial
-                    quote={"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, vitae!"}
-                    user={"Bear Grylls"}
+                    quote={testimonials[1].quote}
+                    user={testimonials[1].user}
                 />
                 <Testimonial
-                    quote={"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus, vitae!"}
-                    user={"Capt. Ahab"}
+                    quote={testimonials[2].quote}
+                    user={testimonials[2].user}
                 />
             </div>
 

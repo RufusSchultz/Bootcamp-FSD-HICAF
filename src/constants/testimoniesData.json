@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "user": "Rex Hunt",
+    "quote": "I wish I had this app with me back when I was fishing every day. Yibbida yibbida!"
+  },
+  {
+    "id": 2,
+    "user": "Capt. Ahab",
+    "quote": "Now when I've finally caught my prize, I will know what to do with it."
+  },
+  {
+    "id": 3,
+    "user": "Rod Stewart",
+    "quote": "Great app for when I'm sailing!"
+  },
+  {
+    "id": 4,
+    "user": "Hagen Stehr",
+    "quote": "So many ideas for tuna! I love it!"
+  },
+  {
+    "id": 5,
+    "user": "Ed Stoop",
+    "quote": "Beautiful, just beautiful! I will never let this one go."
+  },
+  {
+    "id": 6,
+    "user": "Dory Picasso-Dokters",
+    "quote": "I forgot what I was going to say."
+  },
+  {
+    "id": 7,
+    "user": "Jacques Cousteau",
+    "quote": "Many times I've seen a fish new to me, and many times I've used this app."
+  },
+  {
+    "id": 8,
+    "user": "Carrie Fisher",
+    "quote": "Hope for new ideas is not lost today. It is found with this app."
+  },
+  {
+    "id": 9,
+    "user": "Ray Romano",
+    "quote": "What an idea. Everybody loves fish!"
+  },
+  {
+    "id": 10,
+    "user": "Rosamund Pike",
+    "quote": "I look my best when I'm totally free, on holiday, fishing with this app."
+  },
+  {
+    "id": 11,
+    "user": "John West",
+    "quote": "I can do so much more with salmon since I've found this app."
+  },
+  {
+    "id": 12,
+    "user": "Viktor Fischer",
+    "quote": "No longer do I have to wing it with a fish. Great idea!"
+  }
+]
