@@ -5,6 +5,10 @@
     gap: 1rem;
 }
 
+.error_text {
+    color: red;
+}
+
 /*-----------------------Continent color themes ---------------------*/
 
 .asia {

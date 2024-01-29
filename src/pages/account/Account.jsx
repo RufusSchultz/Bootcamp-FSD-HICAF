@@ -1,3 +1,5 @@
+import "./Account.css";
+
 function Account() {
     return (
         <>

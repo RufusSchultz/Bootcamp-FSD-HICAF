@@ -8,6 +8,8 @@ function PageNotFound() {
             <Button
                 text={"Click here to return to the homepage"}
                 destination={"/"}
+                clickPurpose={"navigate"}
+                type={"button"}
             />
         </div>
     )

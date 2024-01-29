@@ -1,0 +1,58 @@
+.contact_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.contact_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.contact_form > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact_form_name_email {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.contact_form_name_email > div {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    justify-content: end;
+    align-items: center;
+}
+
+.contact_form_message {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+
+}
+
+.input_field {
+    border: solid 1px var(--color-darkgreen);
+    border-radius: 20px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+    font-family: "Raleway", sans-serif;
+}
+
+.input_field:focus {
+    outline: var(--color-brightgreen) 1px solid;
+}
+
+.email_link:link {
+    text-decoration: underline;
+}
+
+.email_link:hover {
+    text-decoration: none;
+}

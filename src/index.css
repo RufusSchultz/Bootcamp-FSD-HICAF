@@ -43,10 +43,12 @@ body {
 
 :link {
     text-decoration: none;
+    color: var(--color-brightgreen);
 }
 
 :visited {
     text-decoration: none;
+    color: var(--color-brightgreen);
 }
 
 h1 {
