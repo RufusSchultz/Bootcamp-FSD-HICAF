@@ -42,11 +42,21 @@
   {
     "id": 9,
     "user": "Ray Romano",
-    "quote": "What an idea. everybody loves fish!"
+    "quote": "What an idea. Everybody loves fish!"
   },
   {
     "id": 10,
     "user": "Rosamund Pike",
     "quote": "I look my best when I'm totally free, on holiday, fishing with this app."
+  },
+  {
+    "id": 11,
+    "user": "John West",
+    "quote": "I can do so much more with salmon since I've found this app."
+  },
+  {
+    "id": 12,
+    "user": "Viktor Fischer",
+    "quote": "No longer do I have to wing it with a fish. Great idea!"
   }
 ]

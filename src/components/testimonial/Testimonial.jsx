@@ -6,7 +6,6 @@ function Testimonial({ quote, user }) {
             <cite className={"testimonial_user"}>
                 <span>- {user}</span>
             </cite>
-
         </blockquote>
     )
 }
