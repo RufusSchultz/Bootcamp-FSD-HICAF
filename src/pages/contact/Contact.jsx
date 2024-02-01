@@ -10,12 +10,14 @@ function Contact() {
         name: "",
         email: "",
         message: "",
+        allowCitation: false,
     });
 
     function handleChange(e) {
+        const newValue = e.target.type === "checkbox" ? e.target.checked : e.target.value;
         setFormState({
             ...formState,
-            [e.target.name]: e.target.value,
+            [e.target.name]: newValue,
         })
     }
 
@@ -73,6 +75,17 @@ function Contact() {
                                   className={"input_field"}
                         ></textarea>
                     </div>
+                    <div>
+                        <label className={"allow_citation_checkbox"}>
+                            <input type={"checkbox"}
+                                   name={"allowCitation"}
+                                   id={"allow_citation"}
+                                   checked={formState.allowCitation}
+                                   onChange={handleChange}
+                            />
+                            I give permission to use (part of) my message as a testimonial.
+                        </label>
+                    </div>
                     {inputFieldError && <div>
                         <h2 className={"error_text"}>{inputFieldError}</h2>
                     </div>}
@@ -82,12 +95,22 @@ function Contact() {
                     />
                 </form>
 
-                <p>Alternatively, you can <a href="mailto:tijdelijkeplaatshouder@gmail.com" className={"email_link"}>click here</a> to send us an
+                <p>Alternatively, you can <a href="mailto:tijdelijkeplaatshouder@gmail.com" className={"email_link"}>click
+                    here</a> to send us an
                     email.</p>
             </div>}
 
             {messageSent && <div className={"contact_page"}>
-                <h1>Thank you for your message!</h1>
+                <div className={"low_content_container"}>
+                    <h1>Thank you for your message!</h1>
+                    <Button
+                        text={"Click here to return to the homepage"}
+                        destination={"/"}
+                        clickPurpose={"navigate"}
+                        type={"button"}
+                    />
+                </div>
+
             </div>}
 
         </>
