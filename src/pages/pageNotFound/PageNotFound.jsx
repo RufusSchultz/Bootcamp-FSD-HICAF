@@ -3,7 +3,7 @@ import Button from "../../components/button/Button.jsx";
 
 function PageNotFound() {
     return(
-        <div className={"page_not_found"}>
+        <div className={"low_content_container"}>
             <h1>Whoops, this page doesn't exist.</h1>
             <Button
                 text={"Click here to return to the homepage"}

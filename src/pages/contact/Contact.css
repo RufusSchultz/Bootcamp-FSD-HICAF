@@ -49,6 +49,17 @@
     outline: var(--color-brightgreen) 1px solid;
 }
 
+.allow_citation_checkbox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.allow_citation_checkbox input {
+    flex: none;
+}
+
 .email_link:link {
     text-decoration: underline;
 }
@@ -56,3 +67,4 @@
 .email_link:hover {
     text-decoration: none;
 }
+
