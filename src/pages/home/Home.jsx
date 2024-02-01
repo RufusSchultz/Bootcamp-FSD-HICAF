@@ -18,14 +18,12 @@ function Home() {
                     text={"Start here!"}
                     label={<h3>Need an idea for your fish?</h3>}
                     destination={"/recipeSearch"}
-                    clickPurpose={"navigate"}
                     type={"button"}
                 />
                 <Button
                     text={"Click here!"}
-                    label={<h3>Want to log in?</h3>}
+                    label={<h3>Want to log in or create an account?</h3>}
                     destination={"/login"}
-                    clickPurpose={"navigate"}
                     type={"button"}
                 />
             </div>

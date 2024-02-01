@@ -22,14 +22,6 @@
     gap: 0.5rem;
 }
 
-.contact_form_name_email > div {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    justify-content: end;
-    align-items: center;
-}
-
 .contact_form_message {
     display: flex;
     gap: 0.5rem;
