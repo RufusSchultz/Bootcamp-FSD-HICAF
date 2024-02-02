@@ -1,17 +1,17 @@
 import "./Button.css";
 import {useNavigate} from "react-router-dom";
 
-function Button({text, label, destination, disabled, type, className}) {
+function Button({text, label, destination, disabled, type, className, onClick}) {
 
     const navigate = useNavigate();
 
     function HandleClick() {
         if (type === "submit") {
             return null;
-        } else if (destination !== null){
+        } else if (destination !== undefined){
             navigate(`${destination}`)
-        } else if (onClick === onClick){
-            onClick;
+        } else{
+            {onClick()}
         }
     }
 

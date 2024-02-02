@@ -10,6 +10,7 @@
 .login_page_content {
     display: flex;
     flex-direction: row;
+    align-items: end;
 }
 
 .form_and_new_account_wrapper {
@@ -30,5 +31,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
 
+.passwordError {
+    color: red;
+    width: 17rem;
+    text-align: center;
 }

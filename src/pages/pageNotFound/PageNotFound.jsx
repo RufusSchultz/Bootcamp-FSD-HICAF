@@ -9,6 +9,7 @@ function PageNotFound() {
                 text={"Click here to return to the homepage"}
                 destination={"/"}
                 type={"button"}
+                className={"big_button"}
             />
         </div>
     )
