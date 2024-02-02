@@ -19,12 +19,14 @@ function Home() {
                     label={<h3>Need an idea for your fish?</h3>}
                     destination={"/recipeSearch"}
                     type={"button"}
+                    className={"big_button"}
                 />
                 <Button
                     text={"Click here!"}
                     label={<h3>Want to log in or create an account?</h3>}
                     destination={"/login"}
                     type={"button"}
+                    className={"big_button"}
                 />
             </div>
             <div className={"testimonials"}>

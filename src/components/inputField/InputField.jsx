@@ -1,9 +1,9 @@
 import "./InputField.css"
 
-function InputField({ title, type, name, value, onChange,   }){
+function InputField({ label, type, name, value, onChange,   }){
     return (
         <div className={"input_field_wrapper"}>
-            <label htmlFor={"name"}>{title}</label>
+            <label htmlFor={name}>{label}</label>
             <input type={type}
                    name={name}
                    id={name}

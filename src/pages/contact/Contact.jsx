@@ -44,14 +44,14 @@ function Contact() {
                 <form onSubmit={handleSubmit} className={"contact_form"}>
                     <div className={"contact_form_name_email"}>
                         <InputField
-                            title={"Name:"}
+                            label={"Name:"}
                             type={"text"}
                             name={"name"}
                             value={formState.name}
                             onChange={handleChange}
                         />
                         <InputField
-                            title={"Email:"}
+                            label={"Email:"}
                             type={"email"}
                             name={"email"}
                             value={formState.email}
@@ -87,6 +87,7 @@ function Contact() {
                     <Button
                         text={"Submit"}
                         type={"submit"}
+                        className={"big_button"}
                     />
                 </form>
 
