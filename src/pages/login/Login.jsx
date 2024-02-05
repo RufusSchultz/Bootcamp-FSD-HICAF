@@ -2,18 +2,27 @@ import "./Login.css";
 import inlogImage from "../../assets/logo_inlog.png"
 import InputField from "../../components/inputField/InputField.jsx";
 import Button from "../../components/button/Button.jsx";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
+import {AuthContext} from "../../context/AuthContext.jsx";
+import axios from "axios";
 
 function Login() {
 
-    const [createAccount, toggleCreateAccount] = useState(false);
+    const contextContent = useContext(AuthContext);
+    const abortController = new AbortController();
+    const [createAccountPage, toggleCreateAccountPage] = useState(false);
     const [formState, setFormState] = useState({
-        name: "",
+        username: "",
         password: "",
         email: "",
+        role: ["user"],
+        signal: abortController.signal
     });
-    const [passwordError, setPasswordError] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
+    const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
+
+    // ----------Common functions-------------
 
     function handleChange(e) {
         setFormState({
@@ -22,30 +31,73 @@ function Login() {
         })
     }
 
-    function handleLogin(e) {
-        e.preventDefault()
-        console.log(formState);
+    useEffect(() => {
+        return function cleanup() {
+            abortController.abort();
+        }
+    }, [cleanupTrigger]);
+
+    // ----------Login functions-------------
+
+    async function login() {
+        const endpoint = "https://frontend-educational-backend.herokuapp.com/api/auth/signin"
+
+        try {
+            const response = await axios.post(endpoint, formState);
+            contextContent.logInHandler(response.data.accessToken);
+        } catch (e) {
+            console.error(e);
+        }
     }
 
-    function handleCreateAccount(e) {
+    function handleLoginSubmit(e) {
+        e.preventDefault()
+        void login();
+        toggleCleanupTrigger(!cleanupTrigger);
+    }
+
+    // ----------Create account functions-------------
+
+    async function createAccount() {
+
+        const endpoint = "https://frontend-educational-backend.herokuapp.com/api/auth/signup";
+
+        try {
+            const response = await axios.post(endpoint, formState);
+            if (response.data.message === "User registered successfully!") {
+                void login();
+            }
+        } catch (e) {
+            console.error(e)
+            setErrorMessage(e.response.data.message);
+        }
+    }
+
+    function handleCreateAccountSubmit(e) {
         e.preventDefault();
-        setPasswordError(null);
-        if (!formState.name || !formState.email || !formState.password) {
-            setPasswordError("Please fill in all fields.")
+
+
+        setErrorMessage(null);
+
+        if (!formState.username || !formState.email || !formState.password) {
+            setErrorMessage("Please fill in all fields")
+        } else if (formState.username.length < 6){
+            setErrorMessage("Please enter a username of at least 6 characters long")
         } else {
-            const passwordCheck = passwordStrengthTest(formState.password, formState.name);
+            const passwordCheck = passwordStrengthTest(formState.password, formState.username);
             if (passwordCheck !== formState.password) {
-                setPasswordError(passwordCheck);
+                setErrorMessage(passwordCheck);
             } else {
-                console.log(formState);
+                void createAccount();
+                toggleCleanupTrigger(!cleanupTrigger);
             }
         }
 
 
     }
 
-    function handleCreateNewAccountClick() {
-        toggleCreateAccount(true);
+    function switchToCreateNewAccount() {
+        toggleCreateAccountPage(true);
     }
 
     return (
@@ -54,13 +106,13 @@ function Login() {
                 <div className={"login_page_content"}>
                     <img src={inlogImage} alt="Log in"/>
 
-                    {!createAccount && <div className={"form_and_new_account_wrapper"}>
-                        <form onSubmit={handleLogin} className={"form"}>
+                    {!createAccountPage && <div className={"form_and_new_account_wrapper"}>
+                        <form onSubmit={handleLoginSubmit} className={"form"}>
                             <InputField
                                 label={"Username:"}
                                 type={"text"}
-                                name={"name"}
-                                value={formState.name}
+                                name={"username"}
+                                value={formState.username}
                                 onChange={handleChange}
                             />
                             <InputField
@@ -82,23 +134,23 @@ function Login() {
                                 type={"button"}
                                 text={"Create new account"}
                                 className={"small_button"}
-                                onClick={handleCreateNewAccountClick}
+                                onClick={switchToCreateNewAccount}
                             />
                         </div>
                     </div>}
 
-                    {createAccount && <div className={"form_and_new_account_wrapper"}>
+                    {createAccountPage && <div className={"form_and_new_account_wrapper"}>
 
-                        {passwordError && <div className={"passwordError"}>
-                            <h3>{passwordError}</h3>
+                        {errorMessage && <div className={"passwordError"}>
+                            <h3>{errorMessage}</h3>
                         </div>}
 
-                        <form onSubmit={handleCreateAccount} className={"form"}>
+                        <form onSubmit={handleCreateAccountSubmit} className={"form"}>
                             <InputField
                                 label={"Username:"}
                                 type={"text"}
-                                name={"name"}
-                                value={formState.name}
+                                name={"username"}
+                                value={formState.username}
                                 onChange={handleChange}
                             />
                             <InputField

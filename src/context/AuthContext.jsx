@@ -34,7 +34,7 @@ function AuthContextProvider({ children }) {
 
         localStorage.setItem("token", token);
         const decoded = jwtDecode(token);
-        const endpoint = `http://localhost:3000/600/users/${decoded.sub}`
+        const endpoint = `https://frontend-educational-backend.herokuapp.com/api/user`
 
         try {
             const response = await axios.get(endpoint, {
@@ -50,19 +50,20 @@ function AuthContextProvider({ children }) {
                     username: response.data.username,
                     email: response.data.email,
                     id: response.data.id,
+                    roles: response.data.roles,
                 },
                 status: "done",
             });
             console.log("Gebruiker is ingelogd!");
-            navigate("/profile");
+            navigate("/account");
         } catch (e) {
             console.error(e);
             logOut();
         }
     }
 
-    function logOut(e) {
-        e.preventDefault();
+    function logOut() {
+
         localStorage.removeItem("token");
         setAuth({
             isAuth: false,
