@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import validTokenChecker from "../helpers/validTokenChecker.js";
-import {jwtDecode} from "jwt-decode";
 import axios from "axios";
 
 export const AuthContext = React.createContext({});
@@ -33,7 +32,6 @@ function AuthContextProvider({ children }) {
     async function logIn(token) {
 
         localStorage.setItem("token", token);
-        const decoded = jwtDecode(token);
         const endpoint = `https://frontend-educational-backend.herokuapp.com/api/user`
 
         try {
@@ -83,7 +81,7 @@ function AuthContextProvider({ children }) {
 
     return (
         <AuthContext.Provider value={data}>
-            {auth.status === 'done' ? children : <p>Loading...</p>}
+            {auth.status === "done" ? children : <p>Loading...</p>}
         </AuthContext.Provider>
     )
 

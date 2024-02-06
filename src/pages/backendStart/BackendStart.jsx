@@ -68,6 +68,7 @@ function BackendStart() {
         <>
             {!backendStatus && <div className={"low_content_container"}>
                 <h1>The backend is not (yet) responding.</h1>
+                <h2>Please refresh the page in about 30 seconds.</h2>
                 </div>}
 
             {backendStatus && <div className={"low_content_container"}>

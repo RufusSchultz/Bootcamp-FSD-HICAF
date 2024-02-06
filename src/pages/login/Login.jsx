@@ -39,12 +39,12 @@ function Login() {
 
     // ----------Login functions-------------
 
-    async function login() {
+    async function userLogin() {
         const endpoint = "https://frontend-educational-backend.herokuapp.com/api/auth/signin"
 
         try {
             const response = await axios.post(endpoint, formState);
-            contextContent.logInHandler(response.data.accessToken);
+            void contextContent.logInHandler(response.data.accessToken);
         } catch (e) {
             console.error(e);
         }
@@ -52,7 +52,7 @@ function Login() {
 
     function handleLoginSubmit(e) {
         e.preventDefault()
-        void login();
+        void userLogin();
         toggleCleanupTrigger(!cleanupTrigger);
     }
 
@@ -65,7 +65,7 @@ function Login() {
         try {
             const response = await axios.post(endpoint, formState);
             if (response.data.message === "User registered successfully!") {
-                void login();
+                void userLogin();
             }
         } catch (e) {
             console.error(e)
@@ -75,13 +75,11 @@ function Login() {
 
     function handleCreateAccountSubmit(e) {
         e.preventDefault();
-
-
         setErrorMessage(null);
 
         if (!formState.username || !formState.email || !formState.password) {
             setErrorMessage("Please fill in all fields")
-        } else if (formState.username.length < 6){
+        } else if (formState.username.length < 6) {
             setErrorMessage("Please enter a username of at least 6 characters long")
         } else {
             const passwordCheck = passwordStrengthTest(formState.password, formState.username);
@@ -95,6 +93,8 @@ function Login() {
 
 
     }
+
+// -------------------------------------------------
 
     function switchToCreateNewAccount() {
         toggleCreateAccountPage(true);
@@ -175,11 +175,8 @@ function Login() {
                         </form>
                     </div>}
                 </div>
-
-
             </div>
         </>
-
     )
 }
 
