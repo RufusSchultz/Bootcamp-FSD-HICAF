@@ -29,16 +29,16 @@ function Recipes() {
             try {
                 setIsLoading(true);
                 const result = await axios.get(endpoint, {signal: abortController.signal,});
-                setRecipes(result);
+                setRecipes(result.data);
+                if (result.data._links.next) {
+                    setNextEndpoint(`${result.data._links.next.href}`)
+                }
                 setError("");
             } catch (e) {
                 console.error(e);
                 setError("Oops, failed to catch any data. Please try again.");
             } finally {
                 setIsLoading(false);
-                if (recipes) {
-                    setNextEndpoint(`${recipes.data._links.next.href}`);
-                }
             }
         }
 
@@ -75,7 +75,7 @@ function Recipes() {
 
             {recipes && <div className={"recipe_list_outer"}>
 
-                <h2>Here are {recipes.data.count} ideas what to do with your fish</h2>
+                <h2>Here are {recipes.count} ideas what to do with your fish</h2>
 
                 <div className={"browse_buttons"}>
                     <button type={"button"}
@@ -85,16 +85,16 @@ function Recipes() {
                     >Previous page
                     </button>
                     <button type={"button"}
-                            className={!recipes.data._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                            className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
                             onClick={handleNextClick}
-                            disabled={!recipes.data._links.next}
+                            disabled={!recipes._links.next}
                     >Next page
                     </button>
                 </div>
 
                 <div className={"search_result"}>
                     <ul className={"choice_buttons_and_cards"}>
-                        {recipes.data.hits.map((hit) => {
+                        {recipes.hits.map((hit) => {
                             return <RecipeCard
                                 key={hit._links.self.href}
                                 title={hit.recipe.label}
@@ -111,6 +111,21 @@ function Recipes() {
                             />
                         })}
                     </ul>
+                </div>
+
+                <div className={"browse_buttons"}>
+                    <button type={"button"}
+                            className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                            onClick={handleBackClick}
+                            disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
+                    >Previous page
+                    </button>
+                    <button type={"button"}
+                            className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                            onClick={handleNextClick}
+                            disabled={!recipes._links.next}
+                    >Next page
+                    </button>
                 </div>
             </div>}
             {console.log(recipes)}
