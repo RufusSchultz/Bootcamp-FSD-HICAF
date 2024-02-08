@@ -6,6 +6,7 @@ import FishSearchForm from "../../components/fishSearchForm/FishSearchForm.jsx";
 import FishCardButton from "../../components/fishCardButton/FishCardButton.jsx";
 import underscoreRemover from "../../helpers/underscoreRemover.js";
 import {useNavigate} from "react-router-dom";
+import randomFlatteringSentence from "../../helpers/randomFlatteringSentence.js";
 
 function RecipeSearch() {
     const navigate = useNavigate();
@@ -76,7 +77,7 @@ function RecipeSearch() {
             {/*Second set of choices of the page.*/}
             {continent && <div>
                 <div className={"second_set_container"}>
-                    <h3>Random flattering stuff about {underscoreRemover(continent)}!</h3>
+                    <h3>{randomFlatteringSentence(underscoreRemover(continent))}</h3>
                     <h3 id={"what_fish"}>What fish did you catch?</h3>
                     <div className={"fish_choice_wrapper"}>
                         <ul className={"choice_buttons_and_cards"}>
