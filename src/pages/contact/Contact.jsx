@@ -1,6 +1,7 @@
 import "./Contact.css";
 import Button from "../../components/button/Button.jsx";
 import {useState} from "react";
+import InputField from "../../components/inputField/InputField.jsx";
 
 function Contact() {
 
@@ -42,26 +43,20 @@ function Contact() {
                 <p>Fill in this form and we'll get back to you. </p>
                 <form onSubmit={handleSubmit} className={"contact_form"}>
                     <div className={"contact_form_name_email"}>
-                        <div>
-                            <label htmlFor={"name"}>Name: </label>
-                            <input type="text"
-                                   name={"name"}
-                                   id={"name"}
-                                   value={formState.name}
-                                   onChange={handleChange}
-                                   className={"input_field"}
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor={"email"}>Email:</label>
-                            <input type="email"
-                                   name={"email"}
-                                   id={"email"}
-                                   value={formState.email}
-                                   onChange={handleChange}
-                                   className={"input_field"}
-                            />
-                        </div>
+                        <InputField
+                            label={"Name:"}
+                            type={"text"}
+                            name={"name"}
+                            value={formState.name}
+                            onChange={handleChange}
+                        />
+                        <InputField
+                            label={"Email:"}
+                            type={"email"}
+                            name={"email"}
+                            value={formState.email}
+                            onChange={handleChange}
+                        />
                     </div>
                     <div className={"contact_form_message"}>
                         <label htmlFor={"message"}>What would you like to ask or tell us?</label>
@@ -92,6 +87,7 @@ function Contact() {
                     <Button
                         text={"Submit"}
                         type={"submit"}
+                        className={"big_button"}
                     />
                 </form>
 

@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .contact_form {
@@ -22,19 +22,10 @@
     gap: 0.5rem;
 }
 
-.contact_form_name_email > div {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    justify-content: end;
-    align-items: center;
-}
-
 .contact_form_message {
     display: flex;
     gap: 0.5rem;
     align-items: center;
-
 }
 
 .input_field {
@@ -43,6 +34,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     padding: 0.5rem 1rem;
     font-family: "Raleway", sans-serif;
+    font-size: 1rem;
 }
 
 .input_field:focus {

@@ -8,6 +8,7 @@ import Account from "./pages/account/Account.jsx"
 import Navbar from "./components/navbar/Navbar.jsx";
 import Recipes from "./pages/recipes/Recipes.jsx";
 import PageNotFound from "./pages/pageNotFound/PageNotFound.jsx";
+import BackendStart from "./pages/backendStart/BackendStart.jsx";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/account" element={<Account/>}/>
                 <Route path="*" element={<PageNotFound/>}/>
+                <Route path="/backendStart" element={<BackendStart/>}/>
             </Routes>
         </>
     )

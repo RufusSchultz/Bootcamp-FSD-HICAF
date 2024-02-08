@@ -1,23 +1,17 @@
 import "./Button.css";
 import {useNavigate} from "react-router-dom";
 
-function Button({text, label, destination, disabled, clickPurpose, type}) {
+function Button({text, label, destination, disabled, type, className, onClick}) {
 
     const navigate = useNavigate();
 
-    function handleClick(e) {
-        e.preventDefault();
-        if (clickPurpose === "navigate"){
-            navigate(`${destination}`)
-        }
-
-    }
-
-    function toggleHandleClick() {
+    function HandleClick() {
         if (type === "submit") {
             return null;
-        } else {
-            return handleClick();
+        } else if (destination !== undefined){
+            navigate(`${destination}`)
+        } else{
+            {onClick()}
         }
     }
 
@@ -26,8 +20,8 @@ function Button({text, label, destination, disabled, clickPurpose, type}) {
             <label htmlFor={"button"}>{label}</label>
             <button type={type}
                     id={"button"}
-                    className={"button"}
-                    onClick={toggleHandleClick}
+                    className={className}
+                    onClick={HandleClick}
                     disabled={disabled}
             >{text}</button>
         </div>

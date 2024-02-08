@@ -42,7 +42,7 @@ function Recipes() {
             }
         }
 
-        fetchRecipes();
+        void fetchRecipes();
 
 
         return () => {
@@ -88,7 +88,7 @@ function Recipes() {
                             className={!recipes.data._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
                             onClick={handleNextClick}
                             disabled={!recipes.data._links.next}
-                    >Next results
+                    >Next page
                     </button>
                 </div>
 
