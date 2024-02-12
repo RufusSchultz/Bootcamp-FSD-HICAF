@@ -32,24 +32,50 @@ function BackendStart() {
 
     async function createAdmin() {
 
-        const endpoint = "https://frontend-educational-backend.herokuapp.com/api/auth/signup"
-        const form = {
-            username: "HICAFadmin",
-            email: "admin@hicaf.com",
-            password: "Vis123",
-            role: ["user", "admin"],
-            signal: abortController.signal,
-        }
+        const endpoint = "https://api.datavortex.nl/novibackendhicaf/users";
+        const apiKey = "novibackendhicaf:HxI8znYrdSresrrSUlRm";
+
+        // const form = {
+        //     username: "HICAFadmin",
+        //     email: "admin@hicaf.com",
+        //     password: "Vis123",
+        //     info: "test test",
+        //     authorities: [
+        //         {authority: "admin"}
+        //     ]
+        // },
+        //     {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'X-Api-Key': apiKey
+        //         }
+        //     }
+
+
+
 
         try {
-            const response = await axios.post(endpoint, form);
+            const response = await axios.post(endpoint, {
+                username: "HICAFadmin",
+                    email: "admin@hicaf.com",
+                    password: "Vis12345",
+                    info: "test test",
+                    authorities: [
+                        {authority: "ADMIN"}
+                    ]
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': apiKey
+                    }});
             console.log(response);
-            setAdminStatus(response.data.message);
-        } catch(e) {
+            // setAdminStatus(response.data.message);
+        } catch (e) {
             console.error(e);
-            if (e.response.data.message === "This username is already in use") {
-                setAdminStatus("Admin account is already successfully registered.")
-            }
+            // if (e.response.data.message === "This username is already in use") {
+            //     setAdminStatus("Admin account is already successfully registered.")
+            // }
         }
     }
 
@@ -66,12 +92,12 @@ function BackendStart() {
 
     return (
         <>
-            {!backendStatus && <div className={"low_content_container"}>
-                <h1>The backend is not (yet) responding.</h1>
-                <h2>Please refresh the page in about 30 seconds.</h2>
-                </div>}
+            {/*{!backendStatus && <div className={"low_content_container"}>*/}
+            {/*    <h1>The backend is not (yet) responding.</h1>*/}
+            {/*    <h2>Please refresh the page in about 30 seconds.</h2>*/}
+            {/*</div>}*/}
 
-            {backendStatus && <div className={"low_content_container"}>
+            <div className={"low_content_container"}>
                 <h1>{backendStatus}</h1>
                 <h2>Click on the button below to create the Admin account.</h2>
                 <Button
@@ -81,13 +107,15 @@ function BackendStart() {
                     disabled={adminStatus}
                 />
                 <h3>Username: HICAFadmin</h3>
-                <h3>Password: Vis123</h3>
+                <h3>Password: Vis12345</h3>
 
                 {adminStatus && <div>
                     <h2 className={"error_text"}>{adminStatus}</h2>
                 </div>}
 
-            </div>}
+            </div>
+
+
 
 
         </>
