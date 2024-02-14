@@ -3,9 +3,11 @@ import "./Home.css";
 import Testimonial from "../../components/testimonial/Testimonial.jsx";
 import Button from "../../components/button/Button.jsx";
 import testimonialRandomizer from "../../helpers/testimonialRandomizer.js";
+import {useContext} from "react";
+import {AuthContext} from "../../context/AuthContext.jsx";
 
 function Home() {
-
+    const contentContext = useContext(AuthContext);
     const testimonials = testimonialRandomizer();
 
     return (
@@ -21,13 +23,23 @@ function Home() {
                     type={"button"}
                     className={"big_button"}
                 />
-                <Button
-                    text={"Click here!"}
-                    label={<h3>Want to log in or create an account?</h3>}
-                    destination={"/login"}
-                    type={"button"}
-                    className={"big_button"}
-                />
+                {contentContext.isAuth
+                    ? <Button
+                        text={"Click here!"}
+                        label={<h3>Want to view your account?</h3>}
+                        destination={"/account"}
+                        type={"button"}
+                        className={"big_button"}
+                    />
+                    : <Button
+                        text={"Click here!"}
+                        label={<h3>Want to log in or create an account?</h3>}
+                        destination={"/login"}
+                        type={"button"}
+                        className={"big_button"}
+                    />
+                }
+
             </div>
             <div className={"testimonials"}>
                 <Testimonial

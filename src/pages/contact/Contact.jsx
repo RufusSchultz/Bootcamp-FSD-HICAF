@@ -1,10 +1,11 @@
 import "./Contact.css";
 import Button from "../../components/button/Button.jsx";
-import {useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import InputField from "../../components/inputField/InputField.jsx";
+import {AuthContext} from "../../context/AuthContext.jsx";
 
 function Contact() {
-
+    const contentContext = useContext(AuthContext);
     const [inputFieldError, setInputFieldError] = useState(null);
     const [messageSent, toggleMessageSent] = useState(false);
     const [formState, setFormState] = useState({
@@ -22,27 +23,45 @@ function Contact() {
         })
     }
 
+    useEffect(() => {
+        if (contentContext.isAuth) {
+            setFormState({
+                ...formState,
+                name: contentContext.user.username,
+                email: contentContext.user.email,
+            });
+        }
+    }, []);
+
     // This function has te be made asynchronous and put in an effect when it's matched with a suitable backend.
     function handleSubmit(e) {
         e.preventDefault();
         if (!formState.name || !formState.email || !formState.message) {
-            setInputFieldError("Please fill in all fields.")
+            if (contentContext.isAuth) {
+                setInputFieldError("Please leave an actual message.")
+            } else {
+                setInputFieldError("Please fill in all fields.")
+            }
         } else {
             toggleMessageSent(true);
             console.log(formState);
             console.log("This message then goes to a suited backend.")
         }
-
     }
+
 
     return (
         <>
             {!messageSent && <div className={"contact_page"}>
                 <h1>Questions or comments?</h1>
                 <h2>Let us know!</h2>
-                <p>Fill in this form and we'll get back to you. </p>
+                {contentContext.isAuth
+                    ? <p>Leave your message here and we'll get back to you, {contentContext.user.username}.</p>
+                    : <p>Fill in this form and we'll get back to you. </p>
+                }
+
                 <form onSubmit={handleSubmit} className={"contact_form"}>
-                    <div className={"contact_form_name_email"}>
+                    {!contentContext.isAuth && <div className={"contact_form_name_email"}>
                         <InputField
                             label={"Name:"}
                             type={"text"}
@@ -57,7 +76,8 @@ function Contact() {
                             value={formState.email}
                             onChange={handleChange}
                         />
-                    </div>
+                    </div>}
+
                     <div className={"contact_form_message"}>
                         <label htmlFor={"message"}>What would you like to ask or tell us?</label>
                         <textarea name={"message"}
@@ -104,6 +124,7 @@ function Contact() {
                         destination={"/"}
                         clickPurpose={"navigate"}
                         type={"button"}
+                        className={"big_button"}
                     />
                 </div>
 
