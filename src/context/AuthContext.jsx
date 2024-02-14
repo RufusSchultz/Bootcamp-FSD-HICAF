@@ -17,9 +17,10 @@ function AuthContextProvider({ children }) {
 
     useEffect(() => {
         console.log("It's refreshed, exciting!");
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
+        const username= localStorage.getItem("username")
         if (token && validTokenChecker(token)) {
-            void logIn(token);
+            void logIn(username, token);
         } else {
             setAuth({
                 isAuth: false,
@@ -29,10 +30,11 @@ function AuthContextProvider({ children }) {
         }
     }, []);
 
-    async function logIn(token) {
+    async function logIn(username, token) {
 
         localStorage.setItem("token", token);
-        const endpoint = `https://frontend-educational-backend.herokuapp.com/api/user`
+        localStorage.setItem("username", username);
+        const endpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
 
         try {
             const response = await axios.get(endpoint, {
@@ -41,18 +43,17 @@ function AuthContextProvider({ children }) {
                     "Content-Type": "application/json",
                 }
             })
-
             setAuth({
                 isAuth: true,
                 user: {
                     username: response.data.username,
                     email: response.data.email,
-                    id: response.data.id,
-                    roles: response.data.roles,
+                    favorites: response.data.info,
+                    authority: response.data.authorities,
                 },
                 status: "done",
             });
-            console.log("Gebruiker is ingelogd!");
+            console.log("User is hooked!");
             navigate("/account");
         } catch (e) {
             console.error(e);
@@ -68,7 +69,7 @@ function AuthContextProvider({ children }) {
             user: null,
             status: "done",
         });
-        console.log("Gebruiker is uitgelogd!");
+        console.log("User was caught and is released!");
         navigate("/")
     }
 

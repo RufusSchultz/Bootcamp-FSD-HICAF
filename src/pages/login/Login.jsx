@@ -6,6 +6,7 @@ import {useContext, useEffect, useState} from "react";
 import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import axios from "axios";
+import backendMessageStreamliner from "../../helpers/backendMessageStreamliner.js";
 
 function Login() {
 
@@ -16,7 +17,6 @@ function Login() {
         username: "",
         password: "",
         email: "",
-        role: ["user"],
         signal: abortController.signal
     });
     const [errorMessage, setErrorMessage] = useState(null);
@@ -40,11 +40,11 @@ function Login() {
     // ----------Login functions-------------
 
     async function userLogin() {
-        const endpoint = "https://frontend-educational-backend.herokuapp.com/api/auth/signin"
+        const endpoint = "https://api.datavortex.nl/novibackendhicaf/users/authenticate";
 
         try {
             const response = await axios.post(endpoint, formState);
-            void contextContent.logInHandler(response.data.accessToken);
+            void contextContent.logInHandler(formState.username, response.data.jwt);
         } catch (e) {
             console.error(e);
         }
@@ -60,16 +60,31 @@ function Login() {
 
     async function createAccount() {
 
-        const endpoint = "https://frontend-educational-backend.herokuapp.com/api/auth/signup";
+        const endpoint = "https://api.datavortex.nl/novibackendhicaf/users";
+        const apiKey = "novibackendhicaf:HxI8znYrdSresrrSUlRm";
 
         try {
-            const response = await axios.post(endpoint, formState);
-            if (response.data.message === "User registered successfully!") {
+            const response = await axios.post(endpoint, {
+                username: formState.username,
+                email: formState.email,
+                password: formState.password,
+                authorities: [
+                    {authority: "USER"}
+                ],
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Api-Key': apiKey,
+                },
+                signal: abortController.signal,
+            });
+            console.log(response);
+            if (response.data.username === formState.username && response.status === 200) {
                 void userLogin();
             }
         } catch (e) {
             console.error(e)
-            setErrorMessage(e.response.data.message);
+            setErrorMessage(backendMessageStreamliner(e.response.data));
         }
     }
 
@@ -94,7 +109,7 @@ function Login() {
 
     }
 
-// -------------------------------------------------
+// -------------------------UI------------------------
 
     function switchToCreateNewAccount() {
         toggleCreateAccountPage(true);
