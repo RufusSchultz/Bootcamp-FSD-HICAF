@@ -1,7 +1,7 @@
 import "./Button.css";
 import {useNavigate} from "react-router-dom";
 
-function Button({text, label, destination, disabled, type, className, onClick}) {
+function Button({text, label, destination, disabled, type, className, onClick, id}) {
 
     const navigate = useNavigate();
 
@@ -17,9 +17,9 @@ function Button({text, label, destination, disabled, type, className, onClick}) 
 
     return (
         <div className={"button_wrapper"}>
-            <label htmlFor={"button"}>{label}</label>
+            <label htmlFor={id}>{label}</label>
             <button type={type}
-                    id={"button"}
+                    id={id}
                     className={className}
                     onClick={HandleClick}
                     disabled={disabled}

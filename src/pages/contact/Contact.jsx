@@ -66,6 +66,7 @@ function Contact() {
                             label={"Name:"}
                             type={"text"}
                             name={"name"}
+                            id={"name"}
                             value={formState.name}
                             onChange={handleChange}
                         />
@@ -73,6 +74,7 @@ function Contact() {
                             label={"Email:"}
                             type={"email"}
                             name={"email"}
+                            id={"email"}
                             value={formState.email}
                             onChange={handleChange}
                         />

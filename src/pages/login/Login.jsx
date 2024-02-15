@@ -111,8 +111,8 @@ function Login() {
 
 // -------------------------UI------------------------
 
-    function switchToCreateNewAccount() {
-        toggleCreateAccountPage(true);
+    function switchLoginCreateAccount() {
+        toggleCreateAccountPage(!createAccountPage);
     }
 
     return (
@@ -149,7 +149,7 @@ function Login() {
                                 type={"button"}
                                 text={"Create new account"}
                                 className={"small_button"}
-                                onClick={switchToCreateNewAccount}
+                                onClick={switchLoginCreateAccount}
                             />
                         </div>
                     </div>}
@@ -188,6 +188,15 @@ function Login() {
                                 className={"small_button"}
                             />
                         </form>
+                        <div className={"create_account_button_wrapper"}>
+                            <h3>Already have an account?</h3>
+                            <Button
+                                type={"button"}
+                                text={"Go log in!"}
+                                className={"small_button"}
+                                onClick={switchLoginCreateAccount}
+                            />
+                        </div>
                     </div>}
                 </div>
             </div>

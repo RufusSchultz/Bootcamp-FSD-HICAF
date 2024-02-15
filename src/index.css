@@ -75,6 +75,10 @@ button {
     background-color: var(--color-darkgreen);
 }
 
+button label {
+    pointer-events: none;
+}
+
 button:hover {
     cursor: pointer;
     border-color:  var(--color-brightgreen);
