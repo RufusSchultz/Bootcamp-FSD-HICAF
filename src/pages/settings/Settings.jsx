@@ -19,7 +19,7 @@ function Settings() {
         email: "",
         password: "",
     });
-    const [samePassword, setSamePassword] = useState({password: "",});
+    const [repeatPassword, setRepeatPassword] = useState({password: "",});
     const [editError, setEditError] = useState("");
 
     //--------------------Edit username-----------------------//
@@ -33,7 +33,7 @@ function Settings() {
         e.preventDefault();
         if (!formState.username) {
             setEditError("Please enter a new name")
-        } else if (formState.username === contextContent.user.username){
+        } else if (formState.username === contextContent.user.username) {
             setEditError("This is already your current username.")
         } else {
             void putNewUsername();
@@ -41,7 +41,7 @@ function Settings() {
         }
     }
 
-    async function putNewUsername(){
+    async function putNewUsername() {
         try {
             const response = await axios.put(endpoint, {username: formState.username}, {
                 headers: {
@@ -54,7 +54,7 @@ function Settings() {
                 setEditDetail("new_username_succes")
             }
             console.log(response);
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             setEditDetail("error")
         }
@@ -71,7 +71,7 @@ function Settings() {
         e.preventDefault();
         if (!formState.email) {
             setEditError("Please enter a new email");
-        } else if (formState.email === contextContent.user.email){
+        } else if (formState.email === contextContent.user.email) {
             setEditError("This is already your current email.")
         } else {
             void putNewEmail();
@@ -81,7 +81,7 @@ function Settings() {
 
     }
 
-    async function putNewEmail(){
+    async function putNewEmail() {
         try {
             const response = await axios.put(endpoint, {email: formState.email}, {
                 headers: {
@@ -94,7 +94,7 @@ function Settings() {
                 setEditDetail("new_email_succes")
             }
             console.log(response);
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             setEditDetail("error")
         }
@@ -110,9 +110,9 @@ function Settings() {
     function submitNewPassword(e) {
         e.preventDefault();
         setEditError("");
-        if (!samePassword.password || !formState.password) {
+        if (!repeatPassword.password || !formState.password) {
             setEditError("Please fill in all fields");
-        } else if (samePassword.password !== formState.password) {
+        } else if (repeatPassword.password !== formState.password) {
             setEditError("Please enter the same password twice.");
         } else {
             const passwordCheck = passwordStrengthTest(formState.password, contextContent.user.username);
@@ -125,7 +125,7 @@ function Settings() {
         }
     }
 
-    async function putNewPassword(){
+    async function putNewPassword() {
         try {
             const response = await axios.put(endpoint, {password: formState.password}, {
                 headers: {
@@ -138,14 +138,14 @@ function Settings() {
                 setEditDetail("new_password_succes")
             }
             console.log(response);
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             setEditDetail("error")
         }
     }
 
-    function handleChangeSamePassword(e) {
-        setSamePassword({
+    function handleChangeRepeatPassword(e) {
+        setRepeatPassword({
             [e.target.name]: e.target.value,
         });
     }
@@ -267,7 +267,7 @@ function Settings() {
                                         />
                                     </div>
                                 </form>}
-                            {editDetail === "new_email_succes" &&<div className={"edit_success_message"}>
+                            {editDetail === "new_email_succes" && <div className={"edit_success_message"}>
                                 <h2>Email changed successfully!</h2>
                                 <p>Changes will take effect at your next login.</p>
                             </div>}
@@ -289,13 +289,15 @@ function Settings() {
                                         <InputField
                                             type={"password"}
                                             name={"password"}
-                                            id={"password_check"}
-                                            value={samePassword.password}
-                                            onChange={handleChangeSamePassword}
+                                            id={"repeat_password"}
+                                            value={repeatPassword.password}
+                                            onChange={handleChangeRepeatPassword}
                                         />
                                     </div>
                                     <div className={"edit_personal_detail_field"}>
-                                        {editError && <div className={"error_text"}><p id={"edit_error_text"}>{editError}</p></div>}
+                                        {editError &&
+                                            <div className={"error_text"}><p id={"edit_error_text"}>{editError}</p>
+                                            </div>}
                                         <Button
                                             className={"small_button"}
                                             text={"Submit"}
@@ -308,7 +310,7 @@ function Settings() {
                                 <p>Changes will take effect at your next login.</p>
                             </div>}
 
-                            {editDetail === "error" &&<div className={"edit_success_message"}>
+                            {editDetail === "error" && <div className={"edit_success_message"}>
                                 <h2 className={"error_text"}>Something went wrong!</h2>
                                 <p>Please try again later.</p>
                                 <p>Or if you already changed one of your details, </p>
