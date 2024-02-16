@@ -19,6 +19,7 @@ function Login() {
         email: "",
         signal: abortController.signal
     });
+    const [repeatPassword, setRepeatPassword] = useState({password: "",});
     const [errorMessage, setErrorMessage] = useState(null);
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
 
@@ -47,11 +48,17 @@ function Login() {
             void contextContent.logInHandler(formState.username, response.data.jwt);
         } catch (e) {
             console.error(e);
+            if (e.response.data === "User not found" || e.response.data === "Invalid username/password") {
+                setErrorMessage("Unknown username/password combination.")
+            } else {
+                setErrorMessage("Something went wrong. Please try again later.")
+            }
         }
     }
 
     function handleLoginSubmit(e) {
-        e.preventDefault()
+        e.preventDefault();
+        setErrorMessage("");
         void userLogin();
         toggleCleanupTrigger(!cleanupTrigger);
     }
@@ -98,15 +105,23 @@ function Login() {
             setErrorMessage("Please enter a username of at least 6 characters long")
         } else {
             const passwordCheck = passwordStrengthTest(formState.password, formState.username);
-            if (passwordCheck !== formState.password) {
+            if (repeatPassword.password !== formState.password) {
+                setErrorMessage("Please enter the same password twice.");
+                console.log(repeatPassword);
+                console.log(formState.password);
+            } else if (passwordCheck !== formState.password) {
                 setErrorMessage(passwordCheck);
             } else {
                 void createAccount();
                 toggleCleanupTrigger(!cleanupTrigger);
             }
         }
+    }
 
-
+    function handleChangeRepeatPassword(e) {
+        setRepeatPassword({
+            [e.target.name]: e.target.value,
+        });
     }
 
 // -------------------------UI------------------------
@@ -122,6 +137,11 @@ function Login() {
                     <img src={inlogImage} alt="Log in"/>
 
                     {!createAccountPage && <div className={"form_and_new_account_wrapper"}>
+
+                        {errorMessage && <div className={"passwordError"}>
+                            <h3>{errorMessage}</h3>
+                        </div>}
+
                         <form onSubmit={handleLoginSubmit} className={"form"}>
                             <InputField
                                 label={"Username:"}
@@ -181,6 +201,13 @@ function Login() {
                                 name={"password"}
                                 value={formState.password}
                                 onChange={handleChange}
+                            />
+                            <InputField
+                                label={"Repeat password:"}
+                                type={"password"}
+                                name={"password"}
+                                value={repeatPassword.password}
+                                onChange={handleChangeRepeatPassword}
                             />
                             <Button
                                 type={"submit"}
