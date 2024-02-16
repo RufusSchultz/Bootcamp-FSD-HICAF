@@ -24,7 +24,7 @@ function Settings() {
 
     //--------------------Edit username-----------------------//
 
-    function changeUsername() {
+    function toggleChangeUsername() {
         setEditDetail("new_username");
         setEditError("");
     }
@@ -56,12 +56,13 @@ function Settings() {
             console.log(response);
         } catch(e) {
             console.error(e);
+            setEditDetail("error")
         }
     }
 
     //--------------------Edit email-----------------------//
 
-    function changeEmail() {
+    function toggleChangeEmail() {
         setEditDetail("new_email");
         setEditError("");
     }
@@ -73,16 +74,35 @@ function Settings() {
         } else if (formState.email === contextContent.user.email){
             setEditError("This is already your current email.")
         } else {
-            setEditDetail("new_email_succes");
+            void putNewEmail();
             console.log(formState);
             toggleCleanupTrigger(!cleanupTrigger);
         }
 
     }
 
+    async function putNewEmail(){
+        try {
+            const response = await axios.put(endpoint, {email: formState.email}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                signal: abortController.signal,
+            });
+            if (response.status === 204) {
+                setEditDetail("new_email_succes")
+            }
+            console.log(response);
+        } catch(e) {
+            console.error(e);
+            setEditDetail("error")
+        }
+    }
+
     //--------------------Edit password-----------------------//
 
-    function changePassword() {
+    function toggleChangePassword() {
         setEditDetail("new_password");
         setEditError("");
     }
@@ -99,11 +119,28 @@ function Settings() {
             if (passwordCheck !== formState.password) {
                 setEditError(passwordCheck);
             } else {
-                console.log(formState);
-                console.log(samePassword);
-                setEditDetail("new_password_succes");
+                void putNewPassword();
                 toggleCleanupTrigger(!cleanupTrigger);
             }
+        }
+    }
+
+    async function putNewPassword(){
+        try {
+            const response = await axios.put(endpoint, {password: formState.password}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                signal: abortController.signal,
+            });
+            if (response.status === 204) {
+                setEditDetail("new_password_succes")
+            }
+            console.log(response);
+        } catch(e) {
+            console.error(e);
+            setEditDetail("error")
         }
     }
 
@@ -127,9 +164,21 @@ function Settings() {
         }
     }, [cleanupTrigger]);
 
+    function handleLogOutClick() {
+        contextContent.logOutHandler();
+    }
+
+    //--------------------UI-----------------------//
 
     return (
         <div className={"settings_outer_container"}>
+            <div className={"logout_button_wrapper"}>
+                <Button
+                    className={"small_button"}
+                    text={"Click to log out"}
+                    onClick={handleLogOutClick}
+                />
+            </div>
             <div className={"settings_inner_container"}>
                 <div className={"settings_sidebar"}>
                     <h1>Settings</h1>
@@ -157,17 +206,17 @@ function Settings() {
                             <Button
                                 className={"small_button"}
                                 text={"Change username"}
-                                onClick={changeUsername}
+                                onClick={toggleChangeUsername}
                             />
                             <Button
                                 className={"small_button"}
                                 text={"Change email"}
-                                onClick={changeEmail}
+                                onClick={toggleChangeEmail}
                             />
                             <Button
                                 className={"small_button"}
                                 text={"Change password"}
-                                onClick={changePassword}
+                                onClick={toggleChangePassword}
                             />
                         </div>
                         <div>
@@ -256,6 +305,14 @@ function Settings() {
                                 </form>}
                             {editDetail === "new_password_succes" && <div className={"edit_success_message"}>
                                 <h2>Password changed successfully!</h2>
+                                <p>Changes will take effect at your next login.</p>
+                            </div>}
+
+                            {editDetail === "error" &&<div className={"edit_success_message"}>
+                                <h2 className={"error_text"}>Something went wrong!</h2>
+                                <p>Please try again later.</p>
+                                <p>Or if you already changed one of your details, </p>
+                                <p>please log out an log in. </p>
                             </div>}
                         </div>
                     </div>
