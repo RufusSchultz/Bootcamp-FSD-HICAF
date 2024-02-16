@@ -64,6 +64,7 @@ function AuthContextProvider({ children }) {
     function logOut() {
 
         localStorage.removeItem("token");
+        localStorage.removeItem("username");
         setAuth({
             isAuth: false,
             user: null,
