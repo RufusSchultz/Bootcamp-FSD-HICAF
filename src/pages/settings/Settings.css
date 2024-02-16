@@ -1,40 +1,12 @@
-/*----------------------Account page----------------------*/
-
-.account_outer_container {
+.settings_outer_container {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1rem;
 }
 
-.content_outer_container {
-    display: flex;
-    flex-direction: row;
-    gap: 10rem;
-    margin: 2rem;
-}
 
-.content_inner_container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-#welcome_text {
-    margin-top: 1rem;
-}
-
-.logout_button_wrapper {
-    display: flex;
-    width: 100%;
-    justify-content: end;
-}
-
-/*----------------------Favorites subpage----------------------*/
-
-/*----------------------Settings subpage----------------------*/
-
-.settings_subpage {
+.settings_inner_container {
     display: flex;
     flex-direction: row;
     gap: 2rem;
