@@ -49,7 +49,7 @@ function AuthContextProvider({ children }) {
                     username: response.data.username,
                     email: response.data.email,
                     favorites: response.data.info,
-                    authority: response.data.authorities,
+                    authorities: response.data.authorities,
                 },
                 status: "done",
             });

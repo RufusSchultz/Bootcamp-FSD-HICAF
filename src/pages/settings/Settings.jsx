@@ -6,9 +6,11 @@ import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
 import settings_img from "../../assets/preferences.png";
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
+import {useNavigate} from "react-router-dom";
 
 function Settings() {
     const contextContent = useContext(AuthContext);
+    const navigate = useNavigate();
     const abortController = new AbortController();
     const token = localStorage.getItem("token");
     const endpoint = `https://api.datavortex.nl/novibackendhicaf/users/${contextContent.user.username}`;
@@ -21,6 +23,7 @@ function Settings() {
     });
     const [repeatPassword, setRepeatPassword] = useState({password: "",});
     const [editError, setEditError] = useState("");
+    const isAdmin = (e) => e.authority === "ADMIN";
 
     //--------------------Edit username-----------------------//
 
@@ -168,10 +171,17 @@ function Settings() {
         contextContent.logOutHandler();
     }
 
+    useEffect(() => {
+        if (!contextContent.isAuth) {
+            navigate("/login");
+        }
+    }, []);
+
     //--------------------UI-----------------------//
 
     return (
-        <div className={"settings_outer_container"}>
+        <>
+        {contextContent.isAuth && <div className={"settings_outer_container"}>
             <div className={"logout_button_wrapper"}>
                 <Button
                     className={"small_button"}
@@ -322,11 +332,16 @@ function Settings() {
                         <h2>Your searchfilters:</h2>
                         <p>filters bla bla</p>
                     </div>
+                    {contextContent.user.authorities.some(isAdmin) && <div>
+                        <h1>Admin stuff</h1>
+                    </div>}
+
                 </div>
 
             </div>
 
-        </div>
+        </div>}
+</>
     )
 }
 
