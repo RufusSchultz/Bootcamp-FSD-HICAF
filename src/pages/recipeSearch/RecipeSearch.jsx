@@ -1,24 +1,27 @@
 import "./RecipeSearch.css";
 import fishes from "../../constants/fishData.json";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import ContinentButton from "../../components/continentButton/ContinentButton.jsx";
 import FishSearchForm from "../../components/fishSearchForm/FishSearchForm.jsx";
 import FishCardButton from "../../components/fishCardButton/FishCardButton.jsx";
 import underscoreRemover from "../../helpers/underscoreRemover.js";
 import {useNavigate} from "react-router-dom";
 import randomFlatteringSentence from "../../helpers/randomFlatteringSentence.js";
+import {ColorContext} from "../../context/ColorContext.jsx";
 
 function RecipeSearch() {
     const navigate = useNavigate();
+    const theme = useContext(ColorContext);
     const [continent, setContinent] = useState("");
     const [fishQuery, setFishQuery] = useState("");
 
     useEffect(() => {
-            if (fishQuery) {navigate(`/recipes/${fishQuery}`)}
+            if (fishQuery) {navigate(`/recipeSearch/${fishQuery}`)}
     }, [navigate, fishQuery]);
 
     function handleContinentSetter(chosenContinent) {
         setContinent(chosenContinent);
+        theme.continentColorSetter(chosenContinent.toLowerCase());
     }
 
     function handleQuery(query) {

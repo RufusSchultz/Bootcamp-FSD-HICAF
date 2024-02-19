@@ -128,9 +128,6 @@ function Recipes() {
                     </button>
                 </div>
             </div>}
-            {console.log(recipes)}
-            {console.log(nextEndpoint)}
-            {console.log(resultEndpoints)}
         </div>
     )
 }
