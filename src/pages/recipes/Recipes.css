@@ -19,7 +19,7 @@
 .browse_buttons {
     display: flex;
     justify-content: space-around;
-    /*gap: 25rem;*/
+    align-items: center;
 }
 
 .recipe_browse_button {

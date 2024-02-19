@@ -1,12 +1,15 @@
 import "./Recipes.css";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import RecipeCard from "../../components/recipeCard/RecipeCard.jsx";
+import Button from "../../components/button/Button.jsx";
+import {AuthContext} from "../../context/AuthContext.jsx";
 
 
 function Recipes() {
     const {id} = useParams();
+    const contextContent = useContext(AuthContext);
     // dit moet nog naar een context
     const app_id = "c5ff97ab";
     const app_key = "53223ed5c12039e77b08fc5f130446ce";
@@ -34,6 +37,7 @@ function Recipes() {
                     setNextEndpoint(`${result.data._links.next.href}`)
                 }
                 setError("");
+                console.log(result.data);
             } catch (e) {
                 console.error(e);
                 setError("Oops, failed to catch any data. Please try again.");
@@ -50,6 +54,8 @@ function Recipes() {
         }
     }, [resultEndpoints]);
 
+
+
     function handleBackClick(e) {
         e.preventDefault()
         console.log("Back");
@@ -61,6 +67,15 @@ function Recipes() {
         e.preventDefault()
         console.log("Next");
         setResultEndpoints([...resultEndpoints, nextEndpoint]);
+    }
+
+    function handleFavorite(favorite, favoriteId) {
+        if (favorite === false) {
+            console.log(favorite);
+        } else {
+            console.log(favoriteId);
+        }
+
     }
 
     return (
@@ -84,6 +99,22 @@ function Recipes() {
                             disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
                     >Previous page
                     </button>
+                    {contextContent.isAuth
+                        ?  <Button
+                            text={"Click here!"}
+                            label={<h3>Want to manage your favorites?</h3>}
+                            destination={"/account/favorites"}
+                            type={"button"}
+                            className={"small_button"}
+                        />
+                        :  <Button
+                            text={"Click here!"}
+                            label={<h3>Want to save ideas as a favorite?</h3>}
+                            destination={"/login"}
+                            type={"button"}
+                            className={"small_button"}
+                        />
+                    }
                     <button type={"button"}
                             className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
                             onClick={handleNextClick}
@@ -97,6 +128,7 @@ function Recipes() {
                         {recipes.hits.map((hit) => {
                             return <RecipeCard
                                 key={hit._links.self.href}
+                                favoriteId={hit._links.self.href}
                                 title={hit.recipe.label}
                                 image={hit.recipe.image}
                                 link={hit.recipe.url}
@@ -108,6 +140,7 @@ function Recipes() {
                                 dishType={hit.recipe.dishType}
                                 diets={hit.recipe.dietLabels}
                                 healthStuff={hit.recipe.healthLabels}
+                                handleFavorite={handleFavorite}
                             />
                         })}
                     </ul>

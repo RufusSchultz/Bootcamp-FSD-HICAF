@@ -1,19 +1,48 @@
 import "./RecipeCard.css";
 import arrayOrString from "../../helpers/arrayOrString.jsx";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {ColorContext} from "../../context/ColorContext.jsx";
+import noFavorite from "../../assets/open_star.png"
+import yesFavorite from "../../assets/filled_star.png"
+import noFavoriteAlternative from "../../assets/open_star_bright.png"
+import {AuthContext} from "../../context/AuthContext.jsx";
 
 
-function RecipeCard({title, image, link, ingredients, servings, source, cuisineType, mealType, dishType, diets, healthStuff }) {
+function RecipeCard({title, image, link, ingredients, servings, source, cuisineType, mealType, dishType, diets, healthStuff, handleFavorite, favoriteId }) {
 
+    const contextContent = useContext(AuthContext);
     const theme = useContext(ColorContext);
     const cardClass = `recipe_card_outer ${theme.continentColorClass}`
+    const [favorite, toggleFavorite] = useState(false);
+
+    function handleClick(){
+        toggleFavorite(!favorite);
+        handleFavorite(favorite, favoriteId)
+
+    }
 
     return(
         <li>
             <div className={cardClass}>
                 <div className={"recipe_header"}>
                     <h2>{title}</h2>
+                    {contextContent.isAuth &&
+                    <button onClick={handleClick} className={"favorite_toggle_button"}>
+                        {theme.continentColorClass !== "no_continent" && <span>
+                           {favorite
+                               ? <img src={yesFavorite} alt="remove from favorites"/>
+                               : <img src={noFavorite} alt="add to favorites"/>
+                           }
+                        </span>}
+                        {theme.continentColorClass === "no_continent" && <span>
+                            {favorite
+                                ? <img src={yesFavorite} alt="remove from favorites"/>
+                                : <img src={noFavoriteAlternative} alt="add to favorites"/>
+                            }
+                        </span>}
+
+                    </button>
+                    }
                 </div>
                 <div className={"recipe_card_inner"}>
                     <div className={"recipe_card_left"}>

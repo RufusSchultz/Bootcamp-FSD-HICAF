@@ -55,10 +55,10 @@ function BackendStart() {
         try {
             const response = await axios.post(endpoint,
                 {
-                    username: "lokaas2",
-                    email: "lok2@aas.com",
+                    username: "lokaas3",
+                    email: "lok3@aas.com",
                     password: "Vis12345",
-                    info: "fav:test fav:test filt:appel filt:peer",
+                    info: "appel, peer, kiwi",
                     authorities: [
                         {authority: "USER"},
                     ],
@@ -85,8 +85,8 @@ function BackendStart() {
     }, [cleanupTrigger]);
 
     function handleClick() {
-        void createAdmin();
-        // void createTestUser();
+        // void createAdmin();
+        void createTestUser();
 
     }
 
