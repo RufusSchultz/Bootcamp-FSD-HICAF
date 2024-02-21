@@ -45,7 +45,6 @@ function BackendStart() {
                 setAdminStatus("Admin account is already successfully registered.")
             }
         }
-        toggleCleanupTrigger(!cleanupTrigger);
     }
 
     async function createTestUser() {
@@ -75,7 +74,8 @@ function BackendStart() {
         } catch (e) {
             console.error(e);
         }
-        toggleCleanupTrigger(!cleanupTrigger);
+
+
     }
 
     useEffect(() => {
@@ -88,6 +88,7 @@ function BackendStart() {
         // void createAdmin();
         void createTestUser();
 
+        toggleCleanupTrigger(!cleanupTrigger);
     }
 
     return (

@@ -5,16 +5,18 @@ import {useParams} from "react-router-dom";
 import RecipeCard from "../../components/recipeCard/RecipeCard.jsx";
 import Button from "../../components/button/Button.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import {UserContext} from "../../context/UserContext.jsx";
 
 
 function Recipes() {
     const {id} = useParams();
     const contextContent = useContext(AuthContext);
+    const userContext = useContext(UserContext);
+    const abortController = new AbortController();
     // dit moet nog naar een context
     const app_id = "c5ff97ab";
     const app_key = "53223ed5c12039e77b08fc5f130446ce";
     const initialEndpoint = `https://api.edamam.com/api/recipes/v2?type=public&q=${id}&app_id=${app_id}&app_key=${app_key}&health=pescatarian&imageSize=REGULAR&dishType=Biscuits%20and%20cookies&dishType=Bread&dishType=Condiments%20and%20sauces&dishType=Desserts&dishType=Main%20course&dishType=Pancake&dishType=Preps&dishType=Preserve&dishType=Salad&dishType=Sandwiches&dishType=Side%20dish&dishType=Soup&dishType=Starter&dishType=Sweets&field=uri&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=healthLabels&field=ingredientLines&field=cuisineType&field=mealType&field=dishType&field=externalId`;
-
 
     const [recipes, setRecipes] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -22,11 +24,17 @@ function Recipes() {
     const [nextEndpoint, setNextEndpoint] = useState("")
     const [resultEndpoints, setResultEndpoints] = useState([initialEndpoint]);
 
+    const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username")
+    const backendEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
+    const userData = userContext.data;
+
+//-----------------Search results and navigation-----------------//
 
     useEffect(() => {
-        const abortController = new AbortController();
-        const endpoint = resultEndpoints[resultEndpoints.length - 1];
 
+        const endpoint = resultEndpoints[resultEndpoints.length - 1];
 
         async function fetchRecipes() {
             try {
@@ -37,7 +45,6 @@ function Recipes() {
                     setNextEndpoint(`${result.data._links.next.href}`)
                 }
                 setError("");
-                console.log(result.data);
             } catch (e) {
                 console.error(e);
                 setError("Oops, failed to catch any data. Please try again.");
@@ -54,8 +61,6 @@ function Recipes() {
         }
     }, [resultEndpoints]);
 
-
-
     function handleBackClick(e) {
         e.preventDefault()
         console.log("Back");
@@ -68,15 +73,59 @@ function Recipes() {
         console.log("Next");
         setResultEndpoints([...resultEndpoints, nextEndpoint]);
     }
+// Recipes.jsx
+//-----------------Favorites-----------------//
+
+    // const userContext = useContext(UserContext);
+    // const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
+    // const token = localStorage.getItem("token");
+    // const username = localStorage.getItem("username")
+    // const backendEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
+    // const userData = userContext.data;
+
+    async function putNewFavoriteList(){
+        const newInfo = JSON.stringify(userData);
+        console.log(userData);
+        console.log(newInfo);
+        console.log(`String length: ${newInfo.length}`);
+
+        try {
+            const response = await axios.put(backendEndpoint, {info: newInfo}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                signal: abortController.signal,
+            });
+            console.log(response);
+            void userContext.getUserData();
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     function handleFavorite(favorite, favoriteId) {
         if (favorite === false) {
-            console.log(favorite);
+            const count = userData.favorites.push(`${favoriteId}`);
+            console.log(userData.favorites);
+            void putNewFavoriteList();
+            console.log("Added to favorites");
         } else {
-            console.log(favoriteId);
+            const index = userData.favorites.indexOf(favoriteId);
+            const list = userData.favorites.splice(index, 1);
+            void putNewFavoriteList();
+            console.log("Removed from favorites");
         }
-
+        toggleCleanupTrigger(!cleanupTrigger);
     }
+
+    useEffect(() => {
+        return function cleanup() {
+            abortController.abort();
+        }
+    }, [cleanupTrigger]);
+
+//-----------------UI-----------------//
 
     return (
         <div>
@@ -141,6 +190,7 @@ function Recipes() {
                                 diets={hit.recipe.dietLabels}
                                 healthStuff={hit.recipe.healthLabels}
                                 handleFavorite={handleFavorite}
+                                favoritesList={userData.favorites}
                             />
                         })}
                     </ul>

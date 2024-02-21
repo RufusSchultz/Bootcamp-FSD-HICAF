@@ -5,6 +5,11 @@
     gap: 1rem;
 }
 
+.logout_button_wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+}
 
 .settings_inner_container {
     display: flex;

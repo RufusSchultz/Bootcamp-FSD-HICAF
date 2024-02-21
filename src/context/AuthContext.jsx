@@ -43,12 +43,13 @@ function AuthContextProvider({ children }) {
                     "Content-Type": "application/json",
                 }
             })
+            console.log(response)
             setAuth({
                 isAuth: true,
                 user: {
                     username: response.data.username,
                     email: response.data.email,
-                    favorites: response.data.info,
+                    data: response.data.info,
                     authorities: response.data.authorities,
                 },
                 status: "done",
@@ -60,6 +61,33 @@ function AuthContextProvider({ children }) {
             logOut();
         }
     }
+
+    // async function getUserData() {
+    //     const token = localStorage.getItem("token");
+    //     const username = localStorage.getItem("username");
+    //     const endpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}/info`;
+    //
+    //     try {
+    //         const response = await axios.get(endpoint, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //                 "Content-Type": "application/json",
+    //             }
+    //         })
+    //         console.log(response)
+    //         setAuth({
+    //             ...auth,
+    //             user: {
+    //                 data: response.data,
+    //             },
+    //         });
+    //         console.log(response);
+    //         console.log("User is refreshed!");
+    //     } catch (e) {
+    //         console.error(e);
+    //
+    //     }
+    // }
 
     function logOut() {
 
@@ -79,6 +107,7 @@ function AuthContextProvider({ children }) {
         user: auth.user,
         logInHandler: logIn,
         logOutHandler: logOut,
+        // updateUserDataHandler: getUserData,
     }
 
     return (
