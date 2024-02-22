@@ -43,7 +43,6 @@ function AuthContextProvider({ children }) {
                     "Content-Type": "application/json",
                 }
             })
-            console.log(response)
             setAuth({
                 isAuth: true,
                 user: {

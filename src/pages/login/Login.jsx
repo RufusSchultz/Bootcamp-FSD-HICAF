@@ -20,8 +20,8 @@ function Login() {
         signal: abortController.signal
     });
     const [repeatPassword, setRepeatPassword] = useState({password: "",});
-    // const emptyInfo = JSON.stringify({favorites:[],filters:[]});
-    const emptyInfo = JSON.stringify({favorites:[]});
+    const emptyInfo = JSON.stringify({favorites:[],filters:[]});
+    // const emptyInfo = JSON.stringify({favorites:[]});
     const [errorMessage, setErrorMessage] = useState(null);
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
 
@@ -89,7 +89,6 @@ function Login() {
                 },
                 signal: abortController.signal,
             });
-            console.log(response);
             if (response.data.username === formState.username && response.status === 200) {
                 void userLogin();
             }

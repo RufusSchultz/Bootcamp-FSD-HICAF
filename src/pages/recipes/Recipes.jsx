@@ -73,21 +73,11 @@ function Recipes() {
         console.log("Next");
         setResultEndpoints([...resultEndpoints, nextEndpoint]);
     }
-// Recipes.jsx
-//-----------------Favorites-----------------//
 
-    // const userContext = useContext(UserContext);
-    // const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
-    // const token = localStorage.getItem("token");
-    // const username = localStorage.getItem("username")
-    // const backendEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
-    // const userData = userContext.data;
+//-----------------Favorites-----------------//
 
     async function putNewFavoriteList(){
         const newInfo = JSON.stringify(userData);
-        console.log(userData);
-        console.log(newInfo);
-        console.log(`String length: ${newInfo.length}`);
 
         try {
             const response = await axios.put(backendEndpoint, {info: newInfo}, {

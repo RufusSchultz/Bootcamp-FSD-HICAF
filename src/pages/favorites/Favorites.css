@@ -14,10 +14,24 @@
 .favorites_mini_header {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     gap: 2rem;
 }
 
 .favorites_mini_header img {
    height: 5rem;
+}
+
+.empty_favorites_section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+    gap: 1rem;
+    border: solid var(--color-darkgreen);
+    border-radius: 20px;
 }

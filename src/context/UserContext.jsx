@@ -24,9 +24,7 @@ function UserContextProvider ({children}) {
                         "Content-Type": "application/json",
                     }
                 })
-                console.log(response.data)
                 setUserData(response.data);
-                console.log(response);
                 console.log("User is refreshed!");
             } catch (e) {
                 console.error(e);
