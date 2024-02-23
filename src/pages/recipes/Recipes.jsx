@@ -12,11 +12,13 @@ function Recipes() {
     const {id} = useParams();
     const contextContent = useContext(AuthContext);
     const userContext = useContext(UserContext);
+    const userData = userContext.data;
     const abortController = new AbortController();
-    // dit moet nog naar een context
+
     const app_id = "c5ff97ab";
     const app_key = "53223ed5c12039e77b08fc5f130446ce";
-    const initialEndpoint = `https://api.edamam.com/api/recipes/v2?type=public&q=${id}&app_id=${app_id}&app_key=${app_key}&imageSize=REGULAR&dishType=Biscuits%20and%20cookies&dishType=Bread&dishType=Condiments%20and%20sauces&dishType=Desserts&dishType=Main%20course&dishType=Pancake&dishType=Preps&dishType=Preserve&dishType=Salad&dishType=Sandwiches&dishType=Side%20dish&dishType=Soup&dishType=Starter&dishType=Sweets&field=uri&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=healthLabels&field=ingredientLines&field=cuisineType&field=mealType&field=dishType&field=externalId`;
+    const originalEndpoint = `https://api.edamam.com/api/recipes/v2?type=public&q=${id}&app_id=${app_id}&app_key=${app_key}&imageSize=REGULAR&dishType=Biscuits%20and%20cookies&dishType=Bread&dishType=Condiments%20and%20sauces&dishType=Desserts&dishType=Main%20course&dishType=Pancake&dishType=Preps&dishType=Preserve&dishType=Salad&dishType=Sandwiches&dishType=Side%20dish&dishType=Soup&dishType=Starter&dishType=Sweets&field=uri&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=healthLabels&field=ingredientLines&field=cuisineType&field=mealType&field=dishType&field=externalId`;
+    const initialEndpoint = setEndpoint(originalEndpoint);
 
     const [recipes, setRecipes] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -28,9 +30,19 @@ function Recipes() {
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username")
     const backendEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
-    const userData = userContext.data;
+
 
 //-----------------Search results and navigation-----------------//
+
+    function setEndpoint(endpoint){
+        if (contextContent.isAuth) {
+            const filterString = userData.filters.join("");
+            console.log(filterString);
+            return endpoint + filterString;
+        } else {
+            return endpoint;
+        }
+    }
 
     useEffect(() => {
 
@@ -129,7 +141,7 @@ function Recipes() {
 
             {recipes && <div className={"recipe_list_outer"}>
 
-                <h2>Here are {recipes.count} ideas what to do with your fish</h2>
+                <h2>Here {recipes.count > 1 ? "are" : "is"} {recipes.count} {recipes.count > 1 ? "ideas" : "idea"} what to do with your fish</h2>
 
                 <div className={"browse_buttons"}>
                     <button type={"button"}
@@ -141,14 +153,14 @@ function Recipes() {
                     {contextContent.isAuth
                         ?  <Button
                             text={"Click here!"}
-                            label={<h3>Want to manage your favorites?</h3>}
-                            destination={"/account/favorites"}
+                            label={<h3>Want to manage your favorites or change your filters?</h3>}
+                            destination={"/account"}
                             type={"button"}
                             className={"small_button"}
                         />
                         :  <Button
                             text={"Click here!"}
-                            label={<h3>Want to save ideas as a favorite?</h3>}
+                            label={<h3>Want to save ideas as a favorite or use filters?</h3>}
                             destination={"/login"}
                             type={"button"}
                             className={"small_button"}
