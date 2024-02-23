@@ -20,6 +20,8 @@ function Login() {
         signal: abortController.signal
     });
     const [repeatPassword, setRepeatPassword] = useState({password: "",});
+    const emptyInfo = JSON.stringify({favorites:[],filters:[]});
+    // const emptyInfo = JSON.stringify({favorites:[]});
     const [errorMessage, setErrorMessage] = useState(null);
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
 
@@ -65,6 +67,7 @@ function Login() {
 
     // ----------Create account functions-------------
 
+
     async function createAccount() {
 
         const endpoint = "https://api.datavortex.nl/novibackendhicaf/users";
@@ -75,6 +78,7 @@ function Login() {
                 username: formState.username,
                 email: formState.email,
                 password: formState.password,
+                info: emptyInfo,
                 authorities: [
                     {authority: "USER"}
                 ],
@@ -85,7 +89,6 @@ function Login() {
                 },
                 signal: abortController.signal,
             });
-            console.log(response);
             if (response.data.username === formState.username && response.status === 200) {
                 void userLogin();
             }

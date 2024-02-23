@@ -1,17 +1,24 @@
 import "./Recipes.css";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {useParams} from "react-router-dom";
 import RecipeCard from "../../components/recipeCard/RecipeCard.jsx";
+import Button from "../../components/button/Button.jsx";
+import {AuthContext} from "../../context/AuthContext.jsx";
+import {UserContext} from "../../context/UserContext.jsx";
 
 
 function Recipes() {
     const {id} = useParams();
-    // dit moet nog naar een context
+    const contextContent = useContext(AuthContext);
+    const userContext = useContext(UserContext);
+    const userData = userContext.data;
+    const abortController = new AbortController();
+
     const app_id = "c5ff97ab";
     const app_key = "53223ed5c12039e77b08fc5f130446ce";
-    const initialEndpoint = `https://api.edamam.com/api/recipes/v2?type=public&q=${id}&app_id=${app_id}&app_key=${app_key}&health=pescatarian&imageSize=REGULAR&dishType=Biscuits%20and%20cookies&dishType=Bread&dishType=Condiments%20and%20sauces&dishType=Desserts&dishType=Main%20course&dishType=Pancake&dishType=Preps&dishType=Preserve&dishType=Salad&dishType=Sandwiches&dishType=Side%20dish&dishType=Soup&dishType=Starter&dishType=Sweets&field=uri&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=healthLabels&field=ingredientLines&field=cuisineType&field=mealType&field=dishType&field=externalId`;
-
+    const originalEndpoint = `https://api.edamam.com/api/recipes/v2?type=public&q=${id}&app_id=${app_id}&app_key=${app_key}&imageSize=REGULAR&dishType=Biscuits%20and%20cookies&dishType=Bread&dishType=Condiments%20and%20sauces&dishType=Desserts&dishType=Main%20course&dishType=Pancake&dishType=Preps&dishType=Preserve&dishType=Salad&dishType=Sandwiches&dishType=Side%20dish&dishType=Soup&dishType=Starter&dishType=Sweets&field=uri&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=healthLabels&field=ingredientLines&field=cuisineType&field=mealType&field=dishType&field=externalId`;
+    const initialEndpoint = setEndpoint(originalEndpoint);
 
     const [recipes, setRecipes] = useState();
     const [isLoading, setIsLoading] = useState(false);
@@ -19,11 +26,27 @@ function Recipes() {
     const [nextEndpoint, setNextEndpoint] = useState("")
     const [resultEndpoints, setResultEndpoints] = useState([initialEndpoint]);
 
+    const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username")
+    const backendEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
+
+
+//-----------------Search results and navigation-----------------//
+
+    function setEndpoint(endpoint){
+        if (contextContent.isAuth) {
+            const filterString = userData.filters.join("");
+            console.log(filterString);
+            return endpoint + filterString;
+        } else {
+            return endpoint;
+        }
+    }
 
     useEffect(() => {
-        const abortController = new AbortController();
-        const endpoint = resultEndpoints[resultEndpoints.length - 1];
 
+        const endpoint = resultEndpoints[resultEndpoints.length - 1];
 
         async function fetchRecipes() {
             try {
@@ -63,6 +86,49 @@ function Recipes() {
         setResultEndpoints([...resultEndpoints, nextEndpoint]);
     }
 
+//-----------------Favorites-----------------//
+
+    async function putNewFavoriteList(){
+        const newInfo = JSON.stringify(userData);
+
+        try {
+            const response = await axios.put(backendEndpoint, {info: newInfo}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                signal: abortController.signal,
+            });
+            console.log(response);
+            void userContext.getUserData();
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    function handleFavorite(favorite, favoriteId) {
+        if (favorite === false) {
+            const count = userData.favorites.push(`${favoriteId}`);
+            console.log(userData.favorites);
+            void putNewFavoriteList();
+            console.log("Added to favorites");
+        } else {
+            const index = userData.favorites.indexOf(favoriteId);
+            const list = userData.favorites.splice(index, 1);
+            void putNewFavoriteList();
+            console.log("Removed from favorites");
+        }
+        toggleCleanupTrigger(!cleanupTrigger);
+    }
+
+    useEffect(() => {
+        return function cleanup() {
+            abortController.abort();
+        }
+    }, [cleanupTrigger]);
+
+//-----------------UI-----------------//
+
     return (
         <div>
             {isLoading && <div className={"loading_status_message"}>
@@ -75,7 +141,7 @@ function Recipes() {
 
             {recipes && <div className={"recipe_list_outer"}>
 
-                <h2>Here are {recipes.count} ideas what to do with your fish</h2>
+                <h2>Here {recipes.count > 1 ? "are" : "is"} {recipes.count} {recipes.count > 1 ? "ideas" : "idea"} what to do with your fish</h2>
 
                 <div className={"browse_buttons"}>
                     <button type={"button"}
@@ -84,6 +150,22 @@ function Recipes() {
                             disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
                     >Previous page
                     </button>
+                    {contextContent.isAuth
+                        ?  <Button
+                            text={"Click here!"}
+                            label={<h3>Want to manage your favorites or change your filters?</h3>}
+                            destination={"/account"}
+                            type={"button"}
+                            className={"small_button"}
+                        />
+                        :  <Button
+                            text={"Click here!"}
+                            label={<h3>Want to save ideas as a favorite or use filters?</h3>}
+                            destination={"/login"}
+                            type={"button"}
+                            className={"small_button"}
+                        />
+                    }
                     <button type={"button"}
                             className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
                             onClick={handleNextClick}
@@ -97,6 +179,7 @@ function Recipes() {
                         {recipes.hits.map((hit) => {
                             return <RecipeCard
                                 key={hit._links.self.href}
+                                favoriteId={hit._links.self.href}
                                 title={hit.recipe.label}
                                 image={hit.recipe.image}
                                 link={hit.recipe.url}
@@ -108,6 +191,8 @@ function Recipes() {
                                 dishType={hit.recipe.dishType}
                                 diets={hit.recipe.dietLabels}
                                 healthStuff={hit.recipe.healthLabels}
+                                handleFavorite={handleFavorite}
+                                favoritesList={userData.favorites}
                             />
                         })}
                     </ul>
@@ -128,9 +213,6 @@ function Recipes() {
                     </button>
                 </div>
             </div>}
-            {console.log(recipes)}
-            {console.log(nextEndpoint)}
-            {console.log(resultEndpoints)}
         </div>
     )
 }

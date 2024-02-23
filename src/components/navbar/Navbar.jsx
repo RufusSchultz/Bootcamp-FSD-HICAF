@@ -20,7 +20,7 @@ function Navbar() {
                                  to="/contact">Contact</NavLink></li>
                     {contentContext.isAuth
                         ? <li><NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
-                                       to="/account">Account</NavLink></li>
+                                       to="/account">Account / Log out</NavLink></li>
                         : <li><NavLink className={({isActive}) => isActive ? 'active-menu-link' : 'default-menu-link'}
                                        to="/login">Log in / New User</NavLink></li>
                     }

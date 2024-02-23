@@ -1,7 +1,7 @@
 import "./ContinentButton.css";
 function ContinentButton({ continent, setChosenContinent }) {
 
-    function tempFunction() {
+    function assignContinent() {
         {setChosenContinent(`${continent}`)}
     }
 
@@ -11,7 +11,7 @@ function ContinentButton({ continent, setChosenContinent }) {
                     className={continent === "Earth" ? "world_button" : "continent_button"}
             ><img src={`src/assets/continents/${continent}.png`}
                   alt={`${continent}`}
-                  onClick={tempFunction}
+                  onClick={assignContinent}
             /></button>
         </div>
     )

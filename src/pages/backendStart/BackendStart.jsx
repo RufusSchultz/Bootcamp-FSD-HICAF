@@ -3,10 +3,15 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 
+///////////////////////////////////////////////////////////////////////////////////////
+// This page would not exist in an actual release. It's purely for testing purposes. //
+///////////////////////////////////////////////////////////////////////////////////////
+
 function BackendStart() {
     const abortController = new AbortController();
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
     const [adminStatus, setAdminStatus] = useState(null);
+
 
     async function createAdmin() {
 
@@ -15,12 +20,13 @@ function BackendStart() {
 
         try {
             const response = await axios.post(endpoint, {
-                    username: "HICAFadmin",
-                    email: "admin@hicaf.com",
+                    username: "Admin",
+                    email: "adminnow@hicaf.com",
                     password: "Vis12345",
-                    info: "Adminnow",
+                    info: "",
                     authorities: [
-                        {authority: "ADMIN"}
+                        {authority: "ADMIN"},
+                        {authority: "USER"},
                     ],
                 },
                 {
@@ -41,6 +47,37 @@ function BackendStart() {
         }
     }
 
+    async function createTestUser() {
+        const endpoint = "https://api.datavortex.nl/novibackendhicaf/users";
+        const apiKey = "novibackendhicaf:HxI8znYrdSresrrSUlRm";
+
+        try {
+            const response = await axios.post(endpoint,
+                {
+                    username: "lokaas3",
+                    email: "lok3@aas.com",
+                    password: "Vis12345",
+                    info: "appel, peer, kiwi",
+                    authorities: [
+                        {authority: "USER"},
+                    ],
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Api-Key': apiKey,
+                    },
+                    signal: abortController.signal,
+                });
+            console.log(response);
+
+        } catch (e) {
+            console.error(e);
+        }
+
+
+    }
+
     useEffect(() => {
         return function cleanup() {
             abortController.abort();
@@ -48,7 +85,9 @@ function BackendStart() {
     }, [cleanupTrigger]);
 
     function handleClick() {
-        void createAdmin();
+        // void createAdmin();
+        void createTestUser();
+
         toggleCleanupTrigger(!cleanupTrigger);
     }
 
@@ -64,7 +103,7 @@ function BackendStart() {
                     onClick={handleClick}
                     disabled={adminStatus}
                 />
-                <h3>Username: HICAFadmin</h3>
+                <h3>Username: Admin</h3>
                 <h3>Password: Vis12345</h3>
 
                 {adminStatus && <div>

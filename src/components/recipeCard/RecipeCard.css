@@ -14,9 +14,22 @@
     font-size: 1rem;
     height: 4rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 1rem;
     justify-content: center;
 
+}
+
+.favorite_toggle_button {
+    color: transparent;
+    background-color: transparent;
+    border: none;
+    height: 2rem;
+    width: 2rem;
+}
+
+.favorite_toggle_button img {
+    height: 100%;
 }
 
 .recipe_card_inner {
