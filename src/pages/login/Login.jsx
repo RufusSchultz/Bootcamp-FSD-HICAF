@@ -21,7 +21,6 @@ function Login() {
     });
     const [repeatPassword, setRepeatPassword] = useState({password: "",});
     const emptyInfo = JSON.stringify({favorites:[],filters:[]});
-    // const emptyInfo = JSON.stringify({favorites:[]});
     const [errorMessage, setErrorMessage] = useState(null);
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
 

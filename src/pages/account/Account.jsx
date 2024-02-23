@@ -12,6 +12,7 @@ function Account() {
     const contextContent = useContext(AuthContext);
     const userContext = useContext(UserContext);
     const navigate = useNavigate();
+    const isAdmin = (e) => e.authority === "ADMIN"
 
     function handleLogOutClick() {
         contextContent.logOutHandler();
@@ -48,6 +49,13 @@ function Account() {
                             />
                         </div>
                     </div>
+                    {contextContent.user.authorities.some(isAdmin) && <div>
+                        <Button
+                            className={"big_button"}
+                            text={"Admin portal"}
+                            destination={"/admin"}
+                        />
+                    </div>}
                     <Button
                         label={"Want to log out?"}
                         className={"small_button"}
