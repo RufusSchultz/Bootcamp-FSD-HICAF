@@ -178,6 +178,7 @@ function Recipes() {
                                 className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
                                 onClick={handleBackClick}
                                 disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
+                                id={"top_back_button"}
                         >Previous page
                         </button>
                     }
@@ -189,6 +190,7 @@ function Recipes() {
                             type={"button"}
                             className={"small_button"}
                             onClick={getRandomRecipe}
+                            id={"random_result_button"}
                         />
                     </div>}
                     {contextContent.isAuth
@@ -198,6 +200,7 @@ function Recipes() {
                             destination={"/account"}
                             type={"button"}
                             className={"small_button"}
+                            id={"account_button"}
                         />
                         :  <Button
                             text={"Click here!"}
@@ -205,6 +208,7 @@ function Recipes() {
                             destination={"/login"}
                             type={"button"}
                             className={"small_button"}
+                            id={"account_button"}
                         />
                     }
                     {!isRandomized &&
@@ -212,6 +216,7 @@ function Recipes() {
                                 className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
                                 onClick={handleNextClick}
                                 disabled={!recipes._links.next}
+                                id={"top_next_button"}
                         >Next page
                         </button>
                     }

@@ -108,7 +108,7 @@
     align-items: center;
 }
 
-/*---------------------Searchfilters---------------------*/
+/*---------------------Search filters---------------------*/
 
 .search_filters_container {
     display: flex;
@@ -136,4 +136,36 @@
     justify-content: end;
     gap: 3rem;
     align-items: center;
+}
+
+/*---------------------Media queries---------------------*/
+
+@media screen and (max-width: 575px) {
+
+    .settings_outer_container {
+        gap: 0;
+    }
+
+    .settings_inner_container {
+        flex-direction: column;
+    }
+
+    .settings_sidebar {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .settings_sidebar img {
+        height: 100px;
+        width: 100px;
+    }
+
+    .search_filters_container {
+        gap: 1rem;
+    }
+
+    .field_of_filters ul li {
+        margin-top: 0.5rem;
+    }
+
 }

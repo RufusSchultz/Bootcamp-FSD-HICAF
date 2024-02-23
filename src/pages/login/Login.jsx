@@ -130,6 +130,7 @@ function Login() {
 
     function switchLoginCreateAccount() {
         toggleCreateAccountPage(!createAccountPage);
+        setErrorMessage("");
     }
 
     return (

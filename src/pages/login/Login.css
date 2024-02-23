@@ -38,3 +38,17 @@
     width: 17rem;
     text-align: center;
 }
+
+@media screen and (max-width: 575px) {
+
+    .login_page_content img {
+        width: 160px;
+    }
+
+    .login_page_content {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+}

@@ -50,3 +50,29 @@
     cursor: default;
     border-color: var(--color-offblack);
 }
+
+@media screen and (max-width: 575px) {
+
+    .browse_buttons {
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        margin-top: 1rem;
+    }
+
+    #account_button {
+        order: 1;
+    }
+
+    #random_result_button {
+        order: 2;
+    }
+
+    #top_back_button {
+        order: 3;
+    }
+
+    #top_next_button {
+        order: 4;
+    }
+
+}

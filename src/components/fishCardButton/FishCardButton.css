@@ -27,3 +27,19 @@
     font-size: 1.5rem;
 }
 
+@media screen and (max-width: 575px) {
+
+    .card_button {
+        height: 160px;
+        width: 160px;
+    }
+
+    .card_button_image_wrapper {
+        height: 97px;
+    }
+
+    .card_button_image {
+        width: 152px
+    }
+
+}
