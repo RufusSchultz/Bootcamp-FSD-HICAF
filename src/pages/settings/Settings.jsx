@@ -188,7 +188,7 @@ function Settings() {
             setFiltersMessage("Filters successfully updated!");
         } catch (e) {
             console.error(e);
-            setFiltersMessage("Something went wrong. Try again later.")
+            setFiltersMessage("Something went wrong. Please try again.")
         }
     }
 
