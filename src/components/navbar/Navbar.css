@@ -4,12 +4,32 @@
     justify-content: space-between;
     align-items: center;
     height: var(--height-navbar);
+
 }
 
 .navigation_list {
     list-style: none;
     display: flex;
-    gap: 2rem;
+    gap: 1.7rem;
     font-size: 1.5rem;
     margin-right: 2rem;
+    white-space: nowrap;
+}
+
+@media screen and (max-width: 575px) {
+
+    .navbar {
+        height: 50px;
+    }
+
+    .navbar img {
+        height: 75%;
+    }
+
+    .navigation_list {
+        font-size: 1rem;
+        gap: 0.7rem;
+        margin-right: 0.5rem;
+    }
+
 }

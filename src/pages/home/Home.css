@@ -23,3 +23,15 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
+@media screen and (max-width: 575px) {
+
+    .homepage {
+        margin: 0.2rem;
+    }
+
+    .homepage_startbuttons {
+        gap: 1rem;
+    }
+
+}

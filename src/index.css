@@ -25,9 +25,7 @@
 body {
     color: var(--color-brightgreen);
     background-color: var(--color-offblack);
-    /*font-family: "Spicy Rice", serif;*/
     font-family: "Oswald", sans-serif;
-    /*font-family: "Raleway", sans-serif;*/
     font-weight: normal;
 }
 
@@ -87,4 +85,19 @@ button:hover {
 cite {
     font-style: normal;
     font-family: "Raleway", sans-serif;
+}
+
+@media screen and (max-width: 575px) {
+     body {
+        font-size: 0.8rem;
+    }
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    .active-menu-link {
+        border-bottom: 1px solid var(--color-brightgreen);
+        color: var(--color-brightgreen)
+    }
 }
