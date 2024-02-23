@@ -25,6 +25,8 @@ function Recipes() {
     const [error, setError] = useState("");
     const [nextEndpoint, setNextEndpoint] = useState("")
     const [resultEndpoints, setResultEndpoints] = useState([initialEndpoint]);
+    const [isRandomized, toggleIsRandomized] = useState(false);
+    const [foundResults, toggleFoundResults] = useState(false);
 
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
     const token = localStorage.getItem("token");
@@ -52,9 +54,13 @@ function Recipes() {
             try {
                 setIsLoading(true);
                 const result = await axios.get(endpoint, {signal: abortController.signal,});
+                console.log(result);
                 setRecipes(result.data);
                 if (result.data._links.next) {
                     setNextEndpoint(`${result.data._links.next.href}`)
+                }
+                if (result.data.count > 0){
+                    toggleFoundResults(true);
                 }
                 setError("");
             } catch (e) {
@@ -62,6 +68,7 @@ function Recipes() {
                 setError("Oops, failed to catch any data. Please try again.");
             } finally {
                 setIsLoading(false);
+
             }
         }
 
@@ -84,6 +91,28 @@ function Recipes() {
         e.preventDefault()
         console.log("Next");
         setResultEndpoints([...resultEndpoints, nextEndpoint]);
+    }
+
+    async function fetchRandomRecipe() {
+        const randomEndpoint = initialEndpoint + "&random=true";
+
+        try {
+            setIsLoading(true);
+            const result = await axios.get(randomEndpoint, {signal: abortController.signal,});
+            setRecipes(result.data);
+            setError("");
+        } catch (e) {
+            console.error(e);
+            setError("Oops, failed to catch any data. Please try again.");
+        } finally {
+            setIsLoading(false);
+            toggleIsRandomized(true);
+        }
+    }
+
+    function getRandomRecipe() {
+        void fetchRandomRecipe();
+        toggleCleanupTrigger(!cleanupTrigger);
     }
 
 //-----------------Favorites-----------------//
@@ -109,7 +138,6 @@ function Recipes() {
     function handleFavorite(favorite, favoriteId) {
         if (favorite === false) {
             const count = userData.favorites.push(`${favoriteId}`);
-            console.log(userData.favorites);
             void putNewFavoriteList();
             console.log("Added to favorites");
         } else {
@@ -139,17 +167,30 @@ function Recipes() {
                 <h1>{error}</h1>
             </div>}
 
-            {recipes && <div className={"recipe_list_outer"}>
+            {foundResults && <div className={"recipe_list_outer"}>
 
-                <h2>Here {recipes.count > 1 ? "are" : "is"} {recipes.count} {recipes.count > 1 ? "ideas" : "idea"} what to do with your fish</h2>
+                {!isRandomized && <h1>Here {recipes.count > 1 ? "are" : "is"} {recipes.count} {recipes.count > 1 ? "ideas" : "idea"} what to do with your fish</h1>}
+                {isRandomized && <h1>Here is your inspiration</h1>}
 
                 <div className={"browse_buttons"}>
-                    <button type={"button"}
-                            className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
-                            onClick={handleBackClick}
-                            disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
-                    >Previous page
-                    </button>
+                    {!isRandomized &&
+                        <button type={"button"}
+                                className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                onClick={handleBackClick}
+                                disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
+                        >Previous page
+                        </button>
+                    }
+
+                    {recipes.count > 1 && !isRandomized && <div>
+                        <Button
+                            text={"Get a random idea!"}
+                            label={<h3>Too much choice?</h3>}
+                            type={"button"}
+                            className={"small_button"}
+                            onClick={getRandomRecipe}
+                        />
+                    </div>}
                     {contextContent.isAuth
                         ?  <Button
                             text={"Click here!"}
@@ -166,16 +207,19 @@ function Recipes() {
                             className={"small_button"}
                         />
                     }
-                    <button type={"button"}
-                            className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
-                            onClick={handleNextClick}
-                            disabled={!recipes._links.next}
-                    >Next page
-                    </button>
+                    {!isRandomized &&
+                        <button type={"button"}
+                                className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                onClick={handleNextClick}
+                                disabled={!recipes._links.next}
+                        >Next page
+                        </button>
+                    }
+
                 </div>
 
                 <div className={"search_result"}>
-                    <ul className={"choice_buttons_and_cards"}>
+                    {!isRandomized && <ul className={"choice_buttons_and_cards"}>
                         {recipes.hits.map((hit) => {
                             return <RecipeCard
                                 key={hit._links.self.href}
@@ -195,24 +239,53 @@ function Recipes() {
                                 favoritesList={userData.favorites}
                             />
                         })}
-                    </ul>
+                    </ul>}
+                    {isRandomized && <div className={"choice_buttons_and_cards"}>
+                        <RecipeCard
+                            key={recipes.hits[0]._links.self.href}
+                            favoriteId={recipes.hits[0]._links.self.href}
+                            title={recipes.hits[0].recipe.label}
+                            image={recipes.hits[0].recipe.image}
+                            link={recipes.hits[0].recipe.url}
+                            ingredients={recipes.hits[0].recipe.ingredientLines}
+                            servings={recipes.hits[0].recipe.yield}
+                            source={recipes.hits[0].recipe.source}
+                            cuisineType={recipes.hits[0].recipe.cuisineType}
+                            mealType={recipes.hits[0].recipe.mealType}
+                            dishType={recipes.hits[0].recipe.dishType}
+                            diets={recipes.hits[0].recipe.dietLabels}
+                            healthStuff={recipes.hits[0].recipe.healthLabels}
+                            handleFavorite={handleFavorite}
+                            favoritesList={userData.favorites}
+                        />
+                    </div>}
                 </div>
-
-                <div className={"browse_buttons"}>
-                    <button type={"button"}
-                            className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
-                            onClick={handleBackClick}
-                            disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
-                    >Previous page
-                    </button>
-                    <button type={"button"}
-                            className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
-                            onClick={handleNextClick}
-                            disabled={!recipes._links.next}
-                    >Next page
-                    </button>
-                </div>
+                {!isRandomized && <div className={"browse_buttons"}>
+                        <button type={"button"}
+                                className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                onClick={handleBackClick}
+                                disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
+                        >Previous page
+                        </button>
+                        <button type={"button"}
+                                className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                onClick={handleNextClick}
+                                disabled={!recipes._links.next}
+                        >Next page
+                        </button>
+                    </div>}
             </div>}
+            {!foundResults && <div className={"low_content_container"}>
+                <h1>Found no ideas at all</h1>
+                <h3>Perhaps the recipes or no longer available.</h3>
+                <Button
+                    text={"Click to try again"}
+                    destination={"/recipeSearch"}
+                    type={"button"}
+                    className={"big_button"}
+                />
+            </div>}
+
         </div>
     )
 }
