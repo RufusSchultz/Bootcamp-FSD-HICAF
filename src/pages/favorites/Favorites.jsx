@@ -90,7 +90,6 @@ function Favorites() {
                     />
                 </div>
                 <div>
-                    {console.log(userContext.data)}
                     {!userData.favorites.length > 0 && <div className={"empty_favorites_section"}>
                         <h2>No favorites yet.</h2>
                         <Button

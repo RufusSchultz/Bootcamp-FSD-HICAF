@@ -15,7 +15,6 @@ function FavoriteRecipe({favoriteURI, favoritesList, handleFavorite}) {
             setLoadingStatus("...loading")
             try{
                 const response = await axios.get(favoriteURI, {signal: abortController.signal});
-                console.log(response);
                 setFavoriteRecipe(response.data);
                 theme.continentColorSetter("");
                 setLoadingStatus("done")
