@@ -1,5 +1,5 @@
 import "./BackendStart.css";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import Button from "../../components/button/Button.jsx";
 
@@ -8,10 +8,8 @@ import Button from "../../components/button/Button.jsx";
 ///////////////////////////////////////////////////////////////////////////////////////
 
 function BackendStart() {
-    const abortController = new AbortController();
-    const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
     const [adminStatus, setAdminStatus] = useState(null);
-
+    const emptyInfo = JSON.stringify({favorites: [], filters: []});
 
     async function createAdmin() {
 
@@ -20,10 +18,10 @@ function BackendStart() {
 
         try {
             const response = await axios.post(endpoint, {
-                    username: "Admin",
-                    email: "adminnow@hicaf.com",
+                    username: "AdminAalDeRuyter",
+                    email: "deruyter@hicaf.com",
                     password: "Vis12345",
-                    info: "",
+                    info: emptyInfo,
                     authorities: [
                         {authority: "ADMIN"},
                         {authority: "USER"},
@@ -34,7 +32,6 @@ function BackendStart() {
                         'Content-Type': 'application/json',
                         'X-Api-Key': apiKey,
                     },
-                    signal: abortController.signal,
                 });
             console.log(response);
             setAdminStatus("Admin account successfully registered.");
@@ -54,10 +51,10 @@ function BackendStart() {
         try {
             const response = await axios.post(endpoint,
                 {
-                    username: "lokaas3",
-                    email: "lok3@aas.com",
+                    username: "lokaas4",
+                    email: "lok4@aas.com",
                     password: "Vis12345",
-                    info: "appel, peer, kiwi",
+                    info: emptyInfo,
                     authorities: [
                         {authority: "USER"},
                     ],
@@ -67,33 +64,21 @@ function BackendStart() {
                         'Content-Type': 'application/json',
                         'X-Api-Key': apiKey,
                     },
-                    signal: abortController.signal,
                 });
             console.log(response);
 
         } catch (e) {
             console.error(e);
         }
-
-
     }
 
-    useEffect(() => {
-        return function cleanup() {
-            abortController.abort();
-        }
-    }, [cleanupTrigger]);
-
     function handleClick() {
-        // void createAdmin();
-        void createTestUser();
-
-        toggleCleanupTrigger(!cleanupTrigger);
+        void createAdmin();
+        // void createTestUser();
     }
 
     return (
         <>
-
             <div className={"low_content_container"}>
                 <h1>Admin account setup</h1>
                 <h2>Click on the button below to create the Admin account.</h2>
@@ -103,18 +88,14 @@ function BackendStart() {
                     onClick={handleClick}
                     disabled={adminStatus}
                 />
-                <h3>Username: Admin</h3>
+                <h3>Username: AdminAalDeRuyter</h3>
                 <h3>Password: Vis12345</h3>
 
                 {adminStatus && <div>
                     <h2 className={"error_text"}>{adminStatus}</h2>
                 </div>}
-
             </div>
-
-
         </>
-
     )
 }
 

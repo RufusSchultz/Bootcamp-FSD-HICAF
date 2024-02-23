@@ -33,8 +33,6 @@ function Settings() {
     const [filters, setFilters] = useState(userData.filters);
     const [filtersMessage, setFiltersMessage] = useState("");
 
-    const isAdmin = (e) => e.authority === "ADMIN";
-
 //----------------------Personal details--------------------------//
 
     //--------------------Edit username-----------------------//
@@ -447,7 +445,7 @@ function Settings() {
                                     </div>
                                 </div>
                                 <div className={"filter_submit_section"}>
-                                    {filtersMessage && <div className={filtersMessage === "Something went wrong. Try again later." ? "error_text" : undefined}>
+                                    {filtersMessage && <div className={filtersMessage === "Something went wrong. Please try again." ? "error_text" : undefined}>
                                         <h3>{filtersMessage}</h3>
                                     </div>}
                                     <Button
@@ -457,12 +455,7 @@ function Settings() {
                                     />
                                 </div>
                             </fieldset>
-
                         </form>
-
-                    {contextContent.user.authorities.some(isAdmin) && <div>
-                        <h1>Admin stuff</h1>
-                    </div>}
                 </div>
             </div>
         </div>}

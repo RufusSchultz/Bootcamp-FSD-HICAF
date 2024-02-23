@@ -11,6 +11,7 @@ import PageNotFound from "./pages/pageNotFound/PageNotFound.jsx";
 import BackendStart from "./pages/backendStart/BackendStart.jsx";
 import Settings from "./pages/settings/Settings.jsx";
 import Favorites from "./pages/favorites/Favorites.jsx";
+import Admin from "./pages/admin/Admin.jsx";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                 <Route path="/account" element={<Account/>}/>
                 <Route path="/account/settings" element={<Settings/>}/>
                 <Route path="/account/favorites" element={<Favorites/>}/>
+                <Route path="/admin" element={<Admin/>} />
                 <Route path="*" element={<PageNotFound/>}/>
                 <Route path="/backendStart" element={<BackendStart/>}/>
             </Routes>
