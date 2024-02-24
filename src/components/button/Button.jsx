@@ -8,10 +8,12 @@ function Button({text, label, destination, disabled, type, className, onClick, i
     function HandleClick() {
         if (type === "submit") {
             return null;
-        } else if (destination !== undefined){
-            navigate(`${destination}`)
-        } else{
-            {onClick()}
+        } else if (destination !== undefined) {
+            navigate(`${destination}`);
+        } else {
+            {
+                onClick();
+            }
         }
     }
 

@@ -1,45 +1,46 @@
 import "./Recipes.css";
 import {useContext, useEffect, useState} from "react";
-import axios from "axios";
-import {useParams} from "react-router-dom";
-import RecipeCard from "../../components/recipeCard/RecipeCard.jsx";
-import Button from "../../components/button/Button.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {UserContext} from "../../context/UserContext.jsx";
-
+import {useParams} from "react-router-dom";
+import axios from "axios";
+import RecipeCard from "../../components/recipeCard/RecipeCard.jsx";
+import Button from "../../components/button/Button.jsx";
 
 function Recipes() {
+
     const {id} = useParams();
-    const contextContent = useContext(AuthContext);
-    const userContext = useContext(UserContext);
-    const userData = userContext.data;
+    const authContent = useContext(AuthContext);
+    const userContent = useContext(UserContext);
+    const userData = userContent.data;
     const abortController = new AbortController();
 
+    //--- Edamam API - Search queries ---//
     const app_id = "c5ff97ab";
     const app_key = "53223ed5c12039e77b08fc5f130446ce";
     const originalEndpoint = `https://api.edamam.com/api/recipes/v2?type=public&q=${id}&app_id=${app_id}&app_key=${app_key}&imageSize=REGULAR&dishType=Biscuits%20and%20cookies&dishType=Bread&dishType=Condiments%20and%20sauces&dishType=Desserts&dishType=Main%20course&dishType=Pancake&dishType=Preps&dishType=Preserve&dishType=Salad&dishType=Sandwiches&dishType=Side%20dish&dishType=Soup&dishType=Starter&dishType=Sweets&field=uri&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=healthLabels&field=ingredientLines&field=cuisineType&field=mealType&field=dishType&field=externalId`;
     const initialEndpoint = setEndpoint(originalEndpoint);
 
+    //--- Novi backend - Adding and removing favorites ---//
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
+    const userEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
+
+    //--- States ---//
     const [recipes, setRecipes] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [nextEndpoint, setNextEndpoint] = useState("")
+    const [nextEndpoint, setNextEndpoint] = useState("");
     const [resultEndpoints, setResultEndpoints] = useState([initialEndpoint]);
     const [isRandomized, toggleIsRandomized] = useState(false);
-    const [foundResults, toggleFoundResults] = useState(false);
-
+    const [foundRecipes, toggleFoundRecipes] = useState(false);
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username")
-    const backendEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
 
-
-//-----------------Search results and navigation-----------------//
+//----------------- Search results -----------------//
 
     function setEndpoint(endpoint){
-        if (contextContent.isAuth) {
+        if (authContent.isAuth) {
             const filterString = userData.filters.join("");
-            console.log(filterString);
             return endpoint + filterString;
         } else {
             return endpoint;
@@ -51,16 +52,16 @@ function Recipes() {
         const endpoint = resultEndpoints[resultEndpoints.length - 1];
 
         async function fetchRecipes() {
+
             try {
                 setIsLoading(true);
                 const result = await axios.get(endpoint, {signal: abortController.signal,});
-                console.log(result);
                 setRecipes(result.data);
                 if (result.data._links.next) {
-                    setNextEndpoint(`${result.data._links.next.href}`)
+                    setNextEndpoint(`${result.data._links.next.href}`);
                 }
                 if (result.data.count > 0){
-                    toggleFoundResults(true);
+                    toggleFoundRecipes(true);
                 }
                 setError("");
             } catch (e) {
@@ -68,38 +69,28 @@ function Recipes() {
                 setError("Oops, failed to catch any data. Please try again.");
             } finally {
                 setIsLoading(false);
-
             }
         }
 
         void fetchRecipes();
-
 
         return () => {
             abortController.abort();
         }
     }, [resultEndpoints]);
 
-    function handleBackClick(e) {
-        e.preventDefault()
-        console.log("Back");
-        resultEndpoints.pop();
-        setResultEndpoints([...resultEndpoints]);
-    }
-
-    function handleNextClick(e) {
-        e.preventDefault()
-        console.log("Next");
-        setResultEndpoints([...resultEndpoints, nextEndpoint]);
-    }
 
     async function fetchRandomRecipe() {
+
         const randomEndpoint = initialEndpoint + "&random=true";
 
         try {
             setIsLoading(true);
             const result = await axios.get(randomEndpoint, {signal: abortController.signal,});
             setRecipes(result.data);
+            if (result.data.count > 0){
+                toggleFoundRecipes(true);
+            }
             setError("");
         } catch (e) {
             console.error(e);
@@ -115,36 +106,38 @@ function Recipes() {
         toggleCleanupTrigger(!cleanupTrigger);
     }
 
-//-----------------Favorites-----------------//
+//----------------- Favorites -----------------//
 
     async function putNewFavoriteList(){
+
         const newInfo = JSON.stringify(userData);
 
         try {
-            const response = await axios.put(backendEndpoint, {info: newInfo}, {
+            const response = await axios.put(userEndpoint, {info: newInfo}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 signal: abortController.signal,
             });
-            console.log(response);
-            void userContext.getUserData();
+            if (response.status === 204){
+                console.log("Favorites updated");
+            }
+            void userContent.getUserData();
         } catch (e) {
             console.error(e);
         }
     }
 
     function handleFavorite(favorite, favoriteId) {
+
         if (favorite === false) {
             const count = userData.favorites.push(`${favoriteId}`);
             void putNewFavoriteList();
-            console.log("Added to favorites");
         } else {
             const index = userData.favorites.indexOf(favoriteId);
             const list = userData.favorites.splice(index, 1);
             void putNewFavoriteList();
-            console.log("Removed from favorites");
         }
         toggleCleanupTrigger(!cleanupTrigger);
     }
@@ -154,6 +147,44 @@ function Recipes() {
             abortController.abort();
         }
     }, [cleanupTrigger]);
+
+//----------------- Navigation -----------------//
+
+    function handleBackClick(e) {
+        e.preventDefault();
+        resultEndpoints.pop();
+        setResultEndpoints([...resultEndpoints]);
+    }
+
+    function isBackDisabled() {
+        return resultEndpoints[resultEndpoints.length - 1] === initialEndpoint;
+    }
+
+    function setBackClassname() {
+        if (resultEndpoints[resultEndpoints.length - 1] === initialEndpoint) {
+            return "recipe_browse_button_disabled";
+        } else {
+            return "recipe_browse_button";
+        }
+    }
+
+    function handleNextClick(e) {
+        e.preventDefault();
+        setResultEndpoints([...resultEndpoints, nextEndpoint]);
+    }
+
+    function isNextDisabled() {
+        return !recipes._links.next;
+    }
+
+    function setNextClassname() {
+        if (!recipes._links.next) {
+            return "recipe_browse_button_disabled";
+        } else {
+            return "recipe_browse_button";
+        }
+    }
+
 
 //-----------------UI-----------------//
 
@@ -167,7 +198,7 @@ function Recipes() {
                 <h1>{error}</h1>
             </div>}
 
-            {foundResults && <div className={"recipe_list_outer"}>
+            {foundRecipes && <div className={"recipe_list_outer"}>
 
                 {!isRandomized && <h1>Here {recipes.count > 1 ? "are" : "is"} {recipes.count} {recipes.count > 1 ? "ideas" : "idea"} what to do with your fish</h1>}
                 {isRandomized && <h1>Here is your inspiration</h1>}
@@ -175,9 +206,9 @@ function Recipes() {
                 <div className={"browse_buttons"}>
                     {!isRandomized &&
                         <button type={"button"}
-                                className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                className={setBackClassname()}
                                 onClick={handleBackClick}
-                                disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
+                                disabled={isBackDisabled()}
                                 id={"top_back_button"}
                         >Previous page
                         </button>
@@ -193,7 +224,8 @@ function Recipes() {
                             id={"random_result_button"}
                         />
                     </div>}
-                    {contextContent.isAuth
+
+                    {authContent.isAuth
                         ?  <Button
                             text={"Click here!"}
                             label={<h3>Want to manage your favorites or change your filters?</h3>}
@@ -211,16 +243,16 @@ function Recipes() {
                             id={"account_button"}
                         />
                     }
+
                     {!isRandomized &&
                         <button type={"button"}
-                                className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                className={setNextClassname()}
                                 onClick={handleNextClick}
-                                disabled={!recipes._links.next}
+                                disabled={isNextDisabled()}
                                 id={"top_next_button"}
                         >Next page
                         </button>
                     }
-
                 </div>
 
                 <div className={"search_result"}>
@@ -245,6 +277,7 @@ function Recipes() {
                             />
                         })}
                     </ul>}
+
                     {isRandomized && <div className={"choice_buttons_and_cards"}>
                         <RecipeCard
                             key={recipes.hits[0]._links.self.href}
@@ -265,22 +298,24 @@ function Recipes() {
                         />
                     </div>}
                 </div>
+
                 {!isRandomized && <div className={"browse_buttons"}>
                         <button type={"button"}
-                                className={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                className={setBackClassname()}
                                 onClick={handleBackClick}
-                                disabled={resultEndpoints[resultEndpoints.length - 1] === initialEndpoint}
+                                disabled={isBackDisabled()}
                         >Previous page
                         </button>
                         <button type={"button"}
-                                className={!recipes._links.next ? "recipe_browse_button_disabled" : "recipe_browse_button"}
+                                className={setNextClassname()}
                                 onClick={handleNextClick}
-                                disabled={!recipes._links.next}
+                                disabled={isNextDisabled()}
                         >Next page
                         </button>
                     </div>}
             </div>}
-            {!foundResults && <div className={"low_content_container"}>
+
+            {!foundRecipes && <div className={"low_content_container"}>
                 <h1>Found no ideas at all</h1>
                 <h3>Perhaps the recipes or no longer available.</h3>
                 <Button
@@ -290,7 +325,6 @@ function Recipes() {
                     className={"big_button"}
                 />
             </div>}
-
         </div>
     )
 }

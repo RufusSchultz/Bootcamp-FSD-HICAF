@@ -2,14 +2,14 @@ import "./FishSearchForm.css"
 import {useContext, useState} from "react";
 import {ColorContext} from "../../context/ColorContext.jsx";
 
-function FishSearchForm({ sendQuery }) {
+function FishSearchForm({sendQuery}) {
 
-    const theme = useContext(ColorContext);
+    const colorContent = useContext(ColorContext);
     const [query, setQuery] = useState("");
 
     function handleSubmit(e) {
         e.preventDefault();
-        theme.continentColorSetter();
+        colorContent.continentColorSetter();
         sendQuery(query);
     }
 

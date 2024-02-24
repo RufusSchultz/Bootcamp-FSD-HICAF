@@ -45,6 +45,7 @@ function BackendStart() {
     }
 
     async function createTestUser() {
+
         const endpoint = "https://api.datavortex.nl/novibackendhicaf/users";
         const apiKey = "novibackendhicaf:HxI8znYrdSresrrSUlRm";
 
@@ -66,7 +67,6 @@ function BackendStart() {
                     },
                 });
             console.log(response);
-
         } catch (e) {
             console.error(e);
         }

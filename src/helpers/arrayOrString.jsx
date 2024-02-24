@@ -1,4 +1,5 @@
 function arrayOrString(list) {
+
     if (list !== undefined) {
         const array = Array.from(list);
 

@@ -1,11 +1,12 @@
 import "./Contact.css";
-import Button from "../../components/button/Button.jsx";
 import {useContext, useEffect, useState} from "react";
-import InputField from "../../components/inputField/InputField.jsx";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import InputField from "../../components/inputField/InputField.jsx";
+import Button from "../../components/button/Button.jsx";
 
 function Contact() {
-    const contentContext = useContext(AuthContext);
+
+    const authContent = useContext(AuthContext);
     const [inputFieldError, setInputFieldError] = useState(null);
     const [messageSent, toggleMessageSent] = useState(false);
     const [formState, setFormState] = useState({
@@ -24,20 +25,19 @@ function Contact() {
     }
 
     useEffect(() => {
-        if (contentContext.isAuth) {
+        if (authContent.isAuth) {
             setFormState({
                 ...formState,
-                name: contentContext.user.username,
-                email: contentContext.user.email,
+                name: authContent.user.username,
+                email: authContent.user.email,
             });
         }
     }, []);
 
-    // This function has te be made asynchronous and put in an effect when it's matched with a suitable backend.
     function handleSubmit(e) {
         e.preventDefault();
         if (!formState.name || !formState.email || !formState.message) {
-            if (contentContext.isAuth) {
+            if (authContent.isAuth) {
                 setInputFieldError("Please leave an actual message.")
             } else {
                 setInputFieldError("Please fill in all fields.")
@@ -55,13 +55,14 @@ function Contact() {
             {!messageSent && <div className={"contact_page"}>
                 <h1>Questions or comments?</h1>
                 <h2>Let us know!</h2>
-                {contentContext.isAuth
-                    ? <p>Leave your message here and we'll get back to you, {contentContext.user.username}.</p>
+                {authContent.isAuth
+                    ? <p>Leave your message here and we'll get back to you, {authContent.user.username}.</p>
                     : <p>Fill in this form and we'll get back to you. </p>
                 }
 
                 <form onSubmit={handleSubmit} className={"contact_form"}>
-                    {!contentContext.isAuth && <div className={"contact_form_name_email"}>
+
+                    {!authContent.isAuth && <div className={"contact_form_name_email"}>
                         <InputField
                             label={"Name:"}
                             type={"text"}
@@ -103,19 +104,22 @@ function Contact() {
                             I give permission to use (part of) my message as a testimonial.
                         </label>
                     </div>
+
                     {inputFieldError && <div>
                         <h2 className={"error_text"}>{inputFieldError}</h2>
                     </div>}
+
                     <Button
                         text={"Submit"}
                         type={"submit"}
                         className={"big_button"}
                     />
-                </form>
 
-                <p>Alternatively, you can <a href="mailto:tijdelijkeplaatshouder@gmail.com" className={"email_link"}>click
-                    here</a> to send us an
-                    email.</p>
+                </form>
+                <p>
+                    Alternatively, you can <a href="mailto:tijdelijkeplaatshouder@gmail.com" className={"email_link"}>click
+                    here</a> to send us an email.
+                </p>
             </div>}
 
             {messageSent && <div className={"contact_page"}>
@@ -129,9 +133,7 @@ function Contact() {
                         className={"big_button"}
                     />
                 </div>
-
             </div>}
-
         </>
     )
 }

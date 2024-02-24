@@ -1,13 +1,14 @@
-import logo from "../../assets/HICAF_logo.png";
 import "./Home.css";
-import Testimonial from "../../components/testimonial/Testimonial.jsx";
-import Button from "../../components/button/Button.jsx";
-import testimonialRandomizer from "../../helpers/testimonialRandomizer.js";
 import {useContext} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import testimonialRandomizer from "../../helpers/testimonialRandomizer.js";
+import Button from "../../components/button/Button.jsx";
+import Testimonial from "../../components/testimonial/Testimonial.jsx";
+import logo from "../../assets/HICAF_logo.png";
 
 function Home() {
-    const contentContext = useContext(AuthContext);
+
+    const authContent = useContext(AuthContext);
     const testimonials = testimonialRandomizer();
 
     return (
@@ -23,7 +24,8 @@ function Home() {
                     type={"button"}
                     className={"big_button"}
                 />
-                {contentContext.isAuth
+
+                {authContent.isAuth
                     ? <Button
                         text={"Click here!"}
                         label={<h3>Want to view your account?</h3>}
@@ -39,7 +41,6 @@ function Home() {
                         className={"big_button"}
                     />
                 }
-
             </div>
             <div className={"testimonials"}>
                 <Testimonial
@@ -55,7 +56,6 @@ function Home() {
                     user={testimonials[2].user}
                 />
             </div>
-
         </div>
     )
 }

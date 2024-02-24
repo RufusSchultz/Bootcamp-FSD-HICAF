@@ -1,25 +1,25 @@
 import "./Favorites.css"
 import {useContext, useEffect, useState} from "react";
-import {AuthContext} from "../../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
-import favorites_img from "../../assets/favorites.png";
-import Button from "../../components/button/Button.jsx";
+import {AuthContext} from "../../context/AuthContext.jsx";
 import {UserContext} from "../../context/UserContext.jsx";
 import axios from "axios";
+import Button from "../../components/button/Button.jsx";
 import FavoriteRecipe from "../../components/favoriteRecipe/FavoriteRecipe.jsx";
+import favorites_img from "../../assets/favorites.png";
 
 function Favorites() {
 
     const contextContent = useContext(AuthContext);
-    const userContext = useContext(UserContext);
+    const userContent = useContext(UserContext);
     const navigate = useNavigate();
     const abortController = new AbortController();
 
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
     const token = localStorage.getItem("token");
     const username = localStorage.getItem("username")
-    const backendEndpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
-    const userData = userContext.data;
+    const endpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
+    const userData = userContent.data;
 
     useEffect(() => {
         if (!contextContent.isAuth) {
@@ -31,19 +31,21 @@ function Favorites() {
         contextContent.logOutHandler();
     }
 
-    async function putNewFavoriteList(){
+    async function putNewFavoriteList() {
         const newInfo = JSON.stringify(userData);
 
         try {
-            const response = await axios.put(backendEndpoint, {info: newInfo}, {
+            const response = await axios.put(endpoint, {info: newInfo}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 },
                 signal: abortController.signal,
             });
-            console.log(response);
-            void userContext.getUserData();
+            void userContent.getUserData();
+            if (response.status === 204) {
+                console.log("Favorites updated");
+            }
         } catch (e) {
             console.error(e);
         }
@@ -54,12 +56,10 @@ function Favorites() {
             const count = userData.favorites.push(`${favoriteId}`);
             console.log(userData.favorites);
             void putNewFavoriteList();
-            console.log("Added to favorites");
         } else {
             const index = userData.favorites.indexOf(favoriteId);
             const list = userData.favorites.splice(index, 1);
             void putNewFavoriteList();
-            console.log("Removed from favorites");
         }
         toggleCleanupTrigger(!cleanupTrigger);
     }

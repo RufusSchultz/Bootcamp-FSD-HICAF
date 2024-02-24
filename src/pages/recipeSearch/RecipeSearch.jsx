@@ -1,27 +1,30 @@
 import "./RecipeSearch.css";
-import fishes from "../../constants/fishData.json";
 import {useContext, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {ColorContext} from "../../context/ColorContext.jsx";
 import ContinentButton from "../../components/continentButton/ContinentButton.jsx";
 import FishSearchForm from "../../components/fishSearchForm/FishSearchForm.jsx";
 import FishCardButton from "../../components/fishCardButton/FishCardButton.jsx";
 import underscoreRemover from "../../helpers/underscoreRemover.js";
-import {useNavigate} from "react-router-dom";
 import randomFlatteringSentence from "../../helpers/randomFlatteringSentence.js";
-import {ColorContext} from "../../context/ColorContext.jsx";
+import fishes from "../../constants/fishData.json";
 
 function RecipeSearch() {
+
     const navigate = useNavigate();
-    const theme = useContext(ColorContext);
+    const colorContent = useContext(ColorContext);
     const [continent, setContinent] = useState("");
     const [fishQuery, setFishQuery] = useState("");
 
     useEffect(() => {
-            if (fishQuery) {navigate(`/recipeSearch/${fishQuery}`)}
-    }, [navigate, fishQuery]);
+        if (fishQuery) {
+            navigate(`/recipeSearch/${fishQuery}`);
+        }
+    }, [fishQuery]);
 
     function handleContinentSetter(chosenContinent) {
         setContinent(chosenContinent);
-        theme.continentColorSetter(chosenContinent.toLowerCase());
+        colorContent.continentColorSetter(chosenContinent.toLowerCase());
     }
 
     function handleQuery(query) {
@@ -31,7 +34,6 @@ function RecipeSearch() {
     return (
         <div className={"recipe_search_page"}>
 
-            {/*First set of choices of the page.*/}
             {!continent && <div>
                 <h3>Where in the world did you catch your fish?</h3>
                 <div className={"hemisphere_choice"}>
@@ -77,15 +79,16 @@ function RecipeSearch() {
                 </div>
             </div>}
 
-            {/*Second set of choices of the page.*/}
             {continent && <div>
                 <div className={"second_set_container"}>
-                    <h3>{randomFlatteringSentence(underscoreRemover(continent))}</h3>
-                    <h3 id={"what_fish"}>What fish did you catch?</h3>
+                    <div>
+                        <h3>{randomFlatteringSentence(underscoreRemover(continent))}</h3>
+                        <h3>What fish did you catch?</h3>
+                    </div>
                     <div className={"fish_choice_wrapper"}>
                         <ul className={"choice_buttons_and_cards"}>
                             {fishes.filter(fish => {
-                                if (fish.continents.includes(continent)){
+                                if (fish.continents.includes(continent)) {
                                     return fish;
                                 }
                             }).map((fish) => {
@@ -99,12 +102,10 @@ function RecipeSearch() {
                             })}
                         </ul>
                     </div>
-                    <h3>Don't see your fish? Search by name here</h3>
+                    <h3>Don&apos;t see your fish? Search by name here</h3>
                     <FishSearchForm sendQuery={handleQuery}/>
                 </div>
             </div>}
-
-
         </div>
     )
 }

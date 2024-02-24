@@ -1,10 +1,11 @@
 import React, {useContext, useEffect, useState} from "react";
-import axios from "axios";
 import {AuthContext} from "./AuthContext.jsx";
+import axios from "axios";
 
 export const UserContext = React.createContext({});
 
-function UserContextProvider ({children}) {
+function UserContextProvider({children}) {
+
     const contextContent = useContext(AuthContext);
     const [userData, setUserData] = useState({});
     const [triggerGetData, toggleTriggerGetData] = useState(false);
@@ -28,11 +29,10 @@ function UserContextProvider ({children}) {
                 console.log("User is refreshed!");
             } catch (e) {
                 console.error(e);
-
             }
         }
 
-        if (contextContent.isAuth){
+        if (contextContent.isAuth) {
             void getUserData()
         }
 

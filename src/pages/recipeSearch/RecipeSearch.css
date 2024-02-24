@@ -1,4 +1,4 @@
-/*------------ Main --------------*/
+/*------------ Common --------------*/
 
 .recipe_search_page {
     display: flex;
@@ -18,7 +18,6 @@
     flex-wrap: wrap;
     justify-content: center;
 }
-
 
 .world_and_exact_choice_wrapper {
     display: flex;
@@ -45,10 +44,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-#what_fish {
-    margin-top: 0;
 }
 
 .fish_choice_wrapper {

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 
-
 export const ColorContext = React.createContext({});
 
 function ColorContextProvider({children}) {
@@ -33,7 +32,6 @@ function ColorContextProvider({children}) {
             {children}
         </ColorContext.Provider>
     )
-
 }
 
 export default ColorContextProvider;

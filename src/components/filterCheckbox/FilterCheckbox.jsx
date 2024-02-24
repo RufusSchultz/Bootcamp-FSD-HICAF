@@ -3,12 +3,12 @@ import {useContext, useState} from "react";
 import {UserContext} from "../../context/UserContext.jsx";
 
 function FilterCheckbox({id, name, onChange}) {
-    const userContext = useContext(UserContext);
+    const userContent = useContext(UserContext);
     const filterValue = `&${name}=${id}`
     const text = ` ${id}`;
-    const [isChecked, toggleIsChecked] = useState(userContext.data.filters.includes(filterValue))
+    const [isChecked, toggleIsChecked] = useState(userContent.data.filters.includes(filterValue))
 
-    function onCheckOrUncheck(e) {
+    function onToggle(e) {
         toggleIsChecked(!isChecked);
         onChange(e);
     }
@@ -19,7 +19,7 @@ function FilterCheckbox({id, name, onChange}) {
                    id={id}
                    name={name}
                    value={filterValue}
-                   onChange={onCheckOrUncheck}
+                   onChange={onToggle}
                    checked={isChecked}
             />
             {text}

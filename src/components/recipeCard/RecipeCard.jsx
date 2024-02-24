@@ -1,11 +1,11 @@
 import "./RecipeCard.css";
-import arrayOrString from "../../helpers/arrayOrString.jsx";
 import {useContext, useState} from "react";
+import {AuthContext} from "../../context/AuthContext.jsx";
 import {ColorContext} from "../../context/ColorContext.jsx";
+import arrayOrString from "../../helpers/arrayOrString.jsx";
 import noFavorite from "../../assets/open_star.png"
 import yesFavorite from "../../assets/filled_star.png"
 import noFavoriteAlternative from "../../assets/open_star_bright.png"
-import {AuthContext} from "../../context/AuthContext.jsx";
 
 
 function RecipeCard({
@@ -25,15 +25,14 @@ function RecipeCard({
                         favoritesList
                     }) {
 
-    const contextContent = useContext(AuthContext);
-    const theme = useContext(ColorContext);
-    const cardClass = `recipe_card_outer ${theme.continentColorClass}`
+    const authContent = useContext(AuthContext);
+    const colorContent = useContext(ColorContext);
+    const cardClass = `recipe_card_outer ${colorContent.continentColorClass}`
     const [favorite, toggleFavorite] = useState(favoritesList.includes(favoriteId));
 
     function handleClick() {
         toggleFavorite(!favorite);
         handleFavorite(favorite, favoriteId)
-
     }
 
     return (
@@ -41,15 +40,15 @@ function RecipeCard({
             <div className={cardClass}>
                 <div className={"recipe_header"}>
                     <h2>{title}</h2>
-                    {contextContent.isAuth &&
+                    {authContent.isAuth &&
                         <button onClick={handleClick} className={"favorite_toggle_button"}>
-                            {theme.continentColorClass !== "no_continent" && <span>
+                            {colorContent.continentColorClass !== "no_continent" && <span>
                                 {favorite
                                     ? <img src={yesFavorite} alt="remove from favorites"/>
                                     : <img src={noFavorite} alt="add to favorites"/>
                                 }
                             </span>}
-                            {theme.continentColorClass === "no_continent" && <span>
+                            {colorContent.continentColorClass === "no_continent" && <span>
                                 {favorite
                                     ? <img src={yesFavorite} alt="remove from favorites"/>
                                     : <img src={noFavoriteAlternative} alt="add to favorites"/>
@@ -64,8 +63,10 @@ function RecipeCard({
                         <img src={image} alt=""/>
                     </span>
                         <h4>{source}</h4>
-                        <button onClick={() => window.open(`${link}`, '_blank')} className={"full_recipe_button"}>click
-                            here for full recipe
+                        <button onClick={() => window.open(`${link}`, '_blank')}
+                                className={"full_recipe_button"}
+                        >
+                            click here for full recipe
                         </button>
                     </div>
                     <div className={"recipe_card_right"}>
@@ -93,12 +94,10 @@ function RecipeCard({
                                 {arrayOrString(healthStuff)}
                             </div>
                         </div>
-
                     </details>
                 </div>
             </div>
         </li>
-
     )
 }
 

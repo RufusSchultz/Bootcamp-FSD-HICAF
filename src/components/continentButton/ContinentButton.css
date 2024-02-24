@@ -1,7 +1,3 @@
-.continent_button_wrapper {
-
-}
-
 .continent_button {
     background-color: var(--color-offblack);
     width: 256px;
@@ -22,7 +18,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-.continent_button_wrapper button img {
+.continent_image {
     height: 100%;
 }
 

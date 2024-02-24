@@ -1,24 +1,27 @@
 import "./Settings.css"
 import {useContext, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
+import {UserContext} from "../../context/UserContext.jsx";
 import axios from "axios";
-import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
-import settings_img from "../../assets/preferences.png";
 import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
-import {useNavigate} from "react-router-dom";
-import {UserContext} from "../../context/UserContext.jsx";
 import FilterCheckbox from "../../components/filterCheckbox/FilterCheckbox.jsx";
+import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
+import settings_img from "../../assets/preferences.png";
 
 function Settings() {
-    const contextContent = useContext(AuthContext);
-    const userContext = useContext(UserContext);
+
     const navigate = useNavigate();
     const abortController = new AbortController();
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
+    const authContent = useContext(AuthContext);
+    const userContent = useContext(UserContext);
+    const userData = userContent.data;
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
 
+    //-------- Edit personal details --------//
+    const token = localStorage.getItem("token");
+    const username = localStorage.getItem("username");
     const endpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
     const [editDetail, setEditDetail] = useState("");
     const [formState, setFormState] = useState({
@@ -29,9 +32,28 @@ function Settings() {
     const [repeatPassword, setRepeatPassword] = useState({password: "",});
     const [editError, setEditError] = useState("");
 
-    const userData = userContext.data;
+    //-------- Edit filters --------//
     const [filters, setFilters] = useState(userData.filters);
     const [filtersMessage, setFiltersMessage] = useState("");
+
+
+//--------------------Common functions-----------------------//
+
+    useEffect(() => {
+        if (!authContent.isAuth) {
+            navigate("/login");
+        }
+    }, []);
+
+    useEffect(() => {
+        return function cleanup() {
+            abortController.abort();
+        }
+    }, [cleanupTrigger]);
+
+    function handleLogOutClick() {
+        authContent.logOutHandler();
+    }
 
 //----------------------Personal details--------------------------//
 
@@ -45,9 +67,9 @@ function Settings() {
     function submitNewUsername(e) {
         e.preventDefault();
         if (!formState.username) {
-            setEditError("Please enter a new name")
+            setEditError("Please enter a new name");
         } else if (formState.username === username) {
-            setEditError("This is already your current username.")
+            setEditError("This is already your current username.");
         } else {
             void putNewUsername();
             toggleCleanupTrigger(!cleanupTrigger);
@@ -55,6 +77,7 @@ function Settings() {
     }
 
     async function putNewUsername() {
+
         try {
             const response = await axios.put(endpoint, {username: formState.username}, {
                 headers: {
@@ -64,12 +87,12 @@ function Settings() {
                 signal: abortController.signal,
             });
             if (response.status === 204) {
-                setEditDetail("new_username_succes")
+                setEditDetail("new_username_succes");
             }
             console.log(response);
         } catch (e) {
             console.error(e);
-            setEditDetail("error")
+            setEditDetail("error");
         }
     }
 
@@ -84,17 +107,17 @@ function Settings() {
         e.preventDefault();
         if (!formState.email) {
             setEditError("Please enter a new email");
-        } else if (formState.email === contextContent.user.email) {
-            setEditError("This is already your current email.")
+        } else if (formState.email === authContent.user.email) {
+            setEditError("This is already your current email.");
         } else {
             void putNewEmail();
             console.log(formState);
             toggleCleanupTrigger(!cleanupTrigger);
         }
-
     }
 
     async function putNewEmail() {
+
         try {
             const response = await axios.put(endpoint, {email: formState.email}, {
                 headers: {
@@ -104,12 +127,12 @@ function Settings() {
                 signal: abortController.signal,
             });
             if (response.status === 204) {
-                setEditDetail("new_email_succes")
+                setEditDetail("new_email_succes");
             }
             console.log(response);
         } catch (e) {
             console.error(e);
-            setEditDetail("error")
+            setEditDetail("error");
         }
     }
 
@@ -121,6 +144,7 @@ function Settings() {
     }
 
     function submitNewPassword(e) {
+
         e.preventDefault();
         setEditError("");
         if (!repeatPassword.password || !formState.password) {
@@ -139,6 +163,7 @@ function Settings() {
     }
 
     async function putNewPassword() {
+
         try {
             const response = await axios.put(endpoint, {password: formState.password}, {
                 headers: {
@@ -148,12 +173,12 @@ function Settings() {
                 signal: abortController.signal,
             });
             if (response.status === 204) {
-                setEditDetail("new_password_succes")
+                setEditDetail("new_password_succes");
             }
             console.log(response);
         } catch (e) {
             console.error(e);
-            setEditDetail("error")
+            setEditDetail("error");
         }
     }
 
@@ -172,7 +197,8 @@ function Settings() {
 
 //----------------------Search filters--------------------------//
 
-    async function putNewFilterList(){
+    async function putNewFilterList() {
+
         const newInfo = JSON.stringify(userData);
 
         try {
@@ -184,74 +210,71 @@ function Settings() {
                 signal: abortController.signal,
             });
             console.log(response);
-            void userContext.getUserData();
+            void userContent.getUserData();
             setFiltersMessage("Filters successfully updated!");
         } catch (e) {
             console.error(e);
-            setFiltersMessage("Something went wrong. Please try again.")
+            setFiltersMessage("Something went wrong. Please try again.");
         }
     }
 
-    function handleSubmit(e){
+    function handleSubmit(e) {
         e.preventDefault();
         userData.filters = filters;
         void putNewFilterList();
         toggleCleanupTrigger(!cleanupTrigger);
     }
 
-    function handleFilterChange(e){
-        if (e.target.checked){
+    function handleFilterChange(e) {
+        if (e.target.checked) {
             setFilters([
                 ...filters,
                 e.target.value,
             ]);
         } else {
-            const list = filters.filter((value) => value !== e.target.value)
+            const list = filters.filter((value) => value !== e.target.value);
             setFilters(list);
         }
     }
 
-    //--------------------Common functions-----------------------//
-
-    useEffect(() => {
-        return function cleanup() {
-            abortController.abort();
-        }
-    }, [cleanupTrigger]);
-
-    function handleLogOutClick() {
-        contextContent.logOutHandler();
-    }
-
-    useEffect(() => {
-        if (!contextContent.isAuth) {
-            navigate("/login");
-        }
-    }, []);
-
-    //--------------------UI-----------------------//
+//--------------------UI-----------------------//
 
     return (
         <>
-        {contextContent.isAuth && <div className={"settings_outer_container"}>
-            <div className={"logout_button_wrapper"}>
-                <Button
-                    className={"small_button"}
-                    text={"Click to log out"}
-                    onClick={handleLogOutClick}
-                />
-            </div>
-            <div className={"settings_inner_container"}>
-                <div className={"settings_sidebar"}>
-                    <h1>Settings</h1>
-                    <img src={settings_img} alt="settings"/>
+            <div className={"settings_outer_container"}>
+
+                {/*----- Log out button -----*/}
+
+                <div className={"logout_button_wrapper"}>
                     <Button
-                        className={"big_button"}
-                        text={"Go to favorites"}
-                        destination={"/account/favorites"}
+                        className={"small_button"}
+                        text={"Click to log out"}
+                        onClick={handleLogOutClick}
                     />
                 </div>
-                <div className={"settings_content"}>
+
+                {/*----- Settings content -----*/}
+
+                <div className={"settings_inner_container"}>
+
+                    {/*----- Sidebar -----*/}
+
+                    <div className={"settings_sidebar"}>
+                        <h1>Settings</h1>
+                        <img src={settings_img} alt="settings"/>
+                        <Button
+                            className={"big_button"}
+                            text={"Go to favorites"}
+                            destination={"/account/favorites"}
+                        />
+                    </div>
+
+                    {/*----- Main content -----*/}
+
+                    <div className={"settings_content"}>
+
+                        {/*----- Personal details -----*/}
+
                         <fieldset className={"settings_fieldset"}>
                             <legend>
                                 <h2>Your details</h2>
@@ -259,11 +282,11 @@ function Settings() {
                             <div className={"personal_details"}>
                                 <div className={"personal_detail"}>
                                     <p className={"personal_detail_category"}>Username: </p>
-                                    <p className={"personal_detail_detail"}>{contextContent.user.username} </p>
+                                    <p className={"personal_detail_detail"}>{authContent.user.username}</p>
                                 </div>
                                 <div className={"personal_detail"}>
                                     <p className={"personal_detail_category"}>Email: </p>
-                                    <p className={"personal_detail_detail"}> {contextContent.user.email}</p>
+                                    <p className={"personal_detail_detail"}> {authContent.user.email}</p>
                                 </div>
                             </div>
                             <div className={"personal_details_actions"}>
@@ -283,6 +306,9 @@ function Settings() {
                                     onClick={toggleChangePassword}
                                 />
                             </div>
+
+                            {/*----- Edit detail field -----*/}
+
                             <div>
                                 {editDetail === "new_username" &&
                                     <form onSubmit={submitNewUsername} className={"edit_personal_detail_wrapper"}>
@@ -305,6 +331,7 @@ function Settings() {
                                             />
                                         </div>
                                     </form>}
+
                                 {editDetail === "new_username_succes" && <div className={"edit_success_message"}>
                                     <h2>Username changed successfully!</h2>
                                     <p>Changes will take effect at your next login.</p>
@@ -331,6 +358,7 @@ function Settings() {
                                             />
                                         </div>
                                     </form>}
+
                                 {editDetail === "new_email_succes" && <div className={"edit_success_message"}>
                                     <h2>Email changed successfully!</h2>
                                     <p>Changes will take effect at your next login.</p>
@@ -371,6 +399,7 @@ function Settings() {
                                             />
                                         </div>
                                     </form>}
+
                                 {editDetail === "new_password_succes" && <div className={"edit_success_message"}>
                                     <h2>Password changed successfully!</h2>
                                     <p>Changes will take effect at your next login.</p>
@@ -385,6 +414,8 @@ function Settings() {
                             </div>
                         </fieldset>
 
+                        {/*----- Filters section -----*/}
+
                         <form onSubmit={handleSubmit}>
                             <fieldset className={"settings_fieldset"}>
                                 <legend><h2>Your search filters</h2></legend>
@@ -392,60 +423,175 @@ function Settings() {
                                     <div className={"filter_category"}>
                                         <h3>Diet:</h3>
                                         <div className={"field_of_filters"}>
-                                            <FilterCheckbox name={"diet"} id={"balanced"} onChange={handleFilterChange}/>
-                                            <FilterCheckbox name={"diet"} id={"high-fiber"} onChange={handleFilterChange}/>
-                                            <FilterCheckbox name={"diet"} id={"high-protein"} onChange={handleFilterChange}/>
-                                            <FilterCheckbox name={"diet"} id={"low-carb"} onChange={handleFilterChange}/>
-                                            <FilterCheckbox name={"diet"} id={"low-fat"} onChange={handleFilterChange}/>
-                                            <FilterCheckbox name={"diet"} id={"low-sodium"} onChange={handleFilterChange}/>
+                                            <FilterCheckbox name={"diet"}
+                                                            id={"balanced"}
+                                                            onChange={handleFilterChange}
+                                            />
+                                            <FilterCheckbox name={"diet"}
+                                                            id={"high-fiber"}
+                                                            onChange={handleFilterChange}
+                                            />
+                                            <FilterCheckbox name={"diet"}
+                                                            id={"high-protein"}
+                                                            onChange={handleFilterChange}
+                                            />
+                                            <FilterCheckbox name={"diet"}
+                                                            id={"low-carb"}
+                                                            onChange={handleFilterChange}
+                                            />
+                                            <FilterCheckbox name={"diet"}
+                                                            id={"low-fat"}
+                                                            onChange={handleFilterChange}
+                                            />
+                                            <FilterCheckbox name={"diet"}
+                                                            id={"low-sodium"}
+                                                            onChange={handleFilterChange}
+                                            />
                                         </div>
                                     </div>
                                     <div className={"filter_category"}>
                                         <h3>Health and Allergy:</h3>
                                         <div className={"field_of_filters"}>
                                             <ul>
-                                                <li><FilterCheckbox name={"health"} id={"alcohol-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"celery-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"crustacean-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"dairy-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"DASH"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"egg-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"fodmap-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"gluten-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"immuno-supportive"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"keto-friendly"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"kidney-friendly"} onChange={handleFilterChange}/></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"alcohol-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"celery-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"crustacean-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"dairy-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"DASH"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"egg-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"fodmap-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"gluten-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"immuno-supportive"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"keto-friendly"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"kidney-friendly"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
                                             </ul>
                                             <ul>
-                                                <li><FilterCheckbox name={"health"} id={"kosher"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"low-fat-abs"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"low-potassium"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"low-sugar"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"lupine-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"Mediterranean"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"mollusk-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"mustard-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"no-oil-added"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"paleo"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"peanut-free"} onChange={handleFilterChange}/></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"kosher"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"low-fat-abs"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"low-potassium"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"low-sugar"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"lupine-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"Mediterranean"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"mollusk-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"mustard-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"no-oil-added"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"paleo"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"peanut-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
                                             </ul>
                                             <ul>
-                                                <li><FilterCheckbox name={"health"} id={"pescatarian"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"pork-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"red-meat-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"sesame-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"shellfish-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"soy-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"sugar-conscious"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"sulfite-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"tree-nut-free"} onChange={handleFilterChange}/></li>
-                                                <li><FilterCheckbox name={"health"} id={"wheat-free"} onChange={handleFilterChange}/></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"pescatarian"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"pork-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"red-meat-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"sesame-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"shellfish-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"soy-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"sugar-conscious"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"sulfite-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"tree-nut-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
+                                                <li><FilterCheckbox name={"health"}
+                                                                    id={"wheat-free"}
+                                                                    onChange={handleFilterChange}
+                                                /></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div className={"filter_submit_section"}>
-                                    {filtersMessage && <div className={filtersMessage === "Something went wrong. Please try again." ? "error_text" : undefined}>
+                                    {filtersMessage && <div
+                                        className={filtersMessage === "Something went wrong. Please try again." ? "error_text" : undefined}>
                                         <h3>{filtersMessage}</h3>
                                     </div>}
                                     <Button
@@ -456,10 +602,10 @@ function Settings() {
                                 </div>
                             </fieldset>
                         </form>
+                    </div>
                 </div>
             </div>
-        </div>}
-</>
+        </>
     )
 }
 

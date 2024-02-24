@@ -1,5 +1,7 @@
 import "./Testimonial.css";
-function Testimonial({ quote, user }) {
+
+function Testimonial({quote, user}) {
+
     return (
         <blockquote className={"testimonial_wrapper"}>
             <p className={"testimonial_quote"}>"{quote}"</p>

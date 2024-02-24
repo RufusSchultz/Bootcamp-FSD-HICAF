@@ -1,16 +1,16 @@
 import "./Login.css";
-import inlogImage from "../../assets/logo_inlog.png"
-import InputField from "../../components/inputField/InputField.jsx";
-import Button from "../../components/button/Button.jsx";
 import {useContext, useEffect, useState} from "react";
-import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import axios from "axios";
+import Button from "../../components/button/Button.jsx";
+import InputField from "../../components/inputField/InputField.jsx";
+import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
 import backendMessageStreamliner from "../../helpers/backendMessageStreamliner.js";
+import inlogImage from "../../assets/logo_inlog.png"
 
 function Login() {
 
-    const contextContent = useContext(AuthContext);
+    const authContent = useContext(AuthContext);
     const abortController = new AbortController();
     const [createAccountPage, toggleCreateAccountPage] = useState(false);
     const [formState, setFormState] = useState({
@@ -20,33 +20,18 @@ function Login() {
         signal: abortController.signal
     });
     const [repeatPassword, setRepeatPassword] = useState({password: "",});
-    const emptyInfo = JSON.stringify({favorites:[],filters:[]});
     const [errorMessage, setErrorMessage] = useState(null);
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
+    const emptyInfo = JSON.stringify({favorites: [], filters: []});
 
-    // ----------Common functions-------------
-
-    function handleChange(e) {
-        setFormState({
-            ...formState,
-            [e.target.name]: e.target.value,
-        })
-    }
-
-    useEffect(() => {
-        return function cleanup() {
-            abortController.abort();
-        }
-    }, [cleanupTrigger]);
-
-    // ----------Login functions-------------
+// ----------Login functions------------- //
 
     async function userLogin() {
         const endpoint = "https://api.datavortex.nl/novibackendhicaf/users/authenticate";
 
         try {
             const response = await axios.post(endpoint, formState);
-            void contextContent.logInHandler(formState.username, response.data.jwt);
+            void authContent.logInHandler(formState.username, response.data.jwt);
         } catch (e) {
             console.error(e);
             if (e.response.data === "User not found" || e.response.data === "Invalid username/password") {
@@ -64,8 +49,7 @@ function Login() {
         toggleCleanupTrigger(!cleanupTrigger);
     }
 
-    // ----------Create account functions-------------
-
+// ----------Create account functions------------- //
 
     async function createAccount() {
 
@@ -126,7 +110,22 @@ function Login() {
         });
     }
 
-// -------------------------UI------------------------
+// ----------Common functions------------- //
+
+    function handleChange(e) {
+        setFormState({
+            ...formState,
+            [e.target.name]: e.target.value,
+        })
+    }
+
+    useEffect(() => {
+        return function cleanup() {
+            abortController.abort();
+        }
+    }, [cleanupTrigger]);
+
+// -------------------------UI------------------------ //
 
     function switchLoginCreateAccount() {
         toggleCreateAccountPage(!createAccountPage);

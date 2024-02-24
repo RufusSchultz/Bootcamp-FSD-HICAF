@@ -1,36 +1,36 @@
 import "./Account.css";
-import Button from "../../components/button/Button.jsx";
+import {useNavigate} from "react-router-dom";
 import {useContext, useEffect} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
-import favorites_img from "../../assets/favorites.png";
-import settings_img from "../../assets/preferences.png";
-import {useNavigate} from "react-router-dom";
 import {UserContext} from "../../context/UserContext.jsx";
+import Button from "../../components/button/Button.jsx";
+import settings_img from "../../assets/preferences.png";
+import favorites_img from "../../assets/favorites.png";
 
 function Account() {
 
-    const contextContent = useContext(AuthContext);
-    const userContext = useContext(UserContext);
+    const authContent = useContext(AuthContext);
+    const userContent = useContext(UserContext);
     const navigate = useNavigate();
     const isAdmin = (e) => e.authority === "ADMIN"
 
     function handleLogOutClick() {
-        contextContent.logOutHandler();
+        authContent.logOutHandler();
     }
 
     useEffect(() => {
-        void userContext.getUserData();
-        if (!contextContent.isAuth) {
+        void userContent.getUserData();
+        if (!authContent.isAuth) {
             navigate("/login");
         }
     }, []);
 
     return (
         <>
-            {contextContent.isAuth && <div className={"account_outer_container"}>
+            {authContent.isAuth && <div className={"account_outer_container"}>
 
                 <div className={"account_outer_container"}>
-                    <h1 id={"welcome_text"}>Welcome, {contextContent.user.username}!</h1>
+                    <h1 id={"welcome_text"}>Welcome, {authContent.user.username}!</h1>
                     <div className={"content_outer_container"}>
                         <div className={"content_inner_container"}>
                             <img src={favorites_img} alt="Favorites"/>
@@ -49,7 +49,7 @@ function Account() {
                             />
                         </div>
                     </div>
-                    {contextContent.user.authorities.some(isAdmin) && <div>
+                    {authContent.user.authorities.some(isAdmin) && <div>
                         <Button
                             className={"big_button"}
                             text={"Admin portal"}

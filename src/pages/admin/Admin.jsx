@@ -1,16 +1,16 @@
 import "./Admin.css";
 import {useContext, useEffect} from "react";
-import {AuthContext} from "../../context/AuthContext.jsx";
 import {useNavigate} from "react-router-dom";
+import {AuthContext} from "../../context/AuthContext.jsx";
 import Button from "../../components/button/Button.jsx";
 
 function Admin() {
-    const contextContent = useContext(AuthContext);
+    const authContent = useContext(AuthContext);
     const isAdmin = (e) => e.authority === "ADMIN"
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!contextContent.user.authorities.some(isAdmin)) {
+        if (!authContent.user.authorities.some(isAdmin)) {
             navigate("/");
         }
     }, []);

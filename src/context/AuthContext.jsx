@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
-import validTokenChecker from "../helpers/validTokenChecker.js";
 import axios from "axios";
+import validTokenChecker from "../helpers/validTokenChecker.js";
 
 export const AuthContext = React.createContext({});
 
-
-function AuthContextProvider({ children }) {
+function AuthContextProvider({children}) {
 
     const navigate = useNavigate();
     const [auth, setAuth] = useState({
@@ -18,7 +17,7 @@ function AuthContextProvider({ children }) {
     useEffect(() => {
         console.log("It's refreshed, exciting!");
         const token = localStorage.getItem("token");
-        const username= localStorage.getItem("username")
+        const username = localStorage.getItem("username")
         if (token && validTokenChecker(token)) {
             void logIn(username, token);
         } else {
