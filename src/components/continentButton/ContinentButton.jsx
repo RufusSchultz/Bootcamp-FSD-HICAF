@@ -4,7 +4,7 @@ function ContinentButton({continent, setChosenContinent}) {
 
     function assignContinent() {
         {
-            setChosenContinent(`${continent}`)
+            setChosenContinent(`${continent}`);
         }
     }
 

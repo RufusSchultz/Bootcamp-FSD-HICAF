@@ -1,4 +1,4 @@
-import "./InputField.css"
+import "./InputField.css";
 
 function InputField({label, type, name, value, onChange, id}) {
 

@@ -1,4 +1,4 @@
-import "./Favorites.css"
+import "./Favorites.css";
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../context/AuthContext.jsx";
@@ -17,7 +17,7 @@ function Favorites() {
 
     const [cleanupTrigger, toggleCleanupTrigger] = useState(false);
     const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username")
+    const username = localStorage.getItem("username");
     const endpoint = `https://api.datavortex.nl/novibackendhicaf/users/${username}`;
     const userData = userContent.data;
 
@@ -72,7 +72,7 @@ function Favorites() {
 
     return (
         <>
-            {contextContent.isAuth && <div className={"favorites_outer_container"}>
+            <div className={"favorites_outer_container"}>
                 <div className={"logout_button_wrapper"}>
                     <Button
                         className={"small_button"}
@@ -110,13 +110,9 @@ function Favorites() {
                                 />
                             })}
                         </ul>
-
-
                     </div>}
-
                 </div>
-
-            </div>}
+            </div>
         </>
     )
 }

@@ -6,7 +6,7 @@ function ColorContextProvider({children}) {
 
     const [theme, setTheme] = useState({
         continentColorClass: "",
-    })
+    });
 
     function setContinentColor(continent) {
         if (continent) {
@@ -25,7 +25,7 @@ function ColorContextProvider({children}) {
     const data = {
         continentColorClass: theme.continentColorClass,
         continentColorSetter: setContinentColor,
-    }
+    };
 
     return (
         <ColorContext.Provider value={data}>

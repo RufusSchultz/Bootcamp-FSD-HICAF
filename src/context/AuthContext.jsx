@@ -17,7 +17,7 @@ function AuthContextProvider({children}) {
     useEffect(() => {
         console.log("It's refreshed, exciting!");
         const token = localStorage.getItem("token");
-        const username = localStorage.getItem("username")
+        const username = localStorage.getItem("username");
         if (token && validTokenChecker(token)) {
             void logIn(username, token);
         } else {
@@ -25,7 +25,7 @@ function AuthContextProvider({children}) {
                 isAuth: false,
                 user: null,
                 status: "done",
-            })
+            });
         }
     }, []);
 
@@ -41,7 +41,7 @@ function AuthContextProvider({children}) {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
                 }
-            })
+            });
             setAuth({
                 isAuth: true,
                 user: {
@@ -70,7 +70,7 @@ function AuthContextProvider({children}) {
             status: "done",
         });
         console.log("User was caught and is released!");
-        navigate("/")
+        navigate("/");
     }
 
     const data = {
@@ -78,7 +78,7 @@ function AuthContextProvider({children}) {
         user: auth.user,
         logInHandler: logIn,
         logOutHandler: logOut,
-    }
+    };
 
     return (
         <AuthContext.Provider value={data}>

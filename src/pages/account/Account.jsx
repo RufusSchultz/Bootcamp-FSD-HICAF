@@ -12,7 +12,7 @@ function Account() {
     const authContent = useContext(AuthContext);
     const userContent = useContext(UserContext);
     const navigate = useNavigate();
-    const isAdmin = (e) => e.authority === "ADMIN"
+    const isAdmin = (e) => e.authority === "ADMIN";
 
     function handleLogOutClick() {
         authContent.logOutHandler();

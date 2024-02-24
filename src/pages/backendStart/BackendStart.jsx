@@ -39,7 +39,7 @@ function BackendStart() {
         } catch (e) {
             console.error(e);
             if (e.response.data === "Username already exists in application novibackendhicaf") {
-                setAdminStatus("Admin account is already successfully registered.")
+                setAdminStatus("Admin account is already successfully registered.");
             }
         }
     }

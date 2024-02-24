@@ -3,10 +3,9 @@ import {useContext, useState} from "react";
 import {AuthContext} from "../../context/AuthContext.jsx";
 import {ColorContext} from "../../context/ColorContext.jsx";
 import arrayOrString from "../../helpers/arrayOrString.jsx";
-import noFavorite from "../../assets/open_star.png"
-import yesFavorite from "../../assets/filled_star.png"
-import noFavoriteAlternative from "../../assets/open_star_bright.png"
-
+import noFavorite from "../../assets/open_star.png";
+import yesFavorite from "../../assets/filled_star.png";
+import noFavoriteAlternative from "../../assets/open_star_bright.png";
 
 function RecipeCard({
                         title,
@@ -27,12 +26,20 @@ function RecipeCard({
 
     const authContent = useContext(AuthContext);
     const colorContent = useContext(ColorContext);
-    const cardClass = `recipe_card_outer ${colorContent.continentColorClass}`
-    const [favorite, toggleFavorite] = useState(favoritesList.includes(favoriteId));
+    const cardClass = `recipe_card_outer ${colorContent.continentColorClass}`;
+    const [favorite, toggleFavorite] = useState(setFavoriteState);
 
     function handleClick() {
         toggleFavorite(!favorite);
-        handleFavorite(favorite, favoriteId)
+        handleFavorite(favorite, favoriteId);
+    }
+
+    function setFavoriteState() {
+        if (favoritesList){
+            return favoritesList.includes(favoriteId);
+        } else {
+            return false;
+        }
     }
 
     return (

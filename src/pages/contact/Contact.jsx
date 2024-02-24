@@ -21,7 +21,7 @@ function Contact() {
         setFormState({
             ...formState,
             [e.target.name]: newValue,
-        })
+        });
     }
 
     useEffect(() => {
@@ -38,14 +38,14 @@ function Contact() {
         e.preventDefault();
         if (!formState.name || !formState.email || !formState.message) {
             if (authContent.isAuth) {
-                setInputFieldError("Please leave an actual message.")
+                setInputFieldError("Please leave an actual message.");
             } else {
-                setInputFieldError("Please fill in all fields.")
+                setInputFieldError("Please fill in all fields.");
             }
         } else {
             toggleMessageSent(true);
             console.log(formState);
-            console.log("This message then goes to a suited backend.")
+            console.log("This message then goes to a suited backend.");
         }
     }
 
@@ -56,8 +56,8 @@ function Contact() {
                 <h1>Questions or comments?</h1>
                 <h2>Let us know!</h2>
                 {authContent.isAuth
-                    ? <p>Leave your message here and we'll get back to you, {authContent.user.username}.</p>
-                    : <p>Fill in this form and we'll get back to you. </p>
+                    ? <p>Leave your message here and we&apos;ll get back to you, {authContent.user.username}.</p>
+                    : <p>Fill in this form and we&apos;ll get back to you. </p>
                 }
 
                 <form onSubmit={handleSubmit} className={"contact_form"}>

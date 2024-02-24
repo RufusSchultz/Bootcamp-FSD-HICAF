@@ -200,7 +200,7 @@ function Recipes() {
 
             {foundRecipes && <div className={"recipe_list_outer"}>
 
-                {!isRandomized && <h1>Here {recipes.count > 1 ? "are" : "is"} {recipes.count} {recipes.count > 1 ? "ideas" : "idea"} what to do with your fish</h1>}
+                {!isRandomized && <h1>Here {recipes.count > 1 ? `are ${recipes.count} ideas` : `is ${recipes.count} idea`} what to do with your fish</h1>}
                 {isRandomized && <h1>Here is your inspiration</h1>}
 
                 <div className={"browse_buttons"}>

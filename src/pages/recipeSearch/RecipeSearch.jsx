@@ -99,7 +99,7 @@ function RecipeSearch() {
                                     theme={continent}
                                     sendQuery={handleQuery}
                                 />
-                            })}
+                            })};
                         </ul>
                     </div>
                     <h3>Don&apos;t see your fish? Search by name here</h3>

@@ -1,4 +1,5 @@
 function randomFlatteringSentence(place) {
+
     const moment = new Date;
     const number = +(moment.getTime().toString().slice(-1));
 

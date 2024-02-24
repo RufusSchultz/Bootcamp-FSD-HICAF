@@ -6,7 +6,7 @@ import Button from "../../components/button/Button.jsx";
 
 function Admin() {
     const authContent = useContext(AuthContext);
-    const isAdmin = (e) => e.authority === "ADMIN"
+    const isAdmin = (e) => e.authority === "ADMIN";
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,19 +16,19 @@ function Admin() {
     }, []);
 
     function handleManageUsersClick() {
-        console.log("With a suited backend, this would lead you to a userlist with options to edit them and whatnot.")
+        console.log("With a suited backend, this would lead you to a userlist with options to edit them and whatnot.");
     }
 
     function handleMessagesClick() {
-        console.log("With a suited backend, this would bring you to every message sent via the Contact page. You could also then delete or reply to them.")
+        console.log("With a suited backend, this would bring you to every message sent via the Contact page. You could also then delete or reply to them.");
     }
 
     function handleManageTestimonialsClick() {
-        console.log("With a suited backend, this would bring you to a database where you could edit the testimonials visible on the homepage. The current version of the database is a simple JSON.")
+        console.log("With a suited backend, this would bring you to a database where you could edit the testimonials visible on the homepage. The current version of the database is a simple JSON.");
     }
 
     function handleManageFishDatabaseClick() {
-        console.log("With a suited backend, this would bring you to a database where you could edit the buttons with fishes on them on the recipeSearch page. The current version of the database is a simple JSON. You could also edit the images of the fish here.")
+        console.log("With a suited backend, this would bring you to a database where you could edit the buttons with fishes on them on the recipeSearch page. The current version of the database is a simple JSON. You could also edit the images of the fish here.");
     }
 
     return (

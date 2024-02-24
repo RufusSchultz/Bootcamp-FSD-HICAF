@@ -7,20 +7,20 @@ import RecipeCard from "../recipeCard/RecipeCard.jsx";
 function FavoriteRecipe({favoriteURI, favoritesList, handleFavorite}) {
     const abortController = new AbortController();
     const [favoriteRecipe, setFavoriteRecipe] = useState({});
-    const [loadingStatus, setLoadingStatus] = useState("")
+    const [loadingStatus, setLoadingStatus] = useState("");
     const colorContent = useContext(ColorContext);
 
     useEffect(() => {
         async function fetchFavoriteRecipe() {
-            setLoadingStatus("...loading")
+            setLoadingStatus("...loading");
             try {
                 const response = await axios.get(favoriteURI, {signal: abortController.signal});
                 setFavoriteRecipe(response.data);
                 colorContent.continentColorSetter("");
-                setLoadingStatus("done")
+                setLoadingStatus("done");
             } catch (e) {
                 console.error(e);
-                setLoadingStatus("loading failed")
+                setLoadingStatus("loading failed");
             }
         }
 

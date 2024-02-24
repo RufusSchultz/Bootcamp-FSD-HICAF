@@ -6,7 +6,7 @@ import Button from "../../components/button/Button.jsx";
 import InputField from "../../components/inputField/InputField.jsx";
 import passwordStrengthTest from "../../helpers/passwordStrengthTest.js";
 import backendMessageStreamliner from "../../helpers/backendMessageStreamliner.js";
-import inlogImage from "../../assets/logo_inlog.png"
+import inlogImage from "../../assets/logo_inlog.png";
 
 function Login() {
 
@@ -35,9 +35,9 @@ function Login() {
         } catch (e) {
             console.error(e);
             if (e.response.data === "User not found" || e.response.data === "Invalid username/password") {
-                setErrorMessage("Unknown username/password combination.")
+                setErrorMessage("Unknown username/password combination.");
             } else {
-                setErrorMessage("Something went wrong. Please try again later.")
+                setErrorMessage("Something went wrong. Please try again later.");
             }
         }
     }
@@ -86,9 +86,9 @@ function Login() {
         setErrorMessage(null);
 
         if (!formState.username || !formState.email || !formState.password) {
-            setErrorMessage("Please fill in all fields")
+            setErrorMessage("Please fill in all fields");
         } else if (formState.username.length < 6) {
-            setErrorMessage("Please enter a username of at least 6 characters long")
+            setErrorMessage("Please enter a username of at least 6 characters long");
         } else {
             const passwordCheck = passwordStrengthTest(formState.password, formState.username);
             if (repeatPassword.password !== formState.password) {
@@ -116,7 +116,7 @@ function Login() {
         setFormState({
             ...formState,
             [e.target.name]: e.target.value,
-        })
+        });
     }
 
     useEffect(() => {
@@ -125,12 +125,12 @@ function Login() {
         }
     }, [cleanupTrigger]);
 
-// -------------------------UI------------------------ //
-
     function switchLoginCreateAccount() {
         toggleCreateAccountPage(!createAccountPage);
         setErrorMessage("");
     }
+
+// -------------------------UI------------------------ //
 
     return (
         <>

@@ -1,12 +1,12 @@
-import "./FilterCheckbox.css"
+import "./FilterCheckbox.css";
 import {useContext, useState} from "react";
 import {UserContext} from "../../context/UserContext.jsx";
 
 function FilterCheckbox({id, name, onChange}) {
     const userContent = useContext(UserContext);
-    const filterValue = `&${name}=${id}`
+    const filterValue = `&${name}=${id}`;
     const text = ` ${id}`;
-    const [isChecked, toggleIsChecked] = useState(userContent.data.filters.includes(filterValue))
+    const [isChecked, toggleIsChecked] = useState(userContent.data.filters.includes(filterValue));
 
     function onToggle(e) {
         toggleIsChecked(!isChecked);

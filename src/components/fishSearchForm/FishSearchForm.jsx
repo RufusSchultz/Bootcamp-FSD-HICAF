@@ -1,4 +1,4 @@
-import "./FishSearchForm.css"
+import "./FishSearchForm.css";
 import {useContext, useState} from "react";
 import {ColorContext} from "../../context/ColorContext.jsx";
 

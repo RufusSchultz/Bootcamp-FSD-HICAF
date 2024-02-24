@@ -33,7 +33,7 @@ function UserContextProvider({children}) {
         }
 
         if (contextContent.isAuth) {
-            void getUserData()
+            void getUserData();
         }
 
         return () => {
@@ -49,7 +49,7 @@ function UserContextProvider({children}) {
     const data = {
         data: userData,
         getUserData: squeezeTrigger,
-    }
+    };
 
     return (
         <UserContext.Provider value={data}>
