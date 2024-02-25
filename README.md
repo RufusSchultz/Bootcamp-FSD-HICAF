@@ -7,6 +7,7 @@
 4. [De applicatie draaien](#de-applicatie-draaien)
 5. [Overige commandos](#overige-commandos)
 6. [Testgebruikers](#testgebruikers)
+7. [GitHub repository](#github-repository)
 
 ## Inleiding
 
@@ -74,3 +75,7 @@ Gebruikersnaam: toktok
 Wachtwoord: Vis12345
 ```
 NB: Er worden ook zeker weten andere wachtwoorden ondersteund!
+
+## GitHub repository
+
+Alle bestanden van dit project zijn te vinden op [GitHub](https://github.com/RufusSchultz/Bootcamp-FSD-HICAF).
