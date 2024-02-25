@@ -19,7 +19,7 @@ function Recipes() {
     const app_id = "c5ff97ab";
     const app_key = "53223ed5c12039e77b08fc5f130446ce";
     const originalEndpoint = `https://api.edamam.com/api/recipes/v2?type=public&q=${id}&app_id=${app_id}&app_key=${app_key}&imageSize=REGULAR&dishType=Biscuits%20and%20cookies&dishType=Bread&dishType=Condiments%20and%20sauces&dishType=Desserts&dishType=Main%20course&dishType=Pancake&dishType=Preps&dishType=Preserve&dishType=Salad&dishType=Sandwiches&dishType=Side%20dish&dishType=Soup&dishType=Starter&dishType=Sweets&field=uri&field=label&field=image&field=source&field=url&field=yield&field=dietLabels&field=healthLabels&field=ingredientLines&field=cuisineType&field=mealType&field=dishType&field=externalId`;
-    const initialEndpoint = setEndpoint(originalEndpoint);
+    const initialEndpoint = applyFiltersToEndpoint(originalEndpoint);
 
     //--- Novi backend - Adding and removing favorites ---//
     const token = localStorage.getItem("token");
@@ -38,7 +38,7 @@ function Recipes() {
 
 //----------------- Search results -----------------//
 
-    function setEndpoint(endpoint){
+    function applyFiltersToEndpoint(endpoint){
         if (authContent.isAuth) {
             const filterString = userData.filters.join("");
             return endpoint + filterString;
