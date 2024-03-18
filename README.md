@@ -24,15 +24,15 @@ Dit project is gemaakt met [Vite](https://vitejs.dev/) (React versie 18.2.0).
 Verder maakt het gebruik van de [Edamam API](https://www.edamam.com/).
 De onderstaande Application ID  en Application key zitten al hardcoded in de applicatie.
 ```
-Application ID:  c5ff97ab
-Application key:  53223ed5c12039e77b08fc5f130446ce
+Application ID:  
+Application key:  
 ```
 
 Ook gebruikt dit project de [NOVI backend](https://novi.datavortex.nl/).
 Onderstaande basis URI en API-Key zitten al hardcoded in de applicatie.
 ```
-Basis URI: https://api.datavortex.nl/novibackendhicaf
-API-Key:  novibackendhicaf:HxI8znYrdSresrrSUlRm
+Basis URI: 
+API-Key:  
 ```
 ## De applicatie draaien
 
